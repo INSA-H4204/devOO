@@ -31,14 +31,14 @@ public class NewGraph implements Graph {
 	
 	/**
 	 * Useless override (I think). I guess we'll find out.
-	 * @return 0.
+	 * @return Integer.MAX_VALUE.
 	 */
 	@Override
 	public int getMaxArcCost() {
 		// I think this is useless, but the method needs
 		// to stay implemented due to the interface.
 		// Fredrik
-		return 0;
+		return Integer.MAX_VALUE;
 	}
 
 	/**
