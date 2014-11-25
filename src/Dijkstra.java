@@ -51,4 +51,10 @@ public class Dijkstra {
                 }
                 return distance;
         }
+        
+        public void clear() {
+        	Arrays.fill(distance, Integer.MAX_VALUE);
+            Arrays.fill(previous, -1);
+            Arrays.fill(visited, false);
+        }
 }
