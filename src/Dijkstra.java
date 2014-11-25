@@ -76,6 +76,14 @@ public class Dijkstra {
 		Arrays.fill(previous, -1);
 		Arrays.fill(visited, false);
 	}
+	
+	/**
+	 * Returns the previous array.
+	 * @return The previous array.
+	 */
+	public int[] getPrevious() {
+		return previous;
+	}
 
 	/**
 	 * Change the graph this instance of Dijkstra operates on.
