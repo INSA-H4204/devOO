@@ -1,0 +1,45 @@
+
+import java.util.*;
+
+/**
+ * 
+ */
+private class Controleur {
+
+	/**
+	 * 
+	 */
+	private Controleur() {
+	}
+
+	/**
+	 * 
+	 */
+	public boolean isZoneSansLivraison;
+
+
+	/**
+	 * 
+	 */
+	public void Controleur() {
+		// TODO implement here
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean VerifierSiZoneSansLivraison() {
+		// TODO implement here
+		return null;
+	}
+
+	/**
+	 * @param File XMLFilePath 
+	 * @return
+	 */
+	private void ChargerLivraisons(void File XMLFilePath) {
+		// TODO implement here
+		return null;
+	}
+
+}

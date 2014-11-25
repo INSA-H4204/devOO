@@ -1,0 +1,28 @@
+package Modèle;
+
+import java.util.*;
+
+/**
+ * 
+ */
+public class PlageHoraire extends Observable {
+
+	public Date heureDebut ;
+	public Date heureFin ;
+	private List<Livraison> livraisonsOrdonnees;
+	private Set<Livraison> livraisons;
+	
+	/**
+	 * 
+	 */
+	public PlageHoraire() {
+	}
+
+	/**
+	 * 
+	 */
+	private void verifierPonctualite() {
+		// TODO implement here
+	}
+
+}

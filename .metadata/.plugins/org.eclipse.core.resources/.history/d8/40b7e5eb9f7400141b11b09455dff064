@@ -1,0 +1,45 @@
+
+package Controleur;
+
+/**
+ * 
+ */
+public abstract class Commande {
+
+	/**
+	 * 
+	 */
+	public Commande(int idClient, int idNoeud, int idNoeudPrecedent) {
+	}
+
+	/**
+	 * 
+	 */
+	public Commande() {
+	}
+
+	/**
+	 * 
+	 */
+	protected abstract void undo();
+
+	/**
+	 * 
+	 */
+	protected abstract void redo();
+
+	/**
+	 * 
+	 */
+	protected abstract void execute();
+
+	/**
+	 * @param int idClient 
+	 * @param int idNoeud 
+	 * @param int idNoeudPrecedent
+	 */
+	public void Commande(int idClient, int idNoeud, int idNoeudPrecedent) {
+		// TODO implement here
+	}
+
+}

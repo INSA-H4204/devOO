@@ -1,0 +1,55 @@
+package Modèle;
+import java.util.*;
+
+
+/**
+ * 
+ */
+public class Troncon extends Observable {
+
+	public enum Etat {
+		Bouché, // A modifier
+		Libre,
+		Beau;
+	}
+	
+	/**
+	 * 
+	 */
+	public Troncon() {
+	}
+
+	/**
+	 * 
+	 */
+	private String nomRue;
+
+	/**
+	 * 
+	 */
+	private int vitesse ;
+
+	/**
+	 * 
+	 */
+	private int longueur ;
+
+	/**
+	 * 
+	 */
+	
+	private Etat etatTroncon;
+
+	/**
+	 * 
+	 */
+	private Noeud fin;
+
+
+	/**
+	 * 
+	 */
+	private Noeud origine;
+
+
+}

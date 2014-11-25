@@ -1,0 +1,14 @@
+package Vue;
+
+/**
+ * 
+ */
+public class VueTroncon extends VueZone {
+
+	/**
+	 * 
+	 */
+	public VueTroncon() {
+	}
+
+}

@@ -1,0 +1,14 @@
+package Vue;
+
+/**
+ * 
+ */
+public class VueNoeud extends VueZone {
+
+	/**
+	 * 
+	 */
+	public VueNoeud() {
+	}
+
+}

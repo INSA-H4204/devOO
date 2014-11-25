@@ -1,0 +1,26 @@
+package Vue;
+
+/**
+ * 
+ */
+public class VueTroncon extends VueZone {
+
+	/**
+	 * 
+	 */
+	public VueTroncon() {
+	}
+
+	@Override
+	public void display() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void close() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

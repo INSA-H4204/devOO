@@ -1,0 +1,48 @@
+package Modèle;
+import java.io.File;
+import java.util.*;
+
+/**
+ * 
+ */
+public class Zone extends Observable {
+
+	private Set<Troncon> troncons = new Set<Troncon>();
+	private Set<Noeud> noeuds;
+	
+	public Zone() {
+	}
+
+	/**
+	 * @param int x 
+	 * @param int y 
+	 * @return
+	 */
+	private Noeud rechercherNoeudParPosition(int x, int y) {
+		// TODO implement here
+		return null;
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean VerifierSiZoneSansLivraison() {
+		// TODO implement here
+		return false;
+	}
+
+	/**
+	 * @param File xmlFilePath
+	 */
+	private void XMLtoDOMLivraisons(File xmlFilePath) {
+		// TODO implement here
+	}
+
+	/**
+	 * @param File xmlFilePath
+	 */
+	private void XMLtoDOMZone(File xmlFilePath) {
+		// TODO implement here
+	}
+
+}
