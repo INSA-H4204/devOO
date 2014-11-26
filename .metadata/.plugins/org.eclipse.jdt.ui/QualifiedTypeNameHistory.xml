@@ -9,4 +9,12 @@
 <fullyQualifiedTypeName name="Controleur.Controleur"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
 <fullyQualifiedTypeName name="java.util.Observer"/>
+<fullyQualifiedTypeName name="org.omg.PortableServer.POAPackage.AdapterAlreadyExists"/>
+<fullyQualifiedTypeName name="Modèle.PlageHoraire"/>
+<fullyQualifiedTypeName name="Modèle.Livraison"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="Modèle.Chemin"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="Modèle.Noeud"/>
 </qualifiedTypeNameHistroy>

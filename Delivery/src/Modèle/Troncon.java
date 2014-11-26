@@ -23,12 +23,19 @@ public class Troncon extends Observable {
 	private Etat etatTroncon;
 	private Noeud fin;
 	private Noeud origine;
-	private List<Observer> observers = new ArrayList<Observer>();
+	private List<Observer> observers;
 	
 	/**
-	 * 
+	 * Constructeur par défaut de Troncon
 	 */
 	public Troncon() {
+		nomRue = "Inconnu";
+		vitesse = 0;
+		longueur = 0;
+		etatTroncon = null;
+		fin = new Noeud();
+		origine = new Noeud();
+		observers = new ArrayList<Observer>();
 	}
 
 }

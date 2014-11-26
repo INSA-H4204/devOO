@@ -1,6 +1,8 @@
 package Controleur;
 
 import java.io.File;
+
+import Modèle.Noeud;
 import Modèle.Zone;
 import Vue.VueNoeud;
 import Vue.VueTroncon;
@@ -15,8 +17,8 @@ import Vue.VueZone;
 public class Controleur {
 	public VueZone vueNoeud;
 	public VueZone vueTroncon;
-	private boolean isZoneSansLivraison;
 	private Zone zone;
+	private boolean isZoneSansLivraison;
 
 	/**
 	 * Constructeur de la classe Controleur
@@ -32,11 +34,16 @@ public class Controleur {
 	}
 
 	/**
-	 * @return
+	 * Vérifie si la zone chargée contient des livraisons
 	 */
-	private boolean VerifierSiZoneSansLivraison() {
-		// TODO implement here
-		return false;
+	private void verifierSiZoneSansLivraison() {
+		boolean zoneVide = zone.verifierSiZoneSansLivraison();
+		isZoneSansLivraison = zoneVide;
+	}
+	
+	private Noeud selectionnerNoeud(int x, int y){
+		zone.rechercherNoeudParPosition(x,y);
+		return null;
 	}
 
 	/**

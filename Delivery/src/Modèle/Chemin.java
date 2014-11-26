@@ -14,10 +14,12 @@ public class Chemin extends Observable {
 	private List<Troncon> troncons;
 	
 	/**
-	 * Constructeur du chemin
+	 * Constructeur par défaut de chemin
 	 */
 	public Chemin() {
-		
+		arrivee = null;
+		depart = null;
+		troncons = new ArrayList<Troncon>();
 	}
 
 
