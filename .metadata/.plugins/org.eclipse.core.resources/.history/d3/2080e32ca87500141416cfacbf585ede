@@ -83,16 +83,9 @@ public class Controleur {
 	}
 	
 	/**
-	 * 
+	 * Affiche les vues 
 	 */
-	private void insererLivraison(){
-		// TODO implement here
-	}
-	
-	/**
-	 * 
-	 */
-	private void supprimerLivraison(){
+	private void insererNoeud(){
 		// TODO implement here
 	}
 

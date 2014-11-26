@@ -82,17 +82,7 @@ public class Controleur {
 		// TODO implement here
 	}
 	
-	/**
-	 * 
-	 */
-	private void insererLivraison(){
-		// TODO implement here
-	}
-	
-	/**
-	 * 
-	 */
-	private void supprimerLivraison(){
+	private void insererNoeud(){
 		// TODO implement here
 	}
 

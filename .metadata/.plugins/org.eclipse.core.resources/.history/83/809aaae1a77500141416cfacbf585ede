@@ -74,27 +74,6 @@ public class Controleur {
 	private void calculerTournée() {
 		// TODO implement here
 	}
-	
-	/**
-	 * 
-	 */
-	private void imprimerFeuilleDeRoute() {
-		// TODO implement here
-	}
-	
-	/**
-	 * 
-	 */
-	private void insererLivraison(){
-		// TODO implement here
-	}
-	
-	/**
-	 * 
-	 */
-	private void supprimerLivraison(){
-		// TODO implement here
-	}
 
 	/**
 	 * Affiche les vues 

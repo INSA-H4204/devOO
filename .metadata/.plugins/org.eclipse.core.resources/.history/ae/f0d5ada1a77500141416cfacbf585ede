@@ -42,7 +42,7 @@ public class Controleur {
 	}
 	
 	/**
-	 * Sélectionne un noeud
+	 * Selectionne un noeud
 	 * @param 	int x 				La coordonée x du click effectué sur la carte
 	 * @param 	int y 				La coordonée y du click effectué sur la carte
 	 * @return	Noeud noeudClique 	Le noeud qui a été cliqué
@@ -53,7 +53,7 @@ public class Controleur {
 	}
 
 	/**
-	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la tournée
+	 * @param File XMLFilePath 
 	 * 
 	 */
 	private void chargerLivraisons(File XMLFilePath) {
@@ -61,7 +61,7 @@ public class Controleur {
 	}
 	
 	/**
-	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
+	 * @param File XMLFilePath 
 	 * 
 	 */
 	private void chargerZone(File XMLFilePath) {
@@ -72,27 +72,6 @@ public class Controleur {
 	 * 
 	 */
 	private void calculerTournée() {
-		// TODO implement here
-	}
-	
-	/**
-	 * 
-	 */
-	private void imprimerFeuilleDeRoute() {
-		// TODO implement here
-	}
-	
-	/**
-	 * 
-	 */
-	private void insererLivraison(){
-		// TODO implement here
-	}
-	
-	/**
-	 * 
-	 */
-	private void supprimerLivraison(){
 		// TODO implement here
 	}
 
