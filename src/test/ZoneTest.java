@@ -1,20 +1,35 @@
 package test;
 import Modele.*;
-import Modele.Zone;
-import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+
+
 public class ZoneTest {
 
+	private static String urlZoneXML = "Resources/plan10x10.xml";
+	private Document zoneXML;
 	private Zone zone;
+	
 	@Before
 	public void setUp() throws Exception {
 		zone = new Zone();
+		File fXmlFile = new File(urlZoneXML);
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		zoneXML = dBuilder.parse(fXmlFile);
 	}
 
 	@After
@@ -22,22 +37,26 @@ public class ZoneTest {
 	}
 
 	 @Test
-	    public void defaultConstructor() throws Exception {
-	        assertNotNull(new Zone());
+	 public void defaultConstructor() throws Exception {
+	       // assertNotNull(new Zone());
 	    }
 	 
-	 
+	 @Test 
+	 public void create() throws Exception {
+		 System.out.println(zoneXML.getDocumentElement().getNodeName());
+		 zone.XMLtoDOMZone(zoneXML);
+		 
+		 
+	 }
 	 
 	 @Test
 	 public void XMLtoDOMZone() throws Exception {
-		  
 	 }
 	 
 	 @Test
 	 public void XMLtoDOMLivraison() throws Exception {
 		  
 	 }
-	 
 	 
 	 @Test
 	 public void verifierSiZoneSansLivraison() throws Exception {
