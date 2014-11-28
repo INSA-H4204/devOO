@@ -29,5 +29,9 @@ public class Noeud extends Observable {
 	public int getPosY() {
 		return posX;
 	}
+	
+	public int getNoeudID() {
+		return noeudID;
+	}
 
 }

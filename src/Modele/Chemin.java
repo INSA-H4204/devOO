@@ -22,7 +22,11 @@ public class Chemin extends Observable {
 		troncons = new ArrayList<Troncon>();
 	}
 
-
+	public Chemin(Livraison depart, Livraison arrivee, List<Troncon> troncons) {
+		this.arrivee = arrivee;
+		this.depart = depart;
+		this.troncons = troncons;
+	}
 	/**
 	 * 
 	 */
