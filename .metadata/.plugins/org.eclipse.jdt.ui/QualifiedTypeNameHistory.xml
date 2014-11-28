@@ -1,24 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<<<<<<< HEAD
 <qualifiedTypeNameHistroy/>
-=======
-<qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="Modèle.Zone"/>
-<fullyQualifiedTypeName name="Vue.VueZone"/>
-<fullyQualifiedTypeName name="Vue.VueNoeud"/>
-<fullyQualifiedTypeName name="Vue.VueTroncon"/>
-<fullyQualifiedTypeName name="javax.swing.JFrame"/>
-<fullyQualifiedTypeName name="Controleur.Controleur"/>
-<fullyQualifiedTypeName name="java.util.HashSet"/>
-<fullyQualifiedTypeName name="java.util.Observer"/>
-<fullyQualifiedTypeName name="org.omg.PortableServer.POAPackage.AdapterAlreadyExists"/>
-<fullyQualifiedTypeName name="Modèle.PlageHoraire"/>
-<fullyQualifiedTypeName name="Modèle.Livraison"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="Modèle.Chemin"/>
-<fullyQualifiedTypeName name="java.awt.List"/>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="Modèle.Noeud"/>
-</qualifiedTypeNameHistroy>
->>>>>>> 0d8ca1e9b397ae0f412feddba5cca499fd645a45
