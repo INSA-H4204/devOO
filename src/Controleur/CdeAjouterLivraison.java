@@ -1,5 +1,9 @@
 package Controleur;
 
+import Modele.Livraison;
+import Modele.Noeud;
+import Modele.PlageHoraire;
+
 /**
  * Contient la commande qui ajoute une livraison
  * 
@@ -11,13 +15,22 @@ public class CdeAjouterLivraison extends Commande {
 	 * 
 	 */
 	public CdeAjouterLivraison() {
+		super();
+	}
+	
+	/**
+	 * 
+	 */
+	public CdeAjouterLivraison(Noeud noeudPrecedent, Noeud noeudSelectionne,
+			String idClient) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * 
 	 */
 	protected void execute() {
-		// TODO implement here
+		
 	}
 
 	/**

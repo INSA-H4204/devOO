@@ -1,8 +1,11 @@
 package Controleur;
 
 import java.io.File;
+import java.util.Stack;
 
+import Modele.Livraison;
 import Modele.Noeud;
+import Modele.PlageHoraire;
 import Modele.Zone;
 import Vue.VueNoeud;
 import Vue.VueTroncon;
@@ -20,6 +23,10 @@ public class Controleur {
 	public VueZone vueTroncon;
 	private Zone zone;
 	private boolean isZoneSansLivraison;
+	
+	// Contient les commandes qui ont été éxécutées et annulées pour pouvoir les annuler ou les rééxecuter
+	private Stack<Commande> commandesExecutees;
+	private Stack<Commande> commandesAnnulees;
 	
 	// Noeud sélectionné à l'ajout
 	private Noeud noeudSelectionne;
@@ -116,7 +123,7 @@ public class Controleur {
 	}
 	
 	/**
-	 * Appelée par le bouton Ajouter
+	 * Appelée par le bouton Ajouter pendant l'insertion de point de livraison
 	 * 
 	 * @author hgerard
 	 */
@@ -124,6 +131,21 @@ public class Controleur {
 		if (noeudSelectionne != null) {
 			ajoutEnCours = true;
 		}
+	}
+	
+	/**
+	 * Appelée par le bouton Valider pendant l'insertion de point de livraison
+	 * 
+	 * @author hgerard
+	 */
+	private void actionBoutonValider(){
+		String idClient = ""; /*getIdClientVue() --> GABRIEL*/
+		if ((noeudPrecedent != null) /*&& (idClient != "")*/){
+			CdeAjouterLivraison ajout1 = new CdeAjouterLivraison(noeudPrecedent, noeudSelectionne, idClient);
+			commandesExecutees.push(ajout1);
+			ajout1.execute();
+		}
+		
 	}
 	
 	/**

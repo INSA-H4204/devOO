@@ -9,16 +9,13 @@ import java.util.*;
  * @author hgerard
  */
 public abstract class Commande {
-
-	private Stack<Commande> commandesExecutees;
-	private Stack<Commande> commandesAnnulees;
 	
 	/**
-	 * 
+	 * Constructeur par défaut de la classe Commande
 	 */
 	public Commande() {
 	}
-
+	
 	protected abstract void undo();
 	protected abstract void redo();
 	protected abstract void execute();
