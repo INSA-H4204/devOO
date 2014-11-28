@@ -1,5 +1,5 @@
 package test;
-import Modele.Noeud;
+import Modele.*;
 import Modele.Zone;
 import static org.junit.Assert.*;
 
@@ -14,7 +14,7 @@ public class ZoneTest {
 	private Zone zone;
 	@Before
 	public void setUp() throws Exception {
-		Zone zone = new Zone();
+		zone = new Zone();
 	}
 
 	@After
@@ -26,18 +26,26 @@ public class ZoneTest {
 	        assertNotNull(new Zone());
 	    }
 	 
+	 
+	 
 	 @Test
 	 public void XMLtoDOMZone() throws Exception {
 		  
 	 }
 	 
-	@Test
-	 private Noeud rechercherNoeudParPosition(int x, int y) {
-			// TODO implement here
-			return null;
-		}
-	
-	  @Test
+	 @Test
+	 public void XMLtoDOMLivraison() throws Exception {
+		  
+	 }
+	 
+	 
+	 @Test
+	 public void verifierSiZoneSansLivraison() throws Exception {
+		 assertEquals("failure - zone sans livraison renvoie false",zone.verifierSiZoneSansLivraison(),true);
+	 }
+	 
+	 
+	 @Test
 	  public void testAssertEquals() {
 	    org.junit.Assert.assertEquals("failure - strings are not equal", "text", "text");
 	  }

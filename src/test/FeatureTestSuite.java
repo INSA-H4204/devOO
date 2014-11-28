@@ -16,7 +16,6 @@ import org.junit.runners.Suite;
   TronconTest.class,
   VueNoeudTest.class,
   VueTronconTest.class,
-  VueZoneTest.class,
   ZoneTest.class
 })
 
