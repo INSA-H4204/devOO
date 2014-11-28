@@ -12,7 +12,7 @@ import java.util.*;
 public class Troncon extends Observable {
 
 	public enum Etat {
-		Bouché, // A modifier
+		Bouche, // A modifier
 		Libre,
 		Beau;
 	}
