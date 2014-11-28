@@ -9,14 +9,25 @@ import java.util.*;
  */
 public class Noeud extends Observable {
 
-	private int NoeudID ;
+	private int noeudID ;
 	private int posX ;
 	private int posY ;
 	
 	/**
-	 * 
+	 * Constructeur par défaut de Noeud
 	 */
 	public Noeud() {
+		noeudID = 0;
+		posX = 0;
+		posY = 0;
+	}
+
+	public int getPosX() {
+		return posX;
+	}
+	
+	public int getPosY() {
+		return posX;
 	}
 
 }

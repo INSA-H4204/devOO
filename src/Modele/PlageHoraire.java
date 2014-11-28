@@ -16,9 +16,13 @@ public class PlageHoraire extends Observable {
 	private Set<Livraison> livraisons;
 	
 	/**
-	 * 
+	 * Constructeur par défaut de PlageHoraire
 	 */
 	public PlageHoraire() {
+		heureDebut = Calendar.getInstance();
+		heureFin = Calendar.getInstance();
+		livraisonsOrdonnees = new ArrayList<Livraison>();
+		livraisons = new HashSet<Livraison>();
 	}
 
 	/**
@@ -26,6 +30,13 @@ public class PlageHoraire extends Observable {
 	 */
 	private void verifierPonctualite() {
 		// TODO implement here
+	}
+
+	/**
+	 * Retourne le Set des livraisons de la plage horaire
+	 */
+	public Set<Livraison> getLivraisons() {
+		return livraisons;
 	}
 
 }

@@ -5,7 +5,19 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-  ZoneTest.class,
+  CdeAjouterLivraisonTest.class,
+  CdeSupprimerLivraisonTest.class,
+  CheminTest.class,
+  ControleurTest.class,
+  LivraisonTest.class,
+  NoeudTest.class,
+  PlageHoraireTest.class,
+  TourneeTest.class,
+  TronconTest.class,
+  VueNoeudTest.class,
+  VueTronconTest.class,
+  VueZoneTest.class,
+  ZoneTest.class
 })
 
 public class FeatureTestSuite {

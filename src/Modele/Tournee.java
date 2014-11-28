@@ -13,9 +13,10 @@ public class Tournee extends Observable {
 	private List<Chemin> chemins;
 	
 	/**
-	 * 
+	 * Constructeur par défaut de Tournée
 	 */
 	public Tournee() {
+		chemins = new ArrayList<Chemin>();
 	}
 
 }

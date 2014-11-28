@@ -1,6 +1,8 @@
 package Controleur;
 
 import java.io.File;
+
+import Modele.Noeud;
 import Modele.Zone;
 import Vue.VueNoeud;
 import Vue.VueTroncon;
@@ -15,8 +17,8 @@ import Vue.VueZone;
 public class Controleur {
 	public VueZone vueNoeud;
 	public VueZone vueTroncon;
-	private boolean isZoneSansLivraison;
 	private Zone zone;
+	private boolean isZoneSansLivraison;
 
 	/**
 	 * Constructeur de la classe Controleur
@@ -32,18 +34,65 @@ public class Controleur {
 	}
 
 	/**
-	 * @return
+	 * Vérifie si la zone chargée contient des livraisons
 	 */
-	private boolean VerifierSiZoneSansLivraison() {
-		// TODO implement here
-		return false;
+	private void verifierSiZoneSansLivraison() {
+		boolean zoneVide = zone.verifierSiZoneSansLivraison();
+		isZoneSansLivraison = zoneVide;
+	}
+	
+	/**
+	 * Sélectionne un noeud
+	 * @param 	int x 				La coordonée x du click effectué sur la carte
+	 * @param 	int y 				La coordonée y du click effectué sur la carte
+	 * @return	Noeud noeudClique 	Le noeud qui a été cliqué
+	 */
+	private Noeud selectionnerNoeud(int x, int y){
+		Noeud noeudClique = zone.rechercherNoeudParPosition(x,y);
+		return noeudClique;
 	}
 
 	/**
-	 * @param File XMLFilePath 
-	 * @return
+	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la tournée
+	 * 
 	 */
-	private void ChargerLivraisons(File XMLFilePath) {
+	private void chargerLivraisons(File XMLFilePath) {
+		// TODO implement here
+	}
+	
+	/**
+	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
+	 * 
+	 */
+	private void chargerZone(File XMLFilePath) {
+		// TODO implement here
+	}
+	
+	/**
+	 * 
+	 */
+	private void calculerTournée() {
+		// TODO implement here
+	}
+	
+	/**
+	 * 
+	 */
+	private void imprimerFeuilleDeRoute() {
+		// TODO implement here
+	}
+	
+	/**
+	 * 
+	 */
+	private void insererLivraison(){
+		// TODO implement here
+	}
+	
+	/**
+	 * 
+	 */
+	private void supprimerLivraison(){
 		// TODO implement here
 	}
 

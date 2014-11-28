@@ -1,5 +1,7 @@
 package Controleur;
 
+import java.util.*;
+
 /**
  * Base du design patern Commande. C'est la classe mère de toutes les commandes 
  * que l'on veut pouvoir undo/redo
@@ -8,6 +10,9 @@ package Controleur;
  */
 public abstract class Commande {
 
+	private Stack<Commande> commandesExecutees;
+	private Stack<Commande> commandesAnnulees;
+	
 	/**
 	 * 
 	 */
