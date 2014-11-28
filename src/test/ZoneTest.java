@@ -1,4 +1,5 @@
 package test;
+import Modele.Noeud;
 import Modele.Zone;
 import static org.junit.Assert.*;
 
@@ -20,7 +21,21 @@ public class ZoneTest {
 	public void tearDown() throws Exception {
 	}
 
-	
+	 @Test
+	    public void defaultConstructor() throws Exception {
+	        assertNotNull(new Zone());
+	    }
+	 
+	 @Test
+	 public void XMLtoDOMZone() throws Exception {
+		  
+	 }
+	 
+	@Test
+	 private Noeud rechercherNoeudParPosition(int x, int y) {
+			// TODO implement here
+			return null;
+		}
 	
 	  @Test
 	  public void testAssertEquals() {
