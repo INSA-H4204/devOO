@@ -9,9 +9,10 @@ import java.util.*;
  */
 public class Noeud extends Observable {
 
-	private int noeudID ;
-	private int posX ;
-	private int posY ;
+	private int noeudID;
+	private int posX;
+	private int posY;
+	private Livraison livraison;
 	
 	/**
 	 * Constructeur par défaut de Noeud
@@ -20,6 +21,7 @@ public class Noeud extends Observable {
 		noeudID = 0;
 		posX = 0;
 		posY = 0;
+		livraison = new Livraison();
 	}
 
 	public int getPosX() {
@@ -32,6 +34,10 @@ public class Noeud extends Observable {
 	
 	public int getNoeudID() {
 		return noeudID;
+	}
+
+	public Livraison getLivraison() {
+		return livraison;
 	}
 
 }
