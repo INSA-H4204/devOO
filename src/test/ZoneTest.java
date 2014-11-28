@@ -43,26 +43,16 @@ public class ZoneTest {
 	 public void verifierSiZoneSansLivraison() throws Exception {
 		 assertEquals("failure - zone sans livraison renvoie false",zone.verifierSiZoneSansLivraison(),true);
 	 }
-	 
-	 
-	 @Test
-	  public void testAssertEquals() {
-	    org.junit.Assert.assertEquals("failure - strings are not equal", "text", "text");
-	  }
 
-	  @Test
-	  public void testAssertFalse() {
-	    org.junit.Assert.assertFalse("failure - should be false", false);
-	  }
 
 	  @Test
 	  public void testAssertNotNull() {
-	    org.junit.Assert.assertNotNull("should not be null", new Object());
+	    org.junit.Assert.assertNotNull("should not be null", new Zone());
 	  }
 
 	  @Test
 	  public void testAssertNotSame() {
-	    org.junit.Assert.assertNotSame("should not be same Object", new Object(), new Object());
+	    org.junit.Assert.assertNotSame("should not be same Object", new Zone(), new Zone());
 	  }
 
 	  @Test

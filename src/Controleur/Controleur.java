@@ -56,8 +56,7 @@ public class Controleur {
 	 * Vérifie si la zone chargée contient des livraisons
 	 */
 	private void verifierSiZoneSansLivraison() {
-		boolean zoneVide = zone.verifierSiZoneSansLivraison();
-		isZoneSansLivraison = zoneVide;
+		isZoneSansLivraison = zone.verifierSiZoneSansLivraison();
 	}
 	
 	/**
@@ -105,7 +104,7 @@ public class Controleur {
 	/**
 	 * 
 	 */
-	private void calculerTournée() {
+	private void calculerTournee() {
 		// TODO implement here
 	}
 	
