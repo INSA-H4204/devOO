@@ -12,9 +12,8 @@ import java.util.*;
 public class Troncon extends Observable {
 
 	public enum Etat {
-		Bouche, // A modifier
-		Libre,
-		Beau;
+		Emprunte, // A modifier
+		NonEmprunte
 	}
 
 	private String nomRue;
