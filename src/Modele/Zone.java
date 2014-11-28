@@ -80,8 +80,28 @@ public class Zone extends Observable {
 	public void XMLtoDOMZone(Document zoneXML) {
 		// TODO implement here
 		
-		System.out.println("Root element :");// + zoneXML.getDocumentElement().getNodeName());
-		
+		zoneXML.getDocumentElement().getNodeName();
+		NodeList nList = zoneXML.getElementsByTagName("Noeud");
+		System.out.println("----------------------------");
+		 
+		for (int key = 0; key < nList.getLength(); key++) {
+			Node nNode = nList.item(key);
+			System.out.println("\nCurrent Element :" + nNode.getNodeName());
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+
+				int id = Integer.parseInt(eElement.getAttribute("id")); 
+				int x = Integer.parseInt(eElement.getAttribute("x")); 
+				int y = Integer.parseInt(eElement.getAttribute("y")); 
+				
+				System.out.println("Noeud id : " + id);
+				System.out.println("Noeud x : " + x);
+				System.out.println("Noeud y : " + y);
+				
+				noeuds.add(new Noeud(id,x,y));
+				
+			}
+		}
 	}
 	
 	public void calculerTournee() {
@@ -150,5 +170,11 @@ public class Zone extends Observable {
 		}
 		return troncons;
 	}
+	
+	public Set<Noeud> GetNoeuds(){
+		return noeuds;
+	}
+	
+	
 
 }

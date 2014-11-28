@@ -23,6 +23,16 @@ public class Noeud extends Observable {
 		posY = 0;
 		livraison = new Livraison();
 	}
+	
+	/**
+	 * Constructeur de Noeud
+	 */
+	public Noeud(int id,int x,int y) {
+		noeudID = id;
+		posX = x;
+		posY = y;
+		//livraison = new Livraison();
+	}
 
 	public int getPosX() {
 		return posX;
