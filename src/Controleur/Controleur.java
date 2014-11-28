@@ -19,6 +19,7 @@ public class Controleur {
 	public VueZone vueTroncon;
 	private Zone zone;
 	private boolean isZoneSansLivraison;
+	private Noeud noeudSelectionne;
 
 	/**
 	 * Constructeur de la classe Controleur
@@ -47,9 +48,9 @@ public class Controleur {
 	 * @param 	int y 				La coordonée y du click effectué sur la carte
 	 * @return	Noeud noeudClique 	Le noeud qui a été cliqué
 	 */
-	private Noeud selectionnerNoeud(int x, int y){
+	private void selectionnerNoeud(int x, int y){
 		Noeud noeudClique = zone.rechercherNoeudParPosition(x,y);
-		return noeudClique;
+		this.noeudSelectionne = noeudClique;
 	}
 
 	/**
@@ -83,10 +84,11 @@ public class Controleur {
 	}
 	
 	/**
-	 * 
+	 * Appelée par le bouton Ajouter
 	 */
 	private void insererLivraison(){
-		// TODO implement here
+		// TODO Demander à l'utilisateur de rentrer l'ID Client et de sélectionner le noeud précédent
+		// GABRIEEEEL !
 	}
 	
 	/**
