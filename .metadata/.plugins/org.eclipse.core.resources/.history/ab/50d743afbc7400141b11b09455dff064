@@ -1,0 +1,30 @@
+package Modèle;
+
+import java.util.*;
+
+/**
+ * 
+ */
+public class Chemin extends Observable {
+
+	
+	private Livraison arrivee;
+	private Livraison depart;
+	private List<Troncon> troncons;
+	
+	/**
+	 * Constructeur du chemin
+	 */
+	public Chemin() {
+		
+	}
+
+
+	/**
+	 * 
+	 */
+	private void calculerHeureProchaineLivraison() {
+		// TODO implement here
+	}
+
+}

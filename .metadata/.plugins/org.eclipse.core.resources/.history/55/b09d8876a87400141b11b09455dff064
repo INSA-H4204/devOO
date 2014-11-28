@@ -1,0 +1,48 @@
+package Controleur;
+import java.io.File;
+
+
+
+/**
+ * 
+ */
+public class Controleur {
+
+	/**
+	 * 
+	 */
+	public Controleur() {
+	}
+
+	/**
+	 * 
+	 */
+	
+	private boolean isZoneSansLivraison;
+
+	/**
+	 * @return
+	 */
+	private boolean VerifierSiZoneSansLivraison() {
+		// TODO implement here
+		return false;
+	}
+
+	/**
+	 * @param File XMLFilePath 
+	 * @return
+	 */
+	private void ChargerLivraisons(File XMLFilePath) {
+		// TODO implement here
+	}
+
+	/**
+	 * Affiche les vues 
+	 */
+	public void displayViews() {
+		VueNoeud.display();
+		VueTroncon.display();
+	}
+	
+	
+}

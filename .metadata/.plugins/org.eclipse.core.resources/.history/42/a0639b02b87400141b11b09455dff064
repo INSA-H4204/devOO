@@ -1,0 +1,30 @@
+package Modèle;
+import java.util.*;
+
+/**
+ * 
+ */
+public class Tournee extends Observable {
+
+	/**
+	 * 
+	 */
+	public Tournee() {
+	}
+
+
+	/**
+	 * 
+	 */
+	public List<Chemin> chemins;
+
+
+	/**
+	 * @param heureDebut 
+	 * @param heureFin
+	 */
+	public void getPlageHoraire(Date heureDebut, Date heureFin) {
+		// TODO implement here
+	}
+
+}

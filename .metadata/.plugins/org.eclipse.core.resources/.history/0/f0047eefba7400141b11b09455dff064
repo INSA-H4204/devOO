@@ -1,0 +1,19 @@
+package Modèle;
+import java.util.*;
+
+/**
+ * 
+ */
+public class Noeud extends Observable {
+
+	private int NoeudID ;
+	private int posX ;
+	private int posY ;
+	
+	/**
+	 * 
+	 */
+	public Noeud() {
+	}
+
+}

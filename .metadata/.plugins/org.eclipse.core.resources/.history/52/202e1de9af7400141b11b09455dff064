@@ -1,0 +1,27 @@
+package Modèle;
+import java.util.*;
+
+/**
+ * 
+ */
+public class Chemin {
+
+	
+	private Livraison arrivee;
+	private Livraison depart;
+	private List<Troncon> troncons;
+	/**
+	 * 
+	 */
+	public Chemin() {
+	}
+
+
+	/**
+	 * 
+	 */
+	private void calculerHeureProchaineLivraison() {
+		// TODO implement here
+	}
+
+}
