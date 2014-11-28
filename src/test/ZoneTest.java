@@ -41,16 +41,11 @@ public class ZoneTest {
 	       // assertNotNull(new Zone());
 	    }
 	 
-	 @Test 
-	 public void create() throws Exception {
-		 System.out.println(zoneXML.getDocumentElement().getNodeName());
-		 zone.XMLtoDOMZone(zoneXML);
-		 
-		 
-	 }
-	 
 	 @Test
 	 public void XMLtoDOMZone() throws Exception {
+		 System.out.println(zoneXML.getDocumentElement().getNodeName());
+		 zone.XMLtoDOMZone(zoneXML);
+		 assertEquals("Failure - Le nombre de noeuds chargé n'est pas corect",100,zone.GetNoeuds().size());
 	 }
 	 
 	 @Test
