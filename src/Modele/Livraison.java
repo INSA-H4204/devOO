@@ -40,5 +40,9 @@ public class Livraison extends Observable {
 		// TODO implement here
 		return false;
 	}
+	
+	public Noeud getAdresse() {
+		return adresse;
+	}
 
 }

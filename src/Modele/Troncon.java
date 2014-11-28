@@ -36,5 +36,17 @@ public class Troncon extends Observable {
 		origine = new Noeud();
 		observers = new ArrayList<Observer>();
 	}
+	
+	public Noeud getOrigine() {
+		return origine;
+	}
+
+	public Noeud getFin() {
+		return fin;
+	}
+	
+	public int getLongueur() {
+		return longueur;
+	}
 
 }
