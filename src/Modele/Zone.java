@@ -2,6 +2,11 @@ package Modele;
 
 import java.io.File;
 import java.util.*;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+
+import org.w3c.dom.Document;
 
 /**
  * Une zone est l’ensemble des noeuds et troncons d’une zone géographique. 
@@ -60,18 +65,23 @@ public class Zone extends Observable {
 		return true;
 	}
 
+	
 	/**
 	 * @param File xmlFilePath
 	 */
-	private void XMLtoDOMLivraisons(File xmlFilePath) {
+	public void XMLtoDOMLivraisons(Document xmlFilePath) {
+		
 		// TODO implement here
 	}
 
 	/**
 	 * @param File xmlFilePath
 	 */
-	private void XMLtoDOMZone(File xmlFilePath) {
+	public void XMLtoDOMZone(Document zoneXML) {
 		// TODO implement here
+		
+		System.out.println("Root element :");// + zoneXML.getDocumentElement().getNodeName());
+		
 	}
 	
 	public void calculerTournee() {

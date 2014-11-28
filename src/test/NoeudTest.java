@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import Modele.Noeud;
-import Modele.Zone;
 public class NoeudTest {
 
 	private Noeud noeud;
