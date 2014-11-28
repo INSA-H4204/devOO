@@ -10,6 +10,7 @@ import org.junit.Test;
 
 public class ZoneTest {
 
+	private Zone zone;
 	@Before
 	public void setUp() throws Exception {
 		Zone zone = new Zone();
