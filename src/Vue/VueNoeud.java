@@ -7,7 +7,7 @@ import Controleur.Controleur;
 /**
  * 
  */
-public class VueNoeud extends VueZone {
+public class VueNoeud extends VueGenerale {
 	
 	private JFrame frame = null;
 	
@@ -20,13 +20,13 @@ public class VueNoeud extends VueZone {
 	}
 
 	@Override
-	public void display() {
+	public void afficher() {
 		frame.setVisible(true);
 		
 	}
 
 	@Override
-	public void close() {
+	public void fermer() {
 		// TODO Auto-generated method stub
 		
 	}

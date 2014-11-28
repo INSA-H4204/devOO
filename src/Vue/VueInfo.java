@@ -7,14 +7,14 @@ import Controleur.Controleur;
 /**
  * 
  */
-public class VueTroncon extends VueGenerale {
+public class VueInfo extends VueGenerale {
 
 	private JFrame frame = null;
 	
 	/**
 	 * 
 	 */
-	public VueTroncon(Controleur ctrl) {
+	public VueInfo(Controleur ctrl) {
 		super(ctrl);
 		frame = new JFrame();
 	}

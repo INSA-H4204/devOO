@@ -1,11 +1,13 @@
 package Controleur;
 
 import java.io.File;
+import java.util.Observable;
 
 import Modele.Noeud;
 import Modele.Zone;
 import Vue.VueNoeud;
 import Vue.VueTroncon;
+import Vue.VueGenerale;
 import Vue.VueZone;
 
 /**
@@ -15,8 +17,7 @@ import Vue.VueZone;
  * @author hgerard
  */
 public class Controleur {
-	public VueZone vueNoeud;
-	public VueZone vueTroncon;
+	public VueZone vueZone;
 	private Zone zone;
 	private boolean isZoneSansLivraison;
 	private Noeud noeudSelectionne;
@@ -30,8 +31,7 @@ public class Controleur {
 	public Controleur(Zone zone) {
 		this.zone = zone;
 		
-		vueNoeud = new VueNoeud(this);
-		vueTroncon = new VueTroncon(this);
+		vueZone = new VueZone(this);
 	}
 
 	/**
@@ -101,17 +101,15 @@ public class Controleur {
 	/**
 	 * Affiche les vues 
 	 */
-	public void displayViews() {
-		vueNoeud.display();
-		vueTroncon.display();
+	public void afficherVue() {
+		vueZone.construireVue();
 	}
 	
 	/**
 	 * Ferme les vues 
 	 */
-	public void closeViews() {
-		vueNoeud.close();
-		vueTroncon.close();
+	public void fermerVue() {
+		vueZone.fermer();
 	}
 	
 	
