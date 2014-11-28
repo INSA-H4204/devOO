@@ -16,5 +16,4 @@ public class Lanceur {
 		Controleur ctrl = new Controleur(zone);
 		ctrl.displayViews();
 	}
-
 }
