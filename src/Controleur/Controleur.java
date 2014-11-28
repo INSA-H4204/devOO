@@ -117,10 +117,13 @@ public class Controleur {
 	
 	/**
 	 * Appelée par le bouton Ajouter
+	 * 
+	 * @author hgerard
 	 */
-	private void insererLivraison(){
-		// TODO Demander à l'utilisateur de rentrer l'ID Client et de sélectionner le noeud précédent
-		// GABRIEEEEL !
+	private void actionBoutonAjouter(){
+		if (noeudSelectionne != null) {
+			ajoutEnCours = true;
+		}
 	}
 	
 	/**
