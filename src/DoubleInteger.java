@@ -4,10 +4,10 @@
  * @version 2014-11-21
  */
 
-public class DoubleInteger implements Comparable<Object> {
+public class DoubleInteger implements Comparable<DoubleInteger> {
  
-        private int x;
-        private int y;
+        private final int x;
+        private final int y;
         
         public DoubleInteger(int x, int y) {
                 this.x = x;
@@ -23,10 +23,10 @@ public class DoubleInteger implements Comparable<Object> {
         }
  
         @Override
-        public int compareTo(Object o) {
-                if(this.getY() > ((DoubleInteger) o).getY()) {
+        public int compareTo(DoubleInteger o) {
+                if(this.getY() > o.getY()) {
                         return 1;
-                } else if(this.getY() < ((DoubleInteger) o).getY()) {
+                } else if(this.getY() < o.getY()) {
                         return -1;
                 } else {
                         return 0;
