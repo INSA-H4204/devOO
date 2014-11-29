@@ -93,8 +93,6 @@ public class Zone extends Observable {
 				int id = Integer.parseInt(eElement.getAttribute("id")); 
 				int x = Integer.parseInt(eElement.getAttribute("x")); 
 				int y = Integer.parseInt(eElement.getAttribute("y")); 
-				
-				
 				noeuds.add(new Noeud(id,x,y));
 				
 			}
@@ -175,7 +173,9 @@ public class Zone extends Observable {
 	public void addNoeud(Noeud noeud) {
 		noeuds.add(noeud);
 	}
-	
-	
+
+	public Set<Troncon> GetTroncons() {
+		return troncons;
+	}
 
 }

@@ -54,13 +54,17 @@ public class ZoneTest {
 	 
 	 @Test
 	 public void integriteNoeuds() throws Exception {
-//		 for (Iterator<Noeud> NoeudIter = zone.GetNoeuds().iterator(); NoeudIter.hasNext();){
+		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.GetNoeuds().size());
+		assertEquals("Echec - Aucun troncon n'a été chargé",zone.GetTroncons().size());
 		for (Noeud n : zone.GetNoeuds() ) {
 			assertNotNull("Echec - L'id n'est pas renseigné",n.getNoeudID());
 			assertNotNull("Echec - X n'est pas renseigné",n.getPosX());
 			assertNotNull("Echec - Y n'est pas renseigné",n.getPosY());
 		}
-		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.GetNoeuds().size());
+		for (Troncon t : zone.GetTroncons() ) {
+			assertNotNull("Echec - Troncon sans origine",t.getOrigine());
+			assertNotNull("Echec - Troncon sans fin",t.getFin());
+		}
 	 }
 	 
 	 @Test //(expected=ZoneException.AbscenceNoeuds)
@@ -113,7 +117,7 @@ public class ZoneTest {
 	 }
 	  
 	 
-	 
+	 //--------------------------Fin chargement Livraison---------------------------------------//
 	 
 	 
 	 

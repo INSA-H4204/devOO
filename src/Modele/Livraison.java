@@ -28,9 +28,17 @@ public class Livraison extends Observable {
 		livraisonID = 0;
 		heureLivraisonPrevue = Calendar.getInstance();
 		isZoneVide = true;
-		cheminIn = new Chemin();
-		cheminOut = new Chemin();
-		adresse = new Noeud();
+		cheminIn = null;//new Chemin();
+		cheminOut = null;//new Chemin();
+		adresse = null;//new Noeud();
+	}
+	
+	public Livraison(int clientId,int livraisonId,Calendar Date,boolean isZoneVide,Noeud adresse) {
+		this.clientID = clientId;
+		this.livraisonID = livraisonId;
+		this.heureLivraisonPrevue = Date;
+		this.isZoneVide = isZoneVide;
+		this.adresse = adresse;//new Noeud();	
 	}
 
 	

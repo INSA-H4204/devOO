@@ -33,19 +33,31 @@ public class Troncon extends Observable {
 		vitesse = 0;
 		longueur = 0;
 		etatTroncon = Etat.valueOf("NONEMPRUNTE");
-		fin = new Noeud();
-		origine = new Noeud();
+		fin = null;//new Noeud();
+		origine = null;//new Noeud();
 		observers = new ArrayList<Observer>();
+	}
+	
+	
+	public Troncon(Noeud origine,Noeud fin,int vitesse,int longueur,String nomRue) {
+		this.nomRue = nomRue;
+		this.vitesse = vitesse;
+		this.longueur = longueur;
+		this.etatTroncon = Etat.valueOf("NONEMPRUNTE");
+		this.fin = fin;
+		this.origine = origine;
+		this.observers = new ArrayList<Observer>();
+		
 	}
 	
 	public Noeud getOrigine() {
 		return origine;
 	}
-
+	
 	public Noeud getFin() {
 		return fin;
 	}
-
+	
 	public int getVitesse() {
 		return vitesse;
 	}
@@ -53,5 +65,6 @@ public class Troncon extends Observable {
 	public int getLongueur() {
 		return longueur;
 	}
+	
 
 }
