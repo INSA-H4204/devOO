@@ -1,0 +1,18 @@
+package Modèle;
+
+import java.util.*;
+
+/**
+ * 
+ */
+public class Tournee extends Observable {
+
+	private List<Chemin> chemins;
+	
+	/**
+	 * 
+	 */
+	public Tournee() {
+	}
+
+}

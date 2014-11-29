@@ -1,0 +1,26 @@
+package Vue;
+import java.util.*;
+
+/**
+ * 
+ */
+public abstract class VueZone implements Observer {
+
+	/**
+	 * 
+	 */
+	public VueZone() {
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public void update(Observable obs, Object obj) {
+		// TODO Auto-generated method stub
+		
+	};
+
+	public abstract void display();
+	
+}
