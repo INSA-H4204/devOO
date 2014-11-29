@@ -33,13 +33,6 @@ public class Livraison extends Observable {
 		adresse = new Noeud();
 	}
 
-	/**
-	 * @return
-	 */
-	private boolean verifierSiZoneVide() {
-		// TODO implement here
-		return false;
-	}
 	
 	public Noeud getAdresse() {
 		return adresse;

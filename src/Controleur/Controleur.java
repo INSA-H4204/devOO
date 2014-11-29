@@ -53,7 +53,7 @@ public class Controleur {
 		vueTroncon = new VueTroncon(this);
 
 		isZoneSansLivraison = true;
-		ajoutEnCours = true;
+		ajoutEnCours = false;
 		selectionActive = true;
 		noeudSelectionne = null;
 		noeudPrecedent = null;
@@ -71,7 +71,7 @@ public class Controleur {
 	 * @param 	int x 				La coordonée x du click effectué sur la carte
 	 * @param 	int y 				La coordonée y du click effectué sur la carte
 	 */
-	private void selectionnerNoeud(int x, int y){
+	public void selectionnerNoeud(int x, int y){
 		
 		if (selectionActive) {
 			selectionActive = false;
@@ -79,14 +79,15 @@ public class Controleur {
 			if (noeudClique != null) {
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
+					ajoutEnCours = false;
 				} else {
 					this.noeudSelectionne = noeudClique;
 				}
-				if (noeudSelectionne.getLivraison() == null) {
-					// Vue.ActiverBoutonAjouter -> Gabriel
-				} else {
-					// Vue.ActiverBoutonSupprimer -> Gabriel
-				}
+//				if (noeudSelectionne.getLivraison() == null) {
+//					Vue.ActiverBoutonAjouter -> Gabriel
+//				} else {
+//					 Vue.ActiverBoutonSupprimer -> Gabriel
+//				}
 			}
 			selectionActive = true;
 		}
@@ -96,29 +97,30 @@ public class Controleur {
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la tournée
 	 * 
 	 */
-	private void chargerLivraisons(File XMLFilePath) {
+	public void chargerLivraisons(File XMLFilePath) {
 		// TODO implement here
+		
 	}
 	
 	/**
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
 	 * 
 	 */
-	private void chargerZone(File XMLFilePath) {
+	public void chargerZone(File XMLFilePath) {
 		// TODO implement here
 	}
 	
 	/**
 	 * 
 	 */
-	private void calculerTournee() {
+	public void calculerTournee() {
 		// TODO implement here
 	}
 	
 	/**
 	 * 
 	 */
-	private void imprimerFeuilleDeRoute() {
+	public void imprimerFeuilleDeRoute() {
 		// TODO implement here
 	}
 	
@@ -127,7 +129,7 @@ public class Controleur {
 	 * 
 	 * @author hgerard
 	 */
-	private void actionBoutonAjouter(){
+	public void actionBoutonAjouter(){
 		if (noeudSelectionne != null) {
 			ajoutEnCours = true;
 		}
@@ -138,12 +140,12 @@ public class Controleur {
 	 * 
 	 * @author hgerard
 	 */
-	private void actionBoutonValider(){
+	public void actionBoutonValider(){
 		String idClient = ""; /*getIdClientVue() --> GABRIEL*/
 		if ((noeudPrecedent != null) /*&& (idClient != "")*/){
-			CdeAjouterLivraison ajout1 = new CdeAjouterLivraison(noeudPrecedent, noeudSelectionne, idClient);
-			commandesExecutees.push(ajout1);
-			ajout1.execute();
+			CdeAjouterLivraison cdeAjout = new CdeAjouterLivraison(noeudPrecedent, noeudSelectionne, idClient);
+			commandesExecutees.push(cdeAjout);
+			cdeAjout.execute();
 		}
 		
 	}
@@ -151,7 +153,7 @@ public class Controleur {
 	/**
 	 * 
 	 */
-	private void supprimerLivraison(){
+	public void supprimerLivraison(){
 		// TODO implement here
 	}
 
@@ -170,6 +172,5 @@ public class Controleur {
 		vueNoeud.close();
 		vueTroncon.close();
 	}
-	
 	
 }

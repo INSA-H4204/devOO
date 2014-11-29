@@ -11,11 +11,12 @@ import java.util.*;
  */
 public class Troncon extends Observable {
 
-	public enum Etat {
-		Emprunte, // A modifier
-		NonEmprunte
-	}
 
+ public enum Etat {
+		EPRUNTE,
+		NONEMPRUNTE
+	};
+	
 	private String nomRue;
 	private int vitesse ;
 	private int longueur ;
@@ -31,7 +32,7 @@ public class Troncon extends Observable {
 		nomRue = "Inconnu";
 		vitesse = 0;
 		longueur = 0;
-		etatTroncon = null;
+		etatTroncon = Etat.valueOf("NONEMPRUNTE");
 		fin = new Noeud();
 		origine = new Noeud();
 		observers = new ArrayList<Observer>();
@@ -43,6 +44,10 @@ public class Troncon extends Observable {
 
 	public Noeud getFin() {
 		return fin;
+	}
+
+	public int getVitesse() {
+		return vitesse;
 	}
 	
 	public int getLongueur() {

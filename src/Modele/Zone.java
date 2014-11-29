@@ -42,10 +42,12 @@ public class Zone extends Observable {
 	 */
 	public Noeud rechercherNoeudParPosition(int x, int y) {
 		int ecartTolere = 5;
+
 		for (Noeud noeud : noeuds){
+		
 			int xNoeud = noeud.getPosX();
 			int yNoeud = noeud.getPosY();
-			if ((x < xNoeud + ecartTolere) && (x > xNoeud - ecartTolere) && (y < yNoeud + ecartTolere) && (y > yNoeud - ecartTolere)){
+			if ((x <= xNoeud + ecartTolere) && (x >= xNoeud - ecartTolere) && (y <= yNoeud + ecartTolere) && (y >= yNoeud - ecartTolere)){
 				return noeud;
 			}
 		}
@@ -69,7 +71,7 @@ public class Zone extends Observable {
 	/**
 	 * @param File xmlFilePath
 	 */
-	public void XMLtoDOMLivraisons(Document xmlFilePath) {
+	public void XMLtoDOMLivraisons(Document livraisonXML) {
 		
 		// TODO implement here
 	}
@@ -82,11 +84,9 @@ public class Zone extends Observable {
 		
 		zoneXML.getDocumentElement().getNodeName();
 		NodeList nList = zoneXML.getElementsByTagName("Noeud");
-		System.out.println("----------------------------");
 		 
 		for (int key = 0; key < nList.getLength(); key++) {
 			Node nNode = nList.item(key);
-			System.out.println("\nCurrent Element :" + nNode.getNodeName());
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) nNode;
 
@@ -94,9 +94,6 @@ public class Zone extends Observable {
 				int x = Integer.parseInt(eElement.getAttribute("x")); 
 				int y = Integer.parseInt(eElement.getAttribute("y")); 
 				
-				System.out.println("Noeud id : " + id);
-				System.out.println("Noeud x : " + x);
-				System.out.println("Noeud y : " + y);
 				
 				noeuds.add(new Noeud(id,x,y));
 				
@@ -173,6 +170,10 @@ public class Zone extends Observable {
 	
 	public Set<Noeud> GetNoeuds(){
 		return noeuds;
+	}
+
+	public void addNoeud(Noeud noeud) {
+		noeuds.add(noeud);
 	}
 	
 	

@@ -7,18 +7,20 @@ import org.junit.Before;
 import org.junit.Test;
 import Modele.Tournee;
 public class TourneeTest {
-
+	private Tournee tournee;
+	
 	@Before
 	public void setUp() throws Exception {
+		
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
+	 @Test
+	    public void defaultConstructor() throws Exception {
+		        assertNotNull(tournee);
+	 }
 
 }

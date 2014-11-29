@@ -19,7 +19,6 @@ public class PlageHoraireTest {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
 	}
 
 }

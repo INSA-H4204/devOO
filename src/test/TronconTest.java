@@ -12,7 +12,7 @@ public class TronconTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		
+		troncon = new Troncon();
 	}
 
 	@After
@@ -21,7 +21,8 @@ public class TronconTest {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		assertNotNull("Echec - le troncon n'a pas été crée",troncon);
 	}
+
 
 }
