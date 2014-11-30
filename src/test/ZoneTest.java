@@ -2,6 +2,8 @@ package test;
 import Modele.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -18,6 +20,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public class ZoneTest {
@@ -28,6 +31,7 @@ public class ZoneTest {
 	private static String TronconSansNoeudStr = "Resources/TronconSansNoeud.xml";
 	private static String LivraisonCorrecteStr = "Resources/livraison20x20-2.xml";
 	private static String XsdFile = "Resources/plan.xsd";
+	private static String UnknownFile = "Resources/UnknownFile.xml";
 	
 	private Document livraisonXML;
 	
@@ -57,7 +61,7 @@ public class ZoneTest {
 	 @Test
 	 public void integriteNoeuds() throws Exception {
 		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.GetNoeuds().size());
-		assertEquals("Echec - Aucun troncon n'a été chargé",zone.GetTroncons().size());
+		assertFalse("Echec - Aucun troncon n'a été chargé",zone.GetTroncons().isEmpty());
 		for (Noeud n : zone.GetNoeuds() ) {
 			assertNotNull("Echec - L'id n'est pas renseigné",n.getNoeudID());
 			assertNotNull("Echec - X n'est pas renseigné",n.getPosX());
@@ -68,27 +72,28 @@ public class ZoneTest {
 			assertNotNull("Echec - Troncon sans fin",t.getFin());
 		}
 	 }
+	 
+	 @Test(expected=FileNotFoundException.class)
+	 public void FichierNonTrouve() throws Exception {
+		zone.XMLtoDOMZone(UnknownFile, XsdFile);
+	 }
 	 	
-	 @Test//(expected=SAXParseException.class)
+	 @Test
 	 public void AbsenceNoeud() throws Exception {
-		 collector.checkThat(zone.XMLToDOMZone(AbsenceNoeudStr,XsdFile), is(SAXParseException.class));
-		 //zone SAXParseException.class)
-	       //.XMLtoDOMZone(AbsenceNoeudStr,XsdFile);
+	      assertFalse("Echec - La méthode de vérification du fichier XML aurait du déclencher une erreur car il n y a pa de noeuds",zone.verifierUnfichierXML(AbsenceNoeudStr,XsdFile));
 	 }
 	 
 	 
  
 	 @Test
 	 public void noeudSansTroncon() throws Exception {
-		zone.XMLtoDOMZone(NoeudSansTronconStr,XsdFile);
+	      assertFalse("Echec - La méthode de vérification du fichier XML aurait du déclencher une erreur",zone.verifierUnfichierXML(NoeudSansTronconStr,XsdFile));
 	 }
 	 
 	 @Test
 	 public void tronconSansNoeud() throws Exception {
-		zone.XMLtoDOMZone(NoeudSansTronconStr,XsdFile);
+	      assertFalse("Echec - La méthode de vérification du fichier XML aurait du lancer une exception car il y a un troncon sans noeud d'origine ou de fin",zone.verifierUnfichierXML(TronconSansNoeudStr,XsdFile));
 	 }
-	 
-	 
 	 
 	 //---------------------Chargement d'une livraison-----------------------------------------//
 	 
@@ -116,6 +121,7 @@ public class ZoneTest {
 	 
 	 @Test
 	 public void rechercherNoeudParPosition() throws Exception {
+		 zone = new Zone();
 		 Noeud noeudTest = new Noeud(1,800,400);
 		 zone.addNoeud(noeudTest);
 		 assertEquals("Echec - Noeud non trouvé",noeudTest,zone.rechercherNoeudParPosition(800, 400));

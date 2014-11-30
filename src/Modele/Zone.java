@@ -33,6 +33,8 @@ public class Zone extends Observable {
 	private List<PlageHoraire> plages;
 	private Graphe graphe;
 	private Livraison entrepot;
+	private static int ecartTolere = 5;
+	
 	
 	/**
 	 * Constructeur par défaut de Zone
@@ -53,11 +55,10 @@ public class Zone extends Observable {
 	 * @return Noeud resultat
 	 */
 	public Noeud rechercherNoeudParPosition(int x, int y) {
-		int ecartTolere = 5;
 		for (Noeud noeud : noeuds){
 			int xNoeud = noeud.getPosX();
 			int yNoeud = noeud.getPosY();
-			if ((x < xNoeud + ecartTolere) && (x > xNoeud - ecartTolere) && (y < yNoeud + ecartTolere) && (y > yNoeud - ecartTolere)){
+			if ((x <= xNoeud + ecartTolere) && (x >= xNoeud - ecartTolere) && (y <= yNoeud + ecartTolere) && (y >= yNoeud - ecartTolere)){
 				return noeud;
 			}
 		}
@@ -127,7 +128,7 @@ public class Zone extends Observable {
             validator.validate(new StreamSource(new File(xmlFilePath)));
         } catch (IOException | SAXException e) {
             System.out.println("Exception: "+e.getMessage());
-            //return false;
+            return false;
         }
         return true;
 	}
