@@ -1,12 +1,24 @@
 package Modele;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  * Une zone est l’ensemble des noeuds et troncons d’une zone géographique. 
@@ -42,12 +54,10 @@ public class Zone extends Observable {
 	 */
 	public Noeud rechercherNoeudParPosition(int x, int y) {
 		int ecartTolere = 5;
-
 		for (Noeud noeud : noeuds){
-		
 			int xNoeud = noeud.getPosX();
 			int yNoeud = noeud.getPosY();
-			if ((x <= xNoeud + ecartTolere) && (x >= xNoeud - ecartTolere) && (y <= yNoeud + ecartTolere) && (y >= yNoeud - ecartTolere)){
+			if ((x < xNoeud + ecartTolere) && (x > xNoeud - ecartTolere) && (y < yNoeud + ecartTolere) && (y > yNoeud - ecartTolere)){
 				return noeud;
 			}
 		}
@@ -71,33 +81,131 @@ public class Zone extends Observable {
 	/**
 	 * @param File xmlFilePath
 	 */
-	public void XMLtoDOMLivraisons(Document livraisonXML) {
+	public void XMLtoDOMLivraisons(Document xmlFilePath) {
 		
 		// TODO implement here
 	}
 
+//	/**
+//	 * @param File xmlFilePath
+//	 */
+//	public void XMLtoDOMZone(Document zoneXML) {
+//		// TODO implement here
+//		
+//		zoneXML.getDocumentElement().getNodeName();
+//		NodeList nList = zoneXML.getElementsByTagName("Noeud");
+//		System.out.println("----------------------------");
+//		 
+//		for (int key = 0; key < nList.getLength(); key++) {
+//			Node nNode = nList.item(key);
+//			System.out.println("\nCurrent Element :" + nNode.getNodeName());
+//			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//				Element eElement = (Element) nNode;
+//
+//				int id = Integer.parseInt(eElement.getAttribute("id")); 
+//				int x = Integer.parseInt(eElement.getAttribute("x")); 
+//				int y = Integer.parseInt(eElement.getAttribute("y")); 
+//				
+//				System.out.println("Noeud id : " + id);
+//				System.out.println("Noeud x : " + x);
+//				System.out.println("Noeud y : " + y);
+//				
+//				noeuds.add(new Noeud(id,x,y));
+//				
+//			}
+//		}
+//	}
+//	
 	/**
-	 * @param File xmlFilePath
+     * @author Yousra
 	 */
-	public void XMLtoDOMZone(Document zoneXML) {
-		// TODO implement here
+	public boolean verifierUnfichierXML(String xmlFilePath, String xsdFilePath){
+		try {
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = factory.newSchema(new File(xsdFilePath));
+            Validator validator = schema.newValidator();
+            validator.validate(new StreamSource(new File(xmlFilePath)));
+        } catch (IOException | SAXException e) {
+            System.out.println("Exception: "+e.getMessage());
+            return false;
+        }
+        return true;
+	}
+	/**
+	 * @param xmlFilePath (le chemin du fichier xml Plan),xsdFilePathPlan (le chemin du fichier xsd Plan pour valider le fichier xml)
+	 * @return Zone
+     * @author Yousra
+	 */
+	public void XMLtoDOMZone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
 		
-		zoneXML.getDocumentElement().getNodeName();
-		NodeList nList = zoneXML.getElementsByTagName("Noeud");
-		 
-		for (int key = 0; key < nList.getLength(); key++) {
-			Node nNode = nList.item(key);
-			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) nNode;
-
-				int id = Integer.parseInt(eElement.getAttribute("id")); 
-				int x = Integer.parseInt(eElement.getAttribute("x")); 
-				int y = Integer.parseInt(eElement.getAttribute("y")); 
-				noeuds.add(new Noeud(id,x,y));
+		File xml = new File(xmlFilePathPlan);
+	
+		if (!xml.exists()) {
+			throw new FileNotFoundException();
+		}
+		else {
+			try {
 				
+				if(verifierUnfichierXML(xmlFilePathPlan, xsdFilePathPlan)){
+				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+				org.w3c.dom.Document document = dBuilder.parse(xml);           
+                Element racine = document.getDocumentElement();
+               
+               if (racine.getNodeName().equals("Reseau")) 
+               {   
+                   NodeList listeNoeudsXML = racine.getElementsByTagName("Noeud");
+                   Set<Noeud> listeNoeuds = new HashSet<Noeud>();
+
+                   for(int i=0; i<listeNoeudsXML.getLength();i++) 
+                   {
+                	   listeNoeuds.add(new Noeud((Element)listeNoeudsXML.item(i)));                	   
+                   }
+                   
+                   Set<Troncon> listeTousLesTroncons = new HashSet<Troncon>();
+                   for(int i=0; i<listeNoeudsXML.getLength();i++) 
+                   {                	    
+                	   Element noeudElement = (Element) listeNoeudsXML.item(i);
+                	   //Integer idNoeudCourant = Integer.parseInt(noeudElement.getAttribute("id"));
+                	   
+                	   NodeList listeTronconsNoeudXML = noeudElement.getElementsByTagName("LeTronconSortant");
+                	   Set<Troncon> listeTronconsNoeud = new HashSet<Troncon>();
+                	   
+                	   for (int j=0; j<listeTronconsNoeudXML.getLength();j++) 
+                	   {
+                		   Element tronconCourantElement = (Element) listeTronconsNoeudXML.item(j);
+                		   System.out.println("\nCurrent Element :" + tronconCourantElement.getNodeName());
+                		   Troncon troncon = new Troncon();
+
+                		   troncon.construireTronconAPartirDeDOMXML(tronconCourantElement,i,listeNoeuds);
+                		   
+                		   //Ajout � la liste des tron�ons du noeud courant
+                		   listeTronconsNoeud.add(troncon);
+                		   //Ajout � la liste des tous les tron�ons
+                		   listeTousLesTroncons.add(troncon);
+
+                	   }               	   
+                   }
+                   this.setNoeuds(listeNoeuds);
+                   this.setTroncons(listeTousLesTroncons);
+                   
+               }	
+               else {
+            	   throw new SAXException();
+               }
+			}
+			}
+			catch (ParserConfigurationException e) {
+				System.out.println(e);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
+	
+	
+	
+	
 	
 	public void calculerTournee() {
 		Tournee tournee = new Tournee(plages, entrepot);
@@ -170,12 +278,24 @@ public class Zone extends Observable {
 		return noeuds;
 	}
 
+	public void setTroncons(Set<Troncon> troncons) {
+		this.troncons=troncons;
+	}
+
+	public void setNoeuds(Set<Noeud> noeuds) {
+		this.noeuds=noeuds;
+		
+	}
+
+
 	public void addNoeud(Noeud noeud) {
 		noeuds.add(noeud);
 	}
-
+	
 	public Set<Troncon> GetTroncons() {
 		return troncons;
 	}
+
+	
 
 }

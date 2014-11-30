@@ -24,8 +24,8 @@ public class ZoneTest {
 	private static String NoeudSansTronconStr = "Resources/NoeudSansTroncon.xml";
 	private static String TronconSansNoeudStr = "Resources/TronconSansNoeud.xml";
 	private static String LivraisonCorrecteStr = "Resources/livraison20x20-2.xml";
+	private static String XsdFile = "Resources/plan.xsd";
 	
-	private Document zoneXML;
 	private Document livraisonXML;
 	
 	private Zone zone;
@@ -33,11 +33,7 @@ public class ZoneTest {
 	@Before
 	public void setUp() throws Exception {
 		zone = new Zone();
-		File fXmlFile = new File(ZoneCorrecteStr);
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		zoneXML = dBuilder.parse(fXmlFile);
-		zone.XMLtoDOMZone(zoneXML);	
+		zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);	
 	}
 
 	@After
@@ -69,31 +65,19 @@ public class ZoneTest {
 	 
 	 @Test //(expected=ZoneException.AbscenceNoeuds)
 	 public void AbsenceNoeud() throws Exception {
-		File fXmlFile = new File(AbsenceNoeudStr);
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		zoneXML = dBuilder.parse(fXmlFile);
-		zone.XMLtoDOMZone(zoneXML);
+		zone.XMLtoDOMZone(AbsenceNoeudStr,XsdFile);
 	 }
 	 
 	 
  
 	 @Test
 	 public void noeudSansTroncon() throws Exception {
-		File fXmlFile = new File(NoeudSansTronconStr);
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		zoneXML = dBuilder.parse(fXmlFile);
-		zone.XMLtoDOMZone(zoneXML);
+		zone.XMLtoDOMZone(NoeudSansTronconStr,XsdFile);
 	 }
 	 
 	 @Test
 	 public void tronconSansNoeud() throws Exception {
-		File fXmlFile = new File(TronconSansNoeudStr);
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		zoneXML = dBuilder.parse(fXmlFile);
-		zone.XMLtoDOMZone(zoneXML);
+		zone.XMLtoDOMZone(NoeudSansTronconStr,XsdFile);
 	 }
 	 
 	 

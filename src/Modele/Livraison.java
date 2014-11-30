@@ -39,11 +39,28 @@ public class Livraison extends Observable {
 		this.heureLivraisonPrevue = Date;
 		this.isZoneVide = isZoneVide;
 		this.adresse = adresse;//new Noeud();	
+		this.cheminIn = null;//new Chemin();
+		this.cheminOut = null;//new Chemin();
+		this.adresse = adresse;
 	}
 
+	/**
+	 * @return
+	 */
+	private boolean verifierSiZoneVide() {
+		// TODO implement here
+		return false;
+	}
 	
 	public Noeud getAdresse() {
 		return adresse;
 	}
-
+	
+	public void setCheminOut(Chemin cheminOut) {
+		this.cheminOut = cheminOut;
+	}
+	
+	public void setCheminIn(Chemin cheminIn) {
+		this.cheminIn = cheminIn;
+	}
 }

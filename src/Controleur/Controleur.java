@@ -53,7 +53,7 @@ public class Controleur {
 		vueTroncon = new VueTroncon(this);
 
 		isZoneSansLivraison = true;
-		ajoutEnCours = false;
+		ajoutEnCours = true;
 		selectionActive = true;
 		noeudSelectionne = null;
 		noeudPrecedent = null;
@@ -62,7 +62,7 @@ public class Controleur {
 	/**
 	 * Vérifie si la zone chargée contient des livraisons
 	 */
-	private void verifierSiZoneSansLivraison() {
+	public void verifierSiZoneSansLivraison() {
 		isZoneSansLivraison = zone.verifierSiZoneSansLivraison();
 	}
 	
@@ -79,15 +79,14 @@ public class Controleur {
 			if (noeudClique != null) {
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
-					ajoutEnCours = false;
 				} else {
 					this.noeudSelectionne = noeudClique;
 				}
-//				if (noeudSelectionne.getLivraison() == null) {
-//					Vue.ActiverBoutonAjouter -> Gabriel
-//				} else {
-//					 Vue.ActiverBoutonSupprimer -> Gabriel
-//				}
+				if (noeudSelectionne.getLivraison() == null) {
+					// Vue.ActiverBoutonAjouter -> Gabriel
+				} else {
+					// Vue.ActiverBoutonSupprimer -> Gabriel
+				}
 			}
 			selectionActive = true;
 		}
@@ -99,7 +98,6 @@ public class Controleur {
 	 */
 	public void chargerLivraisons(File XMLFilePath) {
 		// TODO implement here
-		
 	}
 	
 	/**
@@ -113,7 +111,7 @@ public class Controleur {
 	/**
 	 * 
 	 */
-	public void calculerTournee() {
+	private void calculerTournee() {
 		// TODO implement here
 	}
 	
@@ -143,9 +141,9 @@ public class Controleur {
 	public void actionBoutonValider(){
 		String idClient = ""; /*getIdClientVue() --> GABRIEL*/
 		if ((noeudPrecedent != null) /*&& (idClient != "")*/){
-			CdeAjouterLivraison cdeAjout = new CdeAjouterLivraison(noeudPrecedent, noeudSelectionne, idClient);
-			commandesExecutees.push(cdeAjout);
-			cdeAjout.execute();
+			CdeAjouterLivraison ajout1 = new CdeAjouterLivraison(noeudPrecedent, noeudSelectionne, idClient);
+			commandesExecutees.push(ajout1);
+			ajout1.execute();
 		}
 		
 	}
@@ -172,5 +170,6 @@ public class Controleur {
 		vueNoeud.close();
 		vueTroncon.close();
 	}
+	
 	
 }
