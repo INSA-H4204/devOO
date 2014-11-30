@@ -23,14 +23,12 @@ public class CdeAjouterLivraison extends Commande {
 	/**
 	 * 
 	 */
-	public CdeAjouterLivraison(Noeud noeudPrecedent, Noeud noeudSelectionne, String idClient) {
+	public CdeAjouterLivraison(Zone zone, Noeud noeudPrecedent, Noeud noeudSelectionne, String idClient) {
 		
+		super(zone);
 		Livraison livraisonPrecedente = noeudPrecedent.getLivraison();
 		Livraison livraisonAjout = noeudSelectionne.getLivraison();
 		PlageHoraire plageAjout = livraisonPrecedente.getPlage();
-		Tournee tournee = plageAjout.getTournee();
-		
-		
 	}
 
 	/**

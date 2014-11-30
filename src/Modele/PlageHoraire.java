@@ -14,7 +14,6 @@ public class PlageHoraire extends Observable {
 	public Calendar heureFin ;
 	private List<Livraison> livraisonsOrdonnees;
 	private Set<Livraison> livraisons;
-	private Tournee tournee;
 	
 	/**
 	 * Constructeur par défaut de PlageHoraire
@@ -38,13 +37,6 @@ public class PlageHoraire extends Observable {
 	 */
 	public Set<Livraison> getLivraisons() {
 		return livraisons;
-	}
-	
-	/**
-	 * Retourne la tournee de la plage horaire
-	 */
-	public Tournee getTournee() {
-		return tournee;
 	}
 
 }
