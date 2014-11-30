@@ -39,7 +39,7 @@ public class PlageHoraire extends Observable {
 		NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
 		for(int i=0;i<listeLivraisonsXML.getLength();i++) {
 			Element livraisonElement = (Element) listeLivraisonsXML.item(i);
-			Livraison livraison = new Livraison(livraisonElement,zone);
+			Livraison livraison = new Livraison(livraisonElement,zone,this);
 			for(Livraison p : listeTousLivraisons) {
 				if(livraison.getAdresse()==p.getAdresse())
 					throw new SAXException();

@@ -141,7 +141,7 @@ public class Controleur {
 	public void actionBoutonValider(){
 		String idClient = ""; /*getIdClientVue() --> GABRIEL*/
 		if ((noeudPrecedent != null) /*&& (idClient != "")*/){
-			CdeAjouterLivraison ajout1 = new CdeAjouterLivraison(noeudPrecedent, noeudSelectionne, idClient);
+			CdeAjouterLivraison ajout1 = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout1);
 			ajout1.execute();
 		}
