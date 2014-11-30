@@ -19,6 +19,7 @@ public class Livraison extends Observable {
 	private Chemin cheminIn;
 	private Chemin cheminOut;
 	private Noeud adresse;
+	private PlageHoraire plage;
 	
 	/**
 	 * Constructeur par défaut de Livraison
@@ -28,20 +29,20 @@ public class Livraison extends Observable {
 		livraisonID = 0;
 		heureLivraisonPrevue = Calendar.getInstance();
 		isZoneVide = true;
-		cheminIn = null;//new Chemin();
-		cheminOut = null;//new Chemin();
-		adresse = null;//new Noeud();
+		cheminIn = new Chemin();
+		cheminOut = new Chemin();
+		adresse = new Noeud();
+		plage = new PlageHoraire();
 	}
 	
-	public Livraison(int clientId,int livraisonId,Calendar Date,boolean isZoneVide,Noeud adresse) {
+	public Livraison(int clientId,int livraisonId,Calendar heureLivraisonPrevue,boolean isZoneVide,Noeud adresse) {
 		this.clientID = clientId;
 		this.livraisonID = livraisonId;
-		this.heureLivraisonPrevue = Date;
+		this.heureLivraisonPrevue = heureLivraisonPrevue;
 		this.isZoneVide = isZoneVide;
-		this.adresse = adresse;//new Noeud();	
-		this.cheminIn = null;//new Chemin();
-		this.cheminOut = null;//new Chemin();
 		this.adresse = adresse;
+		this.cheminIn = new Chemin();
+		this.cheminOut = new Chemin();
 	}
 
 	/**
@@ -62,5 +63,9 @@ public class Livraison extends Observable {
 	
 	public void setCheminIn(Chemin cheminIn) {
 		this.cheminIn = cheminIn;
+	}
+
+	public PlageHoraire getPlage() {
+		return plage;
 	}
 }

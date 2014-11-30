@@ -3,6 +3,8 @@ package Controleur;
 import Modele.Livraison;
 import Modele.Noeud;
 import Modele.PlageHoraire;
+import Modele.Tournee;
+import Modele.Zone;
 
 /**
  * Contient la commande qui ajoute une livraison
@@ -10,9 +12,9 @@ import Modele.PlageHoraire;
  * @author hgerard
  */
 public class CdeAjouterLivraison extends Commande {
-
+	
 	/**
-	 * 
+	 * Constructeur par défaut de la classe CdeAjouterLivraison
 	 */
 	public CdeAjouterLivraison() {
 		super();
@@ -21,9 +23,14 @@ public class CdeAjouterLivraison extends Commande {
 	/**
 	 * 
 	 */
-	public CdeAjouterLivraison(Noeud noeudPrecedent, Noeud noeudSelectionne,
-			String idClient) {
-		// TODO Auto-generated constructor stub
+	public CdeAjouterLivraison(Noeud noeudPrecedent, Noeud noeudSelectionne, String idClient) {
+		
+		Livraison livraisonPrecedente = noeudPrecedent.getLivraison();
+		Livraison livraisonAjout = noeudSelectionne.getLivraison();
+		PlageHoraire plageAjout = livraisonPrecedente.getPlage();
+		Tournee tournee = plageAjout.getTournee();
+		
+		
 	}
 
 	/**
