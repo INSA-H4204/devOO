@@ -34,7 +34,7 @@ public class Noeud extends Observable {
 		noeudID = id;
 		posX = x;
 		posY = y;
-		//livraison = new Livraison();
+		livraison = new Livraison();
 	}
 	
 	
@@ -55,7 +55,7 @@ public class Noeud extends Observable {
 	}
 	
 	public int getPosY() {
-		return posY;
+		return posX;
 	}
 	
 	public int getNoeudID() {

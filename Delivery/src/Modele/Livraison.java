@@ -2,7 +2,9 @@ package Modele;
 
 import java.util.*;
 
-import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
+import org.w3c.dom.Element;
+
+
 
 /**
  * Une livraison est un lieu de livraison associé à une plage horaire 
@@ -18,7 +20,7 @@ public class Livraison extends Observable {
 	private boolean isZoneVide ;
 	private Chemin cheminIn;
 	private Chemin cheminOut;
-	private Noeud adresse;
+	private Noeud  adresse;
 	
 	/**
 	 * Constructeur par défaut de Livraison
@@ -41,9 +43,25 @@ public class Livraison extends Observable {
 		this.adresse = adresse;//new Noeud();	
 		this.cheminIn = null;//new Chemin();
 		this.cheminOut = null;//new Chemin();
-		this.adresse = adresse;
 	}
-
+	public Livraison(Noeud adresseEntrepot){
+		clientID = 0;
+		livraisonID = 0;
+		heureLivraisonPrevue = Calendar.getInstance();
+		isZoneVide = true;
+		cheminIn = null;
+		cheminOut = null;
+		adresse = adresseEntrepot;
+		
+	}
+	public Livraison(Element livraisonElement,Zone zone){
+		this.livraisonID = Integer.parseInt(livraisonElement.getAttribute("id"));
+		this.clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
+		Noeud adresseLivaison= new Noeud();
+		adresseLivaison=zone.rechercherNoeudParId(Integer.parseInt(livraisonElement.getAttribute("adresse")));
+		this.adresse = adresseLivaison;
+		
+	}
 	/**
 	 * @return
 	 */
