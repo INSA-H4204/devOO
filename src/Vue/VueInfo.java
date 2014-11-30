@@ -1,40 +1,55 @@
 package Vue;
 
-import java.util.Observable;
-import javax.swing.JFrame;
-import Controleur.Controleur;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 /**
  * 
  */
-public class VueInfo extends VueGenerale {
+public class VueInfo extends JPanel {
 
-	private JFrame frame = null;
-	
+	private ArrayList<Integer> points = new ArrayList<Integer>();
+
 	/**
 	 * 
 	 */
-	public VueInfo(Controleur ctrl) {
-		super(ctrl);
-		frame = new JFrame();
+	public VueInfo() {
+
+		chargerVueInfo();
+
 	}
 
-	@Override
-	public void afficher() {
-		frame.setVisible(true);
-		
+	public void chargerVueInfo(){
+		Border raisedLevel = BorderFactory.createRaisedBevelBorder();
+		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
+		Border border = BorderFactory.createCompoundBorder(raisedLevel,loweredbevel);
+
+		this.setBorder(border);
+		this.setBackground(Color.BLUE);		
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (points.size() > 0) {
+			for(int i=0; i<points.size(); i++){
+				int x = points.get(i);
+				g.setColor(Color.CYAN);
+				g.fillOval(x, x, 10, 10);				
+			}		
+		}
 	}
 
-	@Override
-	public void fermer() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Observable obs, Object obj) {
-		// TODO Auto-generated method stub
-		
+	public ArrayList<Integer> addPoint(int x) {
+		points.add(x);
+		this.repaint();
+		return points;
 	}
 
 }

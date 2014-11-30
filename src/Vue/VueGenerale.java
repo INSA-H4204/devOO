@@ -1,19 +1,21 @@
 package Vue;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.*;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import Controleur.Controleur;
 
 /**
  * 
  */
-public abstract class VueGenerale implements Observer {
-
-	private Controleur ctrl = null;
-	private JFrame fenetre = new JFrame();
+public abstract class VueGenerale extends JFrame implements Observer {
 	
+	protected Controleur ctrl;
 	/**
 	 * 
 	 */	
@@ -28,5 +30,6 @@ public abstract class VueGenerale implements Observer {
 	public abstract void update(Observable obs, Object obj);
 	public abstract void afficher();
 	public abstract void fermer();
+	
 	
 }

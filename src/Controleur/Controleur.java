@@ -1,10 +1,13 @@
 package Controleur;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 import Modele.Noeud;
 import Modele.Zone;
+import Vue.VueApplication;
 import Vue.VueNoeud;
 import Vue.VueTroncon;
 import Vue.VueGenerale;
@@ -17,7 +20,7 @@ import Vue.VueZone;
  * @author hgerard
  */
 public class Controleur {
-	public VueZone vueZone;
+	public VueApplication vueApplication;
 	private Zone zone;
 	private boolean isZoneSansLivraison;
 	private Noeud noeudSelectionne;
@@ -29,9 +32,8 @@ public class Controleur {
 	 * @author hgerard
 	 */
 	public Controleur(Zone zone) {
-		this.zone = zone;
-		
-		vueZone = new VueZone(this);
+		this.zone = zone;		
+		vueApplication = new VueApplication(this);
 	}
 
 	/**
@@ -57,16 +59,32 @@ public class Controleur {
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la tournée
 	 * 
 	 */
-	private void chargerLivraisons(File XMLFilePath) {
+	public void chargerLivraisons(File XMLFilePath) {
 		// TODO implement here
 	}
-	
+		
 	/**
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
 	 * 
 	 */
-	private void chargerZone(File XMLFilePath) {
-		// TODO implement here
+	public void chargerZone(File XMLFilePath) {
+		// TODO Creer les Noeuds et tronçons
+		
+		//à la fin:
+		//vueApplication.chargerNoeuds(listeX,listeY);
+	}
+	
+	public void chargerZone(){
+		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
+		listeVueNoeud = vueApplication.creerListeNoeuds();
+		
+		List<Integer> listeX = new ArrayList<Integer>();
+		List<Integer> listeY = new ArrayList<Integer>();
+		for(int i=0; i<listeVueNoeud.size();i++){
+			listeX.add(listeVueNoeud.get(i).recupererX());
+			listeY.add(listeVueNoeud.get(i).recupererY());
+		}
+		vueApplication.chargerNoeuds(listeX,listeY);		
 	}
 	
 	/**
@@ -102,14 +120,14 @@ public class Controleur {
 	 * Affiche les vues 
 	 */
 	public void afficherVue() {
-		vueZone.construireVue();
+		vueApplication.afficher();
 	}
 	
 	/**
 	 * Ferme les vues 
 	 */
 	public void fermerVue() {
-		vueZone.fermer();
+		vueApplication.fermer();
 	}
 	
 	
