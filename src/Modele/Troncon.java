@@ -49,6 +49,14 @@ public class Troncon extends Observable {
 		this.etatTroncon = null;
 	}
 
+	public Troncon(Element tronconElement,Noeud origine, Noeud fin) {
+		this.nomRue= tronconElement.getAttribute("nomRue");
+     	this.vitesse=(int)Double.parseDouble(tronconElement.getAttribute("vitesse").replaceAll(",", "."));
+		this.longueur=(int)Double.parseDouble(tronconElement.getAttribute("longueur").replaceAll(",", "."));
+		this.origine = origine;
+		this.fin = fin;
+	}
+	
 	public Noeud getOrigine() {
 		return origine;
 	}

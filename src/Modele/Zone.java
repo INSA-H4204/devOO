@@ -127,7 +127,7 @@ public class Zone extends Observable {
             validator.validate(new StreamSource(new File(xmlFilePath)));
         } catch (IOException | SAXException e) {
             System.out.println("Exception: "+e.getMessage());
-            return false;
+            //return false;
         }
         return true;
 	}
@@ -137,67 +137,58 @@ public class Zone extends Observable {
      * @author Yousra
 	 */
 	public void XMLtoDOMZone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
-		
 		File xml = new File(xmlFilePathPlan);
-	
 		if (!xml.exists()) {
 			throw new FileNotFoundException();
 		}
 		else {
 			try {
-				
 				if(verifierUnfichierXML(xmlFilePathPlan, xsdFilePathPlan)){
-				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-				org.w3c.dom.Document document = dBuilder.parse(xml);           
-                Element racine = document.getDocumentElement();
-               
-               if (racine.getNodeName().equals("Reseau")) 
-               {   
-                   NodeList listeNoeudsXML = racine.getElementsByTagName("Noeud");
-                   Set<Noeud> listeNoeuds = new HashSet<Noeud>();
-
-                   for(int i=0; i<listeNoeudsXML.getLength();i++) 
-                   {
-                	   listeNoeuds.add(new Noeud((Element)listeNoeudsXML.item(i)));                	   
-                   }
-                   
-                   Set<Troncon> listeTousLesTroncons = new HashSet<Troncon>();
-                   for(int i=0; i<listeNoeudsXML.getLength();i++) 
-                   {                	    
-                	   Element noeudElement = (Element) listeNoeudsXML.item(i);
-                	   //Integer idNoeudCourant = Integer.parseInt(noeudElement.getAttribute("id"));
-                	   
-                	   NodeList listeTronconsNoeudXML = noeudElement.getElementsByTagName("LeTronconSortant");
-                	   Set<Troncon> listeTronconsNoeud = new HashSet<Troncon>();
-                	   
-                	   for (int j=0; j<listeTronconsNoeudXML.getLength();j++) 
-                	   {
-                		   Element tronconCourantElement = (Element) listeTronconsNoeudXML.item(j);
-                		   System.out.println("\nCurrent Element :" + tronconCourantElement.getNodeName());
-                		   Troncon troncon = new Troncon();
-
-                		   troncon.construireTronconAPartirDeDOMXML(tronconCourantElement,i,listeNoeuds);
-                		   
-                		   //Ajout � la liste des tron�ons du noeud courant
-                		   listeTronconsNoeud.add(troncon);
-                		   //Ajout � la liste des tous les tron�ons
-                		   listeTousLesTroncons.add(troncon);
-
-                	   }               	   
-                   }
-                   this.setNoeuds(listeNoeuds);
-                   this.setTroncons(listeTousLesTroncons);
-                   
-               }	
-               else {
-            	   throw new SAXException();
-               }
+					DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+					DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+					org.w3c.dom.Document document = dBuilder.parse(xml);           
+					Element racine = document.getDocumentElement();
+					if (racine.getNodeName().equals("Reseau")) 
+					{   					
+						NodeList listeNoeudsXML = racine.getElementsByTagName("Noeud");
+						//Set<Noeud> listeNoeuds = new HashSet<Noeud>();
+						List<Noeud> listeNoeuds = new ArrayList<Noeud>();
+						for(int i=0; i<listeNoeudsXML.getLength();i++) 
+						{
+							listeNoeuds.add(new Noeud((Element)listeNoeudsXML.item(i)));                	   
+						}
+						List<Troncon> listeTroncons = new ArrayList<Troncon>();
+	                   //Set<Troncon> listeTousLesTroncons = new HashSet<Troncon>();
+	                   for(int i=0; i<listeNoeudsXML.getLength();i++) 
+	                   {                	    
+	                	   Element noeudElement = (Element) listeNoeudsXML.item(i);
+	                	   //Integer idNoeudCourant = Integer.parseInt(noeudElement.getAttribute("id"));
+	                	   NodeList listeTronconsNoeudXML = noeudElement.getElementsByTagName("LeTronconSortant");
+	                	   //Set<Troncon> listeTronconsNoeud = new HashSet<Troncon>();
+	                	   for (int j=0; j<listeTronconsNoeudXML.getLength();j++) 
+	                	   {
+	                		   Element tronconElt = (Element) listeTronconsNoeudXML.item(j);
+	                		   Noeud origine = listeNoeuds.get(i);
+	                		   Noeud fin = listeNoeuds.get(Integer.parseInt(tronconElt.getAttribute("idNoeudDestination")));
+	                		   listeTroncons.add(new Troncon(tronconElt,origine,fin));
+	                	   }               	   
+	                   }
+	                   this.noeuds = new HashSet<Noeud>(listeNoeuds);
+	                   this.troncons = new HashSet<Troncon>(listeTroncons);
+	                   
+				   }	
+	               else 
+	               {
+	            	   throw new SAXException();
+	               }
+				}
 			}
-			}
-			catch (ParserConfigurationException e) {
+			catch (ParserConfigurationException e)
+			{
 				System.out.println(e);
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 		}
@@ -282,9 +273,8 @@ public class Zone extends Observable {
 		this.troncons=troncons;
 	}
 
-	public void setNoeuds(Set<Noeud> noeuds) {
-		this.noeuds=noeuds;
-		
+	public void setNoeuds(Set<Noeud> listeNoeuds) {
+		this.noeuds=listeNoeuds;
 	}
 
 

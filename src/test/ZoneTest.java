@@ -9,6 +9,8 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Rule;
+import org.junit.rules.ErrorCollector;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -16,6 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXParseException;
 
 public class ZoneTest {
 
@@ -29,6 +32,9 @@ public class ZoneTest {
 	private Document livraisonXML;
 	
 	private Zone zone;
+	
+	@Rule
+	public ErrorCollector collector = new ErrorCollector();
 	
 	@Before
 	public void setUp() throws Exception {
@@ -62,10 +68,12 @@ public class ZoneTest {
 			assertNotNull("Echec - Troncon sans fin",t.getFin());
 		}
 	 }
-	 
-	 @Test //(expected=ZoneException.AbscenceNoeuds)
+	 	
+	 @Test//(expected=SAXParseException.class)
 	 public void AbsenceNoeud() throws Exception {
-		zone.XMLtoDOMZone(AbsenceNoeudStr,XsdFile);
+		 collector.checkThat(zone.XMLToDOMZone(AbsenceNoeudStr,XsdFile), is(SAXParseException.class));
+		 //zone SAXParseException.class)
+	       //.XMLtoDOMZone(AbsenceNoeudStr,XsdFile);
 	 }
 	 
 	 
