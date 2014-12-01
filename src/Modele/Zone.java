@@ -19,6 +19,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import Modele.*;
+
 /**
  * Une zone est lâ€™ensemble des noeuds et troncons dâ€™une zone gÃ©ographique. 
  * 
@@ -225,8 +227,8 @@ public class Zone extends Observable {
 		}
 	}
 	/**
-	 * Vérifier si l'heure de ébut est avant heure fin et s'il y a des intersection entre la plage courante et toutes les autres plages
-	 * @param plage   La plage horaire à valider
+	 * Vï¿½rifier si l'heure de ï¿½but est avant heure fin et s'il y a des intersection entre la plage courante et toutes les autres plages
+	 * @param plage   La plage horaire ï¿½ valider
 	 * @param plages  Liste des plages Horaire
 	 * return bool    True si on trouve une intersection ou si la plage est valide sinon False
      * @author Yousra
@@ -247,17 +249,60 @@ public class Zone extends Observable {
 	
 	public void calculerTournee() {
 		Tournee tournee = new Tournee(plages, entrepot);
-		ArrayList<int[]> sources = new ArrayList<int[]>();
+		//ArrayList<int[]> sources = new ArrayList<int[]>();
+		HashMap<int[], Chemin> cheminsPossibles = new HashMap<int[], Chemin>();
 
-		//Calculer le chemin entre l'entrepot et chaque livraison de premiere plage
+		//Calculer les chemins entre l'entrepot et chaque livraison de premiere plage
 		int[] previous = dijkstra(entrepot.getAdresse().getNoeudID());
-		sources.add(previous);
 		for (Livraison livraison : plages.get(0).getLivraisons()) {
-			List<Troncon> troncons = dessinerChemin(previous, livraison.getAdresse().getNoeudID());
-			Chemin chemin = new Chemin(entrepot, livraison, troncons);
-			//tournee.ajouterChemin(chemin);
-			//tournee.creerGrapheChoco();
+			ajouterCheminPossible(entrepot, livraison, previous, cheminsPossibles);
 		}
+
+		for (int i = 0; i < plages.size()-1 ; i++) {
+			for (Livraison livraison : plages.get(i).getLivraisons()) {
+				previous = dijkstra(livraison.getAdresse().getNoeudID());
+
+				for (Livraison livraisonSuivant : plages.get(i).getLivraisons()) {
+					if (livraison != livraisonSuivant) {
+						ajouterCheminPossible(livraison, livraisonSuivant, previous, cheminsPossibles);
+					}
+				}
+
+				for (Livraison livraisonSuivant : plages.get(i+1).getLivraisons()) {
+						ajouterCheminPossible(livraison, livraisonSuivant, previous, cheminsPossibles);
+				}
+			}
+		}
+
+		for (Livraison livraison : plages.get(plages.size()-1).getLivraisons()) {
+			previous = dijkstra(livraison.getAdresse().getNoeudID());
+			for (Livraison livraisonSuivant : plages.get(plages.size()-1).getLivraisons()) {
+				if (livraison != livraisonSuivant) {
+					ajouterCheminPossible(livraison, livraisonSuivant, previous, cheminsPossibles);
+				}
+			}
+			ajouterCheminPossible(livraison, entrepot, previous, cheminsPossibles);
+		}
+
+
+	}
+
+	private void ajouterCheminPossible(Livraison source, Livraison destination, int[] previous, HashMap<int[], Chemin> cheminsPossibles) {
+		int arrivee = destination.getAdresse().getNoeudID();
+		int depart;
+		List<Troncon> troncons = new ArrayList<Troncon>();
+		while ((depart=previous[arrivee]) != 0) {
+			ArrayList<Troncon> tronconsSortants = graphe.getListeVoisins().get(depart);
+			for (Troncon troncon : tronconsSortants) {
+				if (troncon.getFin().getNoeudID() == arrivee) {
+					troncons.add(0, troncon);
+				}
+			}
+			arrivee = depart;
+		}
+		Chemin chemin = new Chemin(source, destination, troncons);
+		int[] deuxLivraisonsID = {source.getAdresse().getNoeudID, destination.getAdresse().getNoeudID()};
+		cheminsPossibles.put(deuxLivraisonsID, chemin);
 	}
 
 	private int[] dijkstra(int source) {
@@ -293,23 +338,6 @@ public class Zone extends Observable {
 			}
 		}
 		return previous;
-	}
-
-
-	private List<Troncon> dessinerChemin(int[] previous, int destination) {
-		int arrivee = destination;
-		int depart;
-		List<Troncon> troncons = new ArrayList<Troncon>();
-		while ((depart=previous[arrivee]) != 0) {
-			ArrayList<Troncon> tronconsSortants = graphe.getListeVoisins().get(depart);
-			for (Troncon troncon : tronconsSortants) {
-				if (troncon.getFin().getNoeudID() == arrivee) {
-					troncons.add(0, troncon);
-				}
-			}
-			arrivee = depart;
-		}
-		return troncons;
 	}
 	
 	public Set<Noeud> GetNoeuds(){
