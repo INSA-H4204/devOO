@@ -82,11 +82,11 @@ public class Controleur {
 				} else {
 					this.noeudSelectionne = noeudClique;
 				}
-				if (noeudSelectionne.getLivraison() == null) {
-					// Vue.ActiverBoutonAjouter -> Gabriel
-				} else {
-					// Vue.ActiverBoutonSupprimer -> Gabriel
-				}
+//				if (noeudSelectionne.getLivraison() == null) {
+//					// Vue.ActiverBoutonAjouter -> Gabriel
+//				} else {
+//					// Vue.ActiverBoutonSupprimer -> Gabriel
+//				}
 			}
 			selectionActive = true;
 		}

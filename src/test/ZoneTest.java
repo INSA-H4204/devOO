@@ -92,7 +92,7 @@ public class ZoneTest {
 	 
 	 @Test
 	 public void tronconSansNoeud() throws Exception {
-	      assertFalse("Echec - La méthode de vérification du fichier XML aurait du lancer une exception car il y a un troncon sans noeud d'origine ou de fin",zone.verifierUnfichierXML(TronconSansNoeudStr,XsdFile));
+	      assertFalse("Echec - La méthode de vérification du fichier XML aurait du declencher une erreur car il y a un troncon sans noeud d'origine ou de fin",zone.verifierUnfichierXML(TronconSansNoeudStr,XsdFile));
 	 }
 	 
 	 //---------------------Chargement d'une livraison-----------------------------------------//

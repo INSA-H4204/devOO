@@ -11,7 +11,7 @@ public class TourneeTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		
+		Tournee tournee;
 	}
 
 	@After

@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
  * Une route à double sens se symbolisera donc par deux tronçons de sens
  * opposés entre les mêmes noeuds.
  * 
- * @hgerard
+ * @hgerard	
  */
 public class Troncon extends Observable {
 
