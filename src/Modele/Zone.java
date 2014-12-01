@@ -34,7 +34,14 @@ public class Zone extends Observable {
 	private List<PlageHoraire> plages;
 	private Graphe graphe;
 	private Livraison entrepot;
+	private static int ecartTolere = 5;
+	private Tournee tournee;
+
 	
+	public Tournee getTournee() {
+		return tournee;
+	}
+
 	/**
 	 * Constructeur par défaut de Zone
 	 */
