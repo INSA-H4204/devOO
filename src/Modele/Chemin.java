@@ -9,6 +9,8 @@ import java.util.*;
  */
 public class Chemin extends Observable {
 
+
+	
 	private Livraison arrivee;
 	private Livraison depart;
 	private List<Troncon> troncons;
@@ -27,6 +29,13 @@ public class Chemin extends Observable {
 		this.depart = depart;
 		this.troncons = troncons;
 	}
+	public List<Troncon> getTroncons() {
+		return troncons;
+	}
+	public Livraison getArrivee() {
+		return arrivee;
+	}
+
 	/**
 	 * 
 	 */

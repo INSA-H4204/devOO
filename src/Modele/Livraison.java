@@ -35,6 +35,10 @@ public class Livraison extends Observable {
 		plage = new PlageHoraire();
 	}
 	
+	public Calendar getHeureLivraisonPrevue() {
+		return heureLivraisonPrevue;
+	}
+
 	public Livraison(int clientId,int livraisonId,Calendar heureLivraisonPrevue,boolean isZoneVide,Noeud adresse) {
 		this.clientID = clientId;
 		this.livraisonID = livraisonId;
@@ -43,6 +47,14 @@ public class Livraison extends Observable {
 		this.adresse = adresse;
 		this.cheminIn = new Chemin();
 		this.cheminOut = new Chemin();
+	}
+
+	public int getLivraisonID() {
+		return livraisonID;
+	}
+
+	public int getClientID() {
+		return clientID;
 	}
 
 	/**

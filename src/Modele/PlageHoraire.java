@@ -11,6 +11,10 @@ import java.util.*;
 public class PlageHoraire extends Observable {
 
 	public Calendar heureDebut ;
+	public Calendar getHeureDebut() {
+		return heureDebut;
+	}
+
 	public Calendar heureFin ;
 	private List<Livraison> livraisonsOrdonnees;
 	private Set<Livraison> livraisons;

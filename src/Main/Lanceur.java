@@ -15,5 +15,7 @@ public class Lanceur {
 		Zone zone = new Zone();
 		Controleur ctrl = new Controleur(zone);
 		ctrl.displayViews();
+		
+		//ctrl.imprimerFeuilleDeRoute();
 	}
 }

@@ -23,6 +23,10 @@ public class Troncon extends Observable {
 	private int longueur ;
 	private Etat etatTroncon;
 	private Noeud fin;
+	public String getNomRue() {
+		return nomRue;
+	}
+
 	private Noeud origine;
 	private List<Observer> observers;
 	
