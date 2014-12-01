@@ -9,6 +9,7 @@ import java.util.*;
  */
 public class Chemin extends Observable {
 
+	// Chemin should prbably not contain Livraison. Especially since Livraison contains Chemin.
 	private Livraison arrivee;
 	private Livraison depart;
 	private List<Troncon> troncons;
