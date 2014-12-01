@@ -301,20 +301,20 @@ public class Zone extends Observable {
 			arrivee = depart;
 		}
 		Chemin chemin = new Chemin(source, destination, troncons);
-		int[] deuxLivraisonsID = {source.getAdresse().getNoeudID, destination.getAdresse().getNoeudID()};
+		int[] deuxLivraisonsID = {source.getAdresse().getNoeudID(), destination.getAdresse().getNoeudID()};
 		cheminsPossibles.put(deuxLivraisonsID, chemin);
 	}
 
 	private int[] dijkstra(int source) {
-		int[] distance = new int[graphe.getNombreNoeuds()];
-		int[] previous = new int[graphe.getNombreNoeuds()];
-		boolean[] visited = new boolean[graphe.getNombreNoeuds()];
+		int[] distance = new int[graphe.getNbVertices()];
+		int[] previous = new int[graphe.getNbVertices()];
+		boolean[] visited = new boolean[graphe.getNbVertices()];
 		Arrays.fill(distance, Integer.MAX_VALUE);
 		Arrays.fill(previous, -1);
 
 		distance[source] = 0;
 		previous[source] = 0;	
-		int[][] costs = graphe.getCouts();
+		int[][] costs = graphe.getCost();
 		PriorityQueue<DoubleInteger> Q = new PriorityQueue<DoubleInteger>();
 
 		Q.add(new DoubleInteger(source, 0));

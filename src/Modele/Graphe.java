@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class Graphe {
+public class Graphe implements Graph {
 	// Attributs
 	private int nombreNoeuds;
 	private int[][] couts; 
@@ -23,14 +23,7 @@ public class Graphe {
 		}
 	}
 	
-	public int getNombreNoeuds() {
-		return nombreNoeuds;
-	}
-	
-	public int[][] getCouts() {
-		return couts;
-	}
-	
+	@Override
 	public int[] getSucc(int index) throws ArrayIndexOutOfBoundsException {
 		int[] returnValue = new int[listeVoisins.get(index).size()];
 		for (int i=0; i<listeVoisins.get(index).size(); i++) {
@@ -39,11 +32,36 @@ public class Graphe {
 		return returnValue;
 	}
 	
+	@Override
 	public int getNbSucc(int index) throws ArrayIndexOutOfBoundsException {
 		return listeVoisins.get(index).size();
 	}
 	
 	public ArrayList<ArrayList<Troncon>> getListeVoisins() {
 		return listeVoisins;
+	}
+
+	@Override
+	public int getMaxArcCost() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getMinArcCost() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getNbVertices() {
+		// TODO Auto-generated method stub
+		return nombreNoeuds;
+	}
+
+	@Override
+	public int[][] getCost() {
+		// TODO Auto-generated method stub
+		return couts;
 	}
 }
