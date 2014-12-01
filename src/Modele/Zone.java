@@ -260,6 +260,7 @@ public class Zone extends Observable {
 		HashMap<int[], Chemin> cheminsPossibles = new HashMap<int[], Chemin>();
 
 		//Calculer les chemins entre l'entrepot et chaque livraison de premiere plage
+		
 		int[] previous = dijkstra(entrepot.getAdresse().getNoeudID());
 		for (Livraison livraison : plages.get(0).getLivraisons()) {
 			ajouterCheminPossible(entrepot, livraison, previous, cheminsPossibles);
