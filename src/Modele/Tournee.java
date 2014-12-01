@@ -14,6 +14,14 @@ public class Tournee extends Observable {
 	private Livraison entrepot;
 	private List<PlageHoraire> plages;
 	
+	public Livraison getEntrepot() {
+		return entrepot;
+	}
+
+	public List<Chemin> getChemins() {
+		return chemins;
+	}
+
 	/**
 	 * Constructeur par défaut de Tournée
 	 */

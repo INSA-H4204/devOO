@@ -1,12 +1,20 @@
 package Controleur;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Stack;
 
 import Modele.Livraison;
 import Modele.Noeud;
 import Modele.PlageHoraire;
+import Modele.Tournee;
 import Modele.Zone;
+import Modele.Chemin;
+import Modele.Troncon;
 import Vue.VueNoeud;
 import Vue.VueTroncon;
 import Vue.VueZone;
@@ -111,15 +119,47 @@ public class Controleur {
 	/**
 	 * 
 	 */
-	private void calculerTournee() {
+	private void calculerTournee(Tournee tournee) {
 		// TODO implement here
 	}
 	
 	/**
+	* Appelee par le bouton "Valider feuille de route" pour creer le fichier texte de la feuille de route
 	 * 
+	 * @author thelmer
 	 */
 	public void imprimerFeuilleDeRoute() {
-		// TODO implement here
+
+	     try {
+             
+             // 1) Creation de la feuille de route
+             BufferedWriter out = new BufferedWriter(new FileWriter(new File("feuille_de_route_zone.txt")));
+           
+             try {
+               
+                  // 2) écriture de la feuille de route
+                  out.write("Partez de l'entrepôt situé "+String.valueOf(zone.getTournee().getEntrepot().getAdresse().getNoeudID())+" à "+String.valueOf(zone.getTournee().getEntrepot().getHeureLivraisonPrevue().get(Calendar.HOUR_OF_DAY)));
+                  for(Chemin chemin:zone.getTournee().getChemins())  {
+                	  for(Troncon troncon:chemin.getTroncons()) {
+                		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
+                	  }
+                	  if(chemin.getArrivee().getLivraisonID()!=0)
+                		  out.write("Livrez la commande numéro "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numéro "+String.valueOf(chemin.getArrivee().getClientID())+" à l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" après "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().get(Calendar.HOUR_OF_DAY)));
+                	  else
+                		  out.write("Vous êtes de retour à l'entrepot");
+                  }
+             } finally {
+               
+                  // 3) Libération de la ressource exploitée par l'objet
+                  out.close();
+               
+             }
+        
+           
+         }
+	     catch (IOException e) {
+             e.printStackTrace();
+         }
 	}
 	
 	/**
@@ -141,7 +181,7 @@ public class Controleur {
 	public void actionBoutonValider(){
 		String idClient = ""; /*getIdClientVue() --> GABRIEL*/
 		if ((noeudPrecedent != null) /*&& (idClient != "")*/){
-			CdeAjouterLivraison ajout1 = new CdeAjouterLivraison(noeudPrecedent, noeudSelectionne, idClient);
+			CdeAjouterLivraison ajout1 = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout1);
 			ajout1.execute();
 		}
