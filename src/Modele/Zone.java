@@ -35,7 +35,7 @@ public class Zone extends Observable {
 	private List<PlageHoraire> plages;
 	private NotreGraphe grapheOriginal;
 	private Livraison entrepot;
-
+	private Graphe graphe;
 	private static int ecartTolere = 5;
 	private Tournee tournee;
 
