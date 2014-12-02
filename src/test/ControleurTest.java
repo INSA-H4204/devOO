@@ -74,7 +74,7 @@ public class ControleurTest {
 		Field noeudPrecedentField = Controleur.class.getDeclaredField("noeudPrecedent");
 		noeudPrecedentField.setAccessible(true);
 		assertEquals(noeudPrecedentField.get(ctrl),noeudCherche);
-	}	
+	}
 	
 	@Test
 	public void selectionLivraisonFail() throws Exception {
@@ -94,6 +94,7 @@ public class ControleurTest {
 		assertNull(noeudPrecedentField.get(ctrl));
 	}	
 
+
 	@Test
 	public void ajoutLivraison() throws Exception {
 		Zone zone = new Zone();
@@ -107,7 +108,6 @@ public class ControleurTest {
 		ctrl.actionBoutonAjouter();
 		ctrl.selectionnerNoeud(400,200);
 		ctrl.actionBoutonValider();
-		
 	}	
 	
 }

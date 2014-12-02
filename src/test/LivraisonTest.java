@@ -27,9 +27,5 @@ public class LivraisonTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
-	public void test() {
-		
-	}
 
 }

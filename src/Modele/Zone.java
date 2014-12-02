@@ -33,9 +33,8 @@ public class Zone extends Observable {
 	private Map<Integer, Noeud> noeuds;
 	private List<Observer> observers;
 	private List<PlageHoraire> plages;
-	private NotreGraphe grapheOriginal;
 	private Livraison entrepot;
-	private Graphe graphe;
+	private NotreGraphe grapheOriginal;
 	private static int ecartTolere = 5;
 	private Tournee tournee;
 
@@ -48,7 +47,6 @@ public class Zone extends Observable {
      * @author Yousra
 	 */
 	public Zone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
-		
 		troncons = new HashSet<Troncon>();
 		noeuds = new HashMap<Integer,Noeud>();
 		plages = new ArrayList<PlageHoraire>();
