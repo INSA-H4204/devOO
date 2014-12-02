@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 
 import Controleur.Controleur;
 
-public class VueApplication extends JFrame implements Observer,ActionListener {
+public class VueApplication extends JFrame implements Observer {
 
 	protected Controleur ctrl;
 	private VueInfo vueInfo = new VueInfo();
@@ -27,29 +27,40 @@ public class VueApplication extends JFrame implements Observer,ActionListener {
 	private final float COEF_METRE_PX_X = (float) (5.9/8.0);
 	private final float COEF_METRE_PX_Y = (float) (6.3/8.0);
 
+	/**
+	 * 
+	 * @param ctrl
+	 */
 	public VueApplication(Controleur ctrl) {
 		this.ctrl = ctrl;
 		construireVue();
 	}
 	
+	/**
+	 * 
+	 */
 	@Override
 	public void update(Observable obs, Object obj) {
 		System.out.println("ok");
 	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		this.ctrl.chargerZone();
-	}
 
+	/**
+	 * 
+	 */
 	public void afficher() {
 		this.setVisible(true);
 	}
 
+	/**
+	 * 
+	 */
 	public void fermer() {
 		this.setVisible(false);
 	}
-
+	
+	/**
+	 * 
+	 */
 	public void construireVue() {
 		this.setTitle("Projet DevOO");
 		this.setSize(LARGEUR_FENETRE, HAUTEUR_FENETRE);
@@ -88,7 +99,7 @@ public class VueApplication extends JFrame implements Observer,ActionListener {
 		gbc.ipady = 200;
 		this.getContentPane().add(vueInfo, gbc);
 
-		vuePlageHoraire.btnRecLiv.addActionListener(this);
+		vuePlageHoraire.btnRecLiv.addActionListener(ctrl);
 
 	}
 
@@ -106,7 +117,12 @@ public class VueApplication extends JFrame implements Observer,ActionListener {
 		}
 		return listeVueNoeud;
 	}
-
+	
+	/**
+	 * 
+	 * @param listeX
+	 * @param listeY
+	 */
 	public void chargerNoeuds(List<Integer> listeX, List<Integer> listeY) {
 
 		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
@@ -119,7 +135,12 @@ public class VueApplication extends JFrame implements Observer,ActionListener {
 		vueZone.chargerNoeuds(listeVueNoeud);
 	}
 
-	
+	/**
+	 * 
+	 * @param coordonnee
+	 * @param xOuY
+	 * @return
+	 */
 	private int convertiseurMetrePixel(int coordonnee, char xOuY) {
 		switch (xOuY) {
 		case 'x':
