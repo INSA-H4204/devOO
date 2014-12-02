@@ -34,7 +34,10 @@ public class Zone extends Observable {
 	private List<Observer> observers;
 	private List<PlageHoraire> plages;
 	private Livraison entrepot;
+<<<<<<< HEAD
 	private NotreGraphe grapheOriginal;
+=======
+>>>>>>> b132d224898f7dd08c2a02af43761e07a774c463
 	private static int ecartTolere = 5;
 	private Tournee tournee;
 
@@ -138,6 +141,11 @@ public class Zone extends Observable {
 		}
 		return null;
 	}
+	/**
+	 * Retourne un noeud qui a comme id celui passé en paramètre
+	 * @param int noeudId
+	 * @return Noeud 
+	 */
 
 	
 	
@@ -155,8 +163,6 @@ public class Zone extends Observable {
 	}
 
 	
-
-	
 	/**
      * @author Yousra
 	 */
@@ -172,7 +178,8 @@ public class Zone extends Observable {
         }
         return true;
 	}
-	
+
+
 	/**
 	 * @param xmlFilePathLivraison (le chemin du fichier xml DemandeLivaison)
 	 * @param xsdFilePathLivraison (le chemin du fichier xsd Plan pour valider le fichier xml)
@@ -204,8 +211,7 @@ public class Zone extends Observable {
 						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
 							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);						
-							
-							//Creation d'un constructeur PlageHoraire(Element plageHoraireElement) plus pertinent ici
+
 							PlageHoraire plageHoraire = new PlageHoraire();
 							listeTousLivraisons=plageHoraire.construirePlageAPartirDeDOMXML(plageHoraireElement,this,listeTousLivraisons);
 							if(!verifierPlage(plageHoraire,listeTousPlagesH)){
@@ -228,8 +234,8 @@ public class Zone extends Observable {
 		}
 	}
 	/**
-	 * Vï¿½rifier si l'heure de ï¿½but est avant heure fin et s'il y a des intersection entre la plage courante et toutes les autres plages
-	 * @param plage   La plage horaire ï¿½ valider
+	 * Verifier si l'heure de debut est avant heure fin et s'il y a des intersection entre la plage courante et toutes les autres plages
+	 * @param plage   La plage horaire a valider
 	 * @param plages  Liste des plages Horaire
 	 * return bool    True si on trouve une intersection ou si la plage est valide sinon False
      * @author Yousra
@@ -249,7 +255,7 @@ public class Zone extends Observable {
 	}
 	
 	public void calculerTournee() {
-		Tournee tournee = new Tournee(plages, entrepot);
+		tournee = new Tournee(plages, entrepot);
 		tournee.calculer(this);
 	}
 	
