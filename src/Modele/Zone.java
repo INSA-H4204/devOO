@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.Map.Entry;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -29,7 +30,7 @@ import Modele.*;
 public class Zone extends Observable {
 
 	private Set<Troncon> troncons;
-	private Set<Noeud> noeuds;
+	private Map<Integer, Noeud> noeuds;
 	private List<Observer> observers;
 	private List<PlageHoraire> plages;
 	private Graphe graphe;
@@ -47,7 +48,7 @@ public class Zone extends Observable {
 	 */
 	public Zone() {
 		troncons = new HashSet<Troncon>();
-		noeuds = new HashSet<Noeud>();
+		noeuds = new HashMap<Integer,Noeud>();
 		plages = new ArrayList<PlageHoraire>();
 		observers = new ArrayList<Observer>();
 		graphe = new Graphe(troncons, noeuds.size());
@@ -62,24 +63,20 @@ public class Zone extends Observable {
 	 */
 	public Noeud rechercherNoeudParPosition(int x, int y) {
 		int ecartTolere = 5;
-		for (Noeud noeud : noeuds){
-			int xNoeud = noeud.getPosX();
-			int yNoeud = noeud.getPosY();
+//		Iterator iter = noeuds.keySet().iterator();
+		for(Entry<Integer, Noeud> iter : noeuds.entrySet()) {
+//		while (iter.hasNext()){
+			int xNoeud = iter.getValue().getPosX();
+			int yNoeud = iter.getValue().getPosY();
 			if ((x < xNoeud + ecartTolere) && (x > xNoeud - ecartTolere) && (y < yNoeud + ecartTolere) && (y > yNoeud - ecartTolere)){
-				return noeud;
+				return iter.getValue();
 			}
 		}
 		return null;
 	}
 
-	public Noeud rechercherNoeudParId(int noeudId) {
-		for (Noeud noeud : noeuds){
-			if (noeud.getNoeudID()==noeudId){
-				return noeud;
-			}
-		}
-		return null;
-	}
+	
+	
 	/**
 	 * Renvoie un booleen true si la Zone contient un set de Livraison vide
 	 * @return boolean isSansLivraison
@@ -137,30 +134,23 @@ public class Zone extends Observable {
 					if (racine.getNodeName().equals("Reseau")) 
 					{   					
 						NodeList listeNoeudsXML = racine.getElementsByTagName("Noeud");
-						//Set<Noeud> listeNoeuds = new HashSet<Noeud>();
-						List<Noeud> listeNoeuds = new ArrayList<Noeud>();
 						for(int i=0; i<listeNoeudsXML.getLength();i++) 
 						{
-							listeNoeuds.add(new Noeud((Element)listeNoeudsXML.item(i)));                	   
+							int key =  Integer.parseInt((String) ((DocumentBuilderFactory) listeNoeudsXML.item(i)).getAttribute("id")) ;
+							noeuds.put(key,new Noeud((Element)listeNoeudsXML.item(i)));                	   
 						}
-						List<Troncon> listeTroncons = new ArrayList<Troncon>();
-	                   //Set<Troncon> listeTousLesTroncons = new HashSet<Troncon>();
 	                   for(int i=0; i<listeNoeudsXML.getLength();i++) 
 	                   {                	    
 	                	   Element noeudElement = (Element) listeNoeudsXML.item(i);
-	                	   //Integer idNoeudCourant = Integer.parseInt(noeudElement.getAttribute("id"));
 	                	   NodeList listeTronconsNoeudXML = noeudElement.getElementsByTagName("LeTronconSortant");
-	                	   //Set<Troncon> listeTronconsNoeud = new HashSet<Troncon>();
 	                	   for (int j=0; j<listeTronconsNoeudXML.getLength();j++) 
 	                	   {
 	                		   Element tronconElt = (Element) listeTronconsNoeudXML.item(j);
-	                		   Noeud origine = listeNoeuds.get(i);
-	                		   Noeud fin = listeNoeuds.get(Integer.parseInt(tronconElt.getAttribute("idNoeudDestination")));
-	                		   listeTroncons.add(new Troncon(tronconElt,origine,fin));
+	                		   Noeud origine = noeuds.get(i);
+	                		   Noeud fin = noeuds.get(Integer.parseInt(tronconElt.getAttribute("idNoeudDestination")));
+	                		   troncons.add(new Troncon(tronconElt,origine,fin));
 	                	   }               	   
 	                   }
-	                   this.noeuds = new HashSet<Noeud>(listeNoeuds);
-	                   this.troncons = new HashSet<Troncon>(listeTroncons);
 	                   
 				   }	
 	               else 
@@ -204,13 +194,15 @@ public class Zone extends Observable {
 					if (racine.getNodeName().equals("JourneeType")) {
 						Element entrepotElement = (Element)racine.getElementsByTagName("Entrepot") .item(0);
 						Noeud adresseEntrepot= new Noeud();
-						adresseEntrepot=rechercherNoeudParId(Integer.parseInt(entrepotElement.getAttribute("adresse")));
+						adresseEntrepot = noeuds.get(Integer.parseInt(entrepotElement.getAttribute("adresse")));
 						Livraison entrepot = new Livraison(adresseEntrepot);
 						this.setEntrepot(entrepot);
 
 						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
 							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);						
+							
+							//Creation d'un constructeur PlageHoraire(Element plageHoraireElement) plus pertinent ici
 							PlageHoraire plageHoraire = new PlageHoraire();
 							listeTousLivraisons=plageHoraire.construirePlageAPartirDeDOMXML(plageHoraireElement,this,listeTousLivraisons);
 							if(!verifierPlage(plageHoraire,listeTousPlagesH)){
@@ -347,17 +339,11 @@ public class Zone extends Observable {
 		return previous;
 	}
 	
-	public Set<Noeud> GetNoeuds(){
+	public Map<Integer,Noeud> GetNoeuds(){
 		return noeuds;
 	}
 
-	public void setTroncons(Set<Troncon> troncons) {
-		this.troncons=troncons;
-	}
 
-	public void setNoeuds(Set<Noeud> listeNoeuds) {
-		this.noeuds=listeNoeuds;
-	}
 	public void setEntrepot(Livraison entrepot) {
 		this.entrepot=entrepot;
 	}
@@ -366,7 +352,7 @@ public class Zone extends Observable {
 	}
 
 	public void addNoeud(Noeud noeud) {
-		noeuds.add(noeud);
+		noeuds.put(noeud.getNoeudID(),noeud);
 	}
 	
 	public Set<Troncon> GetTroncons() {

@@ -5,6 +5,7 @@ import Modele.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import static org.junit.Assert.*;
 import org.junit.After;
@@ -59,10 +60,10 @@ public class ZoneTest {
 	 public void integriteNoeuds() throws Exception {
 		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.GetNoeuds().size());
 		assertEquals("Echec - Aucun troncon n'a été chargé",zone.GetTroncons().size());
-		for (Noeud n : zone.GetNoeuds() ) {
-			assertNotNull("Echec - L'id n'est pas renseigné",n.getNoeudID());
-			assertNotNull("Echec - X n'est pas renseigné",n.getPosX());
-			assertNotNull("Echec - Y n'est pas renseigné",n.getPosY());
+		for(Entry<Integer, Noeud> iter : zone.GetNoeuds().entrySet()) {
+			assertNotNull("Echec - L'id n'est pas renseigné",iter.getValue().getNoeudID());
+			assertNotNull("Echec - X n'est pas renseigné",iter.getValue().getPosX());
+			assertNotNull("Echec - Y n'est pas renseigné",iter.getValue().getPosY());
 		}
 		for (Troncon t : zone.GetTroncons() ) {
 			assertNotNull("Echec - Troncon sans origine",t.getOrigine());
