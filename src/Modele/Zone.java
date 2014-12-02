@@ -47,6 +47,9 @@ public class Zone extends Observable {
      * @author Yousra
 	 */
 	public Zone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
+		System.out.println(xmlFilePathPlan);
+		System.out.println(xsdFilePathPlan);
+		System.out.println("**********************************************");
 		troncons = new HashSet<Troncon>();
 		noeuds = new HashMap<Integer,Noeud>();
 		plages = new ArrayList<PlageHoraire>();
@@ -171,7 +174,8 @@ public class Zone extends Observable {
             validator.validate(new StreamSource(new File(xmlFilePath)));
         } catch (IOException | SAXException e) {
             System.out.println("Exception: "+e.getMessage());
-            //return false;
+           // System.exit(0);
+            return false;
         }
         return true;
 	}
@@ -184,12 +188,15 @@ public class Zone extends Observable {
 	 */
 	public void XMLtoDOMLivraisons(String xmlFilePathLivraison, String xsdFilePathLivraison) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
 
+		System.out.println(xmlFilePathLivraison);
+		System.out.println(xsdFilePathLivraison);
 		File xml = new File(xmlFilePathLivraison);
 		if (!xml.exists()) {
 			throw new FileNotFoundException();
 		}
 		else {
 				if(verifierUnfichierXML(xmlFilePathLivraison, xsdFilePathLivraison)){
+					System.out.println("yousra---------------------------------------");
 					List<PlageHoraire> listeTousPlagesH = new ArrayList<PlageHoraire>();
 					List<Livraison> listeTousLivraisons = new ArrayList<Livraison>();
 
