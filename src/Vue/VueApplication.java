@@ -61,11 +61,7 @@ public class VueApplication extends JFrame implements Observer {
 		}
 		System.out.println("hej");
 	}
-
-	private void updateNoeud(Noeud n) {
-
-	}
-
+	
 	/**
 	 * 
 	 */
