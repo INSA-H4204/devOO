@@ -85,8 +85,8 @@ public class Controleur implements ActionListener {
 	 * @param 	int y 				La coordonée y du click effectué sur la carte
 	 */
 	public void selectionnerNoeud(int x, int y){
-		
-		if (selectionActive) {
+		verifierSiZoneSansLivraison();
+		if (selectionActive && isZoneSansLivraison) {
 			selectionActive = false;
 			Noeud noeudClique = zone.rechercherNoeudParPosition(x,y);
 			if (noeudClique != null) {
