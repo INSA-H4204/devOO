@@ -8,14 +8,16 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 import javax.swing.JFrame;
 
 import Controleur.Controleur;
 
-public class VueApplication extends VueGenerale implements ActionListener {
+public class VueApplication extends JFrame implements Observer,ActionListener {
 
+	protected Controleur ctrl;
 	private VueInfo vueInfo = new VueInfo();
 	private VuePlageHoraire vuePlageHoraire = new VuePlageHoraire();
 	private VueZone vueZone = new VueZone();
@@ -26,12 +28,18 @@ public class VueApplication extends VueGenerale implements ActionListener {
 	private final float COEF_METRE_PX_Y = (float) (6.3/8.0);
 
 	public VueApplication(Controleur ctrl) {
-		super(ctrl);
+		this.ctrl = ctrl;
 		construireVue();
 	}
-
+	
+	@Override
 	public void update(Observable obs, Object obj) {
-
+		System.out.println("ok");
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		this.ctrl.chargerZone();
 	}
 
 	public void afficher() {
@@ -88,7 +96,7 @@ public class VueApplication extends VueGenerale implements ActionListener {
 	public List<VueNoeud> creerListeNoeuds() {
 
 		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
-		for (int i = 1; i < 1000; i++) {
+		for (int i = 1; i < 400; i++) {
 			Random rand = new Random();
 
 			int x = rand.nextInt((800 - 0) + 1) + 0;
@@ -103,10 +111,8 @@ public class VueApplication extends VueGenerale implements ActionListener {
 
 		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
 		for (int i = 0; i < listeX.size(); i++) {
-			System.out.print(i + ") Entree: (" + listeX.get(i) + " , " + listeY.get(i) + ") -->");
 			int x = convertiseurMetrePixel(listeX.get(i), 'x');
 			int y = convertiseurMetrePixel(listeY.get(i), 'y');
-			System.out.println("Sortie: ("+x+" , "+y+")");
 			VueNoeud vn = new VueNoeud(x, y);
 			listeVueNoeud.add(vn);
 		}
@@ -126,10 +132,5 @@ public class VueApplication extends VueGenerale implements ActionListener {
 			return 0;
 
 		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		super.ctrl.chargerZone();
 	}
 }
