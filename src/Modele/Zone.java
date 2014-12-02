@@ -34,10 +34,7 @@ public class Zone extends Observable {
 	private List<Observer> observers;
 	private List<PlageHoraire> plages;
 	private Livraison entrepot;
-<<<<<<< HEAD
 	private NotreGraphe grapheOriginal;
-=======
->>>>>>> b132d224898f7dd08c2a02af43761e07a774c463
 	private static int ecartTolere = 5;
 	private Tournee tournee;
 
@@ -142,7 +139,7 @@ public class Zone extends Observable {
 		return null;
 	}
 	/**
-	 * Retourne un noeud qui a comme id celui passé en paramètre
+	 * Retourne un noeud qui a comme id celui passï¿½ en paramï¿½tre
 	 * @param int noeudId
 	 * @return Noeud 
 	 */
