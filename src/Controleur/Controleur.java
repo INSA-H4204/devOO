@@ -4,11 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Stack;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import Modele.Livraison;
 import Modele.Noeud;
@@ -57,7 +63,6 @@ public class Controleur implements ActionListener {
 	 * @author hgerard
 	 */
 	public Controleur(Zone zone) {
-		
 		this.zone = zone;
 		vueApplication = new VueApplication(this);
 		isZoneSansLivraison = true;
@@ -95,11 +100,11 @@ public class Controleur implements ActionListener {
 				} else {
 					this.noeudSelectionne = noeudClique;
 				}
-				if (noeudSelectionne.getLivraison() == null) {
-					// vueApplication.ActiverBoutonAjouter() -> Gabriel
-				} else {
-					// vueApplication.ActiverBoutonSupprimer() -> Gabriel
-				}
+//				if (noeudSelectionne.getLivraison() == null) {
+//					// Vue.ActiverBoutonAjouter -> Gabriel
+//				} else {
+//					// Vue.ActiverBoutonSupprimer -> Gabriel
+//				}
 			}
 			selectionActive = true;
 		}
@@ -107,18 +112,25 @@ public class Controleur implements ActionListener {
 
 	/**
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la tournée
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
+	 * @throws ParseException 
 	 * 
 	 */
-	public void chargerLivraisons(File XMLFilePath) {
-		// TODO implement here
+	public void chargerLivraisons(String XMLFilePath) throws ParseException, ParserConfigurationException, SAXException, IOException {
+		zone.XMLtoDOMLivraisons(XMLFilePath,"Resources/demandeLivraison.xsd" );
 	}
 	
 	/**
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
+	 * @throws SAXException 
+	 * @throws FileNotFoundException 
+	 * @throws NumberFormatException 
 	 * 
 	 */
-	public void chargerZone(File XMLFilePath) {
-		// TODO implement here
+	public void chargerZone(String XMLFilePath) throws NumberFormatException, FileNotFoundException, SAXException {
+		zone = new Zone(XMLFilePath,"Resources/plan.xsd");
 	}
 	
 	/**

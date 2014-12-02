@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
  * @author hgerard
  */
 public class Noeud extends Observable {
-
+	
 	private int noeudID;
 	private int posX;
 	private int posY;
@@ -36,6 +36,7 @@ public class Noeud extends Observable {
 		posX = x;
 		posY = y;
 		livraison = new Livraison();
+		tronconsSortants= new ArrayList <Troncon> ();
 	}
 	
 	
@@ -47,16 +48,17 @@ public class Noeud extends Observable {
 	public Noeud(Element noeudElement) {
 		this.noeudID = Integer.parseInt(noeudElement.getAttribute("id"));
 		this.posX = Integer.parseInt(noeudElement.getAttribute("x"));
-		this.posY = Integer.parseInt(noeudElement.getAttribute("y"));	
+		this.posY = Integer.parseInt(noeudElement.getAttribute("y"));
+		tronconsSortants= new ArrayList <Troncon> ();
 	}
-
+	
 
 	public int getPosX() {
 		return posX;
 	}
 	
 	public int getPosY() {
-		return posX;
+		return posY;
 	}
 	
 	public int getNoeudID() {
@@ -66,6 +68,12 @@ public class Noeud extends Observable {
 	public Livraison getLivraison() {
 		return livraison;
 	}
+
+
+	public void setTroncons(List<Troncon> troncons) {
+		this.tronconsSortants=troncons;
+	}
+
 	
 	public List<Troncon> getTronconsSortants() {
 		return tronconsSortants;
