@@ -192,7 +192,7 @@ public class Controleur implements ActionListener {
 	
 	/**
 	 * Appelée par le bouton Valider pendant l'insertion de point de livraison
-	 * 
+	 * s
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){

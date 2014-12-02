@@ -28,7 +28,6 @@ public class ControleurTest {
 
 	@Test
 	public void selectionNoeudSuccess() throws Exception {
-		System.out.print("yeah");
 		Noeud noeudCherche = new Noeud(1,230,530);
 		Zone zone = new Zone();
 			zone.addNoeud(new Noeud(2,400,200));

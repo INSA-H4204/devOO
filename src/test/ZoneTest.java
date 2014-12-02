@@ -29,15 +29,24 @@ public class ZoneTest {
 	private static String NoeudSansTronconStr = "Resources/NoeudSansTroncon.xml";
 	private static String TronconSansNoeudStr = "Resources/TronconSansNoeud.xml";
 	private static String LivraisonCorrecteStr = "Resources/livraison20x20-2.xml";
+	private static String LivraisonLivraisonSansAdresse = "Resources/LivraisonLivraisonSansAdresse.xml";
+	private static String LivraisonEntrepotSansAdresse = "Resources/LivraisonEntrepotSansAdresse.xml";
+	private static String LivraisonHeureDebutSupHeureFin = "Resources/LivraisonHeureDebutSupHeureFin.xml";
+	private static String LivraisonPlageHoraireVide = "Resources/LivraisonPlageHoraireVide.xml";
+	private static String LivraisonPlageSansHeure = "Resources/LivraisonPlageSansHeure.xml";
+	private static String LivraisonPlageSansLivraison = "Resources/LivraisonPlageSansLivraison.xml";
+	private static String LivraisonSansAdresse = "Resources/LivraisonSansAdresse.xml";
+	private static String LivraisonSansClient = "Resources/LivraisonSansClient.xml";
+	private static String LivraisonSansEntrepot = "Resources/LivraisonSansEntrepot.xml";
+	private static String LivraisonSansId = "Resources/LivraisonSansId.xml";
+	private static String LivraisonSansPlageHoraires = "Resources/LivraisonSansPlageHoraires.xml";
+	
 	private static String XsdFile = "Resources/plan.xsd";
 	private static String xsdFilePathLivraison = "Resources/demandeLivraison.xsd";
 	
 	private Document livraisonXML;
 	
 	private Zone zone;
-	
-	@Rule
-	public ErrorCollector collector = new ErrorCollector();
 	
 	@Before
 	public void setUp() throws Exception {
@@ -81,9 +90,7 @@ public class ZoneTest {
 	 
 	 @Test//(expected=SAXParseException.class)
 	 public void AbsenceNoeud() throws Exception {
-		 //collector.checkThat(zone.XMLtoDOMZone(AbsenceNoeudStr,XsdFile), is(SAXParseException.class));
-		 //zone SAXParseException.class)
-	       //.XMLtoDOMZone(AbsenceNoeudStr,XsdFile);
+	       zone = new Zone(AbsenceNoeudStr,XsdFile);
 	 }
 	 
 	 @Test
@@ -101,15 +108,79 @@ public class ZoneTest {
 	 
 	 @Test
 	 public void XMLtoDOMLivraisons() throws Exception {
+		  zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
+	 }
+
+	 
+	 @Test
+	 public void LivraisonLivraisonSansAdresse() throws Exception {
 
 		  zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);	
+		  zone.XMLtoDOMLivraisons(LivraisonLivraisonSansAdresse,xsdFilePathLivraison);	
+	 }
+	 
+	 @Test
+	 public void LivraisonEntrepotSansAdresse() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonEntrepotSansAdresse,xsdFilePathLivraison);	
+	 }
+	
+	 @Test
+	 public void LivraisonHeureDebutSupHeureFin() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonHeureDebutSupHeureFin,xsdFilePathLivraison);	
+	 }
+	
+	 @Test
+	 public void LivraisonPlageHoraireVide() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonPlageHoraireVide,xsdFilePathLivraison);	
+	 }
+	 
+	 @Test
+	 public void LivraisonPlageSansLivraison() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonPlageSansLivraison,xsdFilePathLivraison);	
+	 }
+	 
+	 @Test
+	 public void LivraisonSansClient() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonSansClient,xsdFilePathLivraison);	
 	 }
 	 
 	 @Test
 	 public void LivraisonSansAdresse() throws Exception {
-		  
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonSansAdresse,xsdFilePathLivraison);	
 	 }
+	 
+	 @Test
+	 public void LivraisonPlageSansHeure() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonPlageSansHeure,xsdFilePathLivraison);	
+	 }
+	 
+	 @Test
+	 public void LivraisonSansEntrepot() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonSansEntrepot,xsdFilePathLivraison);	
+	 }
+	 
+
+	 @Test
+	 public void LivraisonSansId() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonSansId,xsdFilePathLivraison);	
+	 }
+	 @Test
+	 public void LivraisonSansPlageHoraires() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonSansPlageHoraires,xsdFilePathLivraison);	
+	 }
+	 
+	 
 	 
 	 //--------------------------Fin chargement Livraison---------------------------------------//
 	 
@@ -137,11 +208,11 @@ public class ZoneTest {
 	 
 	 @Test
 	 public void calculerTournee() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		 zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
 		 zone.calculerTournee();
-	 }
-	 
-	 @Test
-	 public void ajoutLivraison() throws Exception {
+		 assertNotNull(zone.getTournee());
+		 assertNotNull(zone.getTournee().getChemins());
 	 }
 
 }

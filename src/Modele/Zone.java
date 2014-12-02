@@ -253,6 +253,7 @@ public class Zone extends Observable {
 	
 	public void calculerTournee() {
 		tournee = new Tournee(plages, entrepot);
+		
 		tournee.calculer(this);
 	}
 	

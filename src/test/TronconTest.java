@@ -34,6 +34,5 @@ public class TronconTest {
 	public void getFin() {
 		assertEquals("Echec - le troncon n'a pas de fin",troncon.getFin(),fin);
 	}
-	
 
 }

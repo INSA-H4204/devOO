@@ -14,8 +14,6 @@ import org.junit.runners.Suite;
   PlageHoraireTest.class,
   TourneeTest.class,
   TronconTest.class,
-  //VueNoeudTest.class,
-  //VueTronconTest.class,
   ZoneTest.class
 })
 
