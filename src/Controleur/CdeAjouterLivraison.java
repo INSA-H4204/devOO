@@ -1,5 +1,8 @@
 package Controleur;
 
+import java.util.List;
+
+import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
 import Modele.PlageHoraire;
@@ -50,7 +53,10 @@ public class CdeAjouterLivraison extends Commande {
 	/**
 	 * Fonction appelée quand on execute la fonction normalement
 	 */
-	public void execute() {
+
+	protected void execute() {
+		List<Chemin> chemins = zone.getTournee().getChemins();
+
 		
 	}
 
@@ -68,13 +74,6 @@ public class CdeAjouterLivraison extends Commande {
 		// TODO implement here
 	}
 
-	/**
-	 * @param int idClient 
-	 * @param int idNoeud 
-	 * @param int idNoeudPrecedent
-	 */
-	public void AjouterLivraison(int idClient, int idNoeud, int idNoeudPrecedent) {
-		// TODO implement here
-	}
+
 
 }

@@ -31,7 +31,7 @@ public class Noeud extends Observable {
 	/**
 	 * Constructeur de Noeud
 	 */
-	public Noeud(int id,int posX,int posY) {
+	public Noeud(int noeudID,int posX,int posY) {
 		this.noeudID = noeudID;
 		this.posX = posX;
 		this.posY = posY;
