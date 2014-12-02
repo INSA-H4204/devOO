@@ -35,7 +35,6 @@ public class Zone extends Observable {
 	private List<PlageHoraire> plages;
 	private NotreGraphe grapheOriginal;
 	private Livraison entrepot;
-	private Graphe graphe;
 	private static int ecartTolere = 5;
 	private Tournee tournee;
 
@@ -251,7 +250,7 @@ public class Zone extends Observable {
 	}
 	
 	public void calculerTournee() {
-		Tournee tournee = new Tournee(plages, entrepot);
+		tournee = new Tournee(plages, entrepot);
 		tournee.calculer(this);
 	}
 	
