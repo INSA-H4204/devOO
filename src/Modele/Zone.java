@@ -224,13 +224,12 @@ public class Zone extends Observable {
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
 								Noeud adresseLivaison= new Noeud();
 								adresseLivaison=this.GetNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
-								boolean isZoneVide= false;
 								Calendar heureLivraisonPrevue=null;
 								for(Livraison l : listeTousLivraisons) {
 									if(l.getAdresse()==adresseLivaison)
 										throw new SAXException();
 								}
-								Livraison livraison = new Livraison(clientID,livraisonID,heureLivraisonPrevue,isZoneVide,adresseLivaison);
+								Livraison livraison = new Livraison(clientID,livraisonID,heureLivraisonPrevue,adresseLivaison);
 								
 								listeLivraisonsPlage.add(livraison);
 								listeTousLivraisons.add(livraison);
@@ -331,6 +330,7 @@ public class Zone extends Observable {
 	
 	public void calculerTournee() {
 		tournee = new Tournee(plages, entrepot);
+		
 		tournee.calculer(this);
 	}
 	

@@ -2,10 +2,14 @@ package test;
 
 import static org.junit.Assert.*;
 
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import Modele.Noeud;
+/*
+ * @author : Kevin
+ */
 public class NoeudTest {
 
 	private Noeud noeud;

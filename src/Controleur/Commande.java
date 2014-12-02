@@ -12,7 +12,7 @@ import Modele.Zone;
  */
 public abstract class Commande {
 	
-	private Zone zone;
+	protected Zone zone;
 	
 	/**
 	 * Constructeur par défaut de la classe Commande
@@ -20,6 +20,9 @@ public abstract class Commande {
 	public Commande() {
 	}
 	
+	/**
+	 * Constructeur de la classe Commande
+	 */
 	public Commande(Zone zone) {
 		this.zone = zone;
 	}

@@ -12,7 +12,9 @@ import Controleur.Controleur;
 import Modele.Noeud;
 import Modele.Zone;
 
-
+/*
+ * @author : Kevin
+ */
 public class ControleurTest {
 	private Controleur ctrl;
 	
@@ -28,7 +30,6 @@ public class ControleurTest {
 
 	@Test
 	public void selectionNoeudSuccess() throws Exception {
-		System.out.print("yeah");
 		Noeud noeudCherche = new Noeud(1,230,530);
 		Zone zone = new Zone();
 			zone.addNoeud(new Noeud(2,400,200));
@@ -108,6 +109,25 @@ public class ControleurTest {
 		ctrl.actionBoutonAjouter();
 		ctrl.selectionnerNoeud(400,200);
 		ctrl.actionBoutonValider();
+	}	
+	
+	
+	@Test
+	public void undoRedo() throws Exception {
+		Zone zone = new Zone();
+			zone.addNoeud(new Noeud(1,200,256));
+			zone.addNoeud(new Noeud(2,546,254));
+			zone.addNoeud(new Noeud(3,345,410));
+			zone.addNoeud(new Noeud(4,920,200));
+			zone.addNoeud(new Noeud(5,400,200));
+		ctrl = new Controleur(zone);
+		ctrl.selectionnerNoeud(230,530);
+		ctrl.actionBoutonAjouter();
+		ctrl.selectionnerNoeud(400,200);
+		ctrl.actionBoutonValider();
+		assertTrue("La stack des commandes est nulles",ctrl.getCommandesExecutees().size() == 1);
+		ctrl.undoAction();
+
 	}	
 	
 }

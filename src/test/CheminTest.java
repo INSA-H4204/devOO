@@ -6,7 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import Modele.Chemin;
-
+/*
+ * @author : Kevin
+ */
 public class CheminTest {
 
 	@Before

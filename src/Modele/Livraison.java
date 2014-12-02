@@ -14,10 +14,9 @@ import org.w3c.dom.Element;
  */
 public class Livraison extends Observable {
 
-	private int clientID ;
-	private int livraisonID ;
-	private Calendar heureLivraisonPrevue ;
-	private boolean isZoneVide ;
+	private int clientID;
+	private int livraisonID;
+	private Calendar heureLivraisonPrevue;
 	private Chemin cheminIn;
 	private Chemin cheminOut;
 	private Noeud  adresse;
@@ -30,7 +29,6 @@ public class Livraison extends Observable {
 		clientID = 0;
 		livraisonID = 0;
 		heureLivraisonPrevue = Calendar.getInstance();
-		isZoneVide = true;
 		cheminIn = new Chemin();
 		cheminOut = new Chemin();
 		adresse = null;
@@ -41,11 +39,10 @@ public class Livraison extends Observable {
 		return heureLivraisonPrevue;
 	}
 
-	public Livraison(int clientId,int livraisonId,Calendar heureLivraisonPrevue,boolean isZoneVide,Noeud adresse) {
+	public Livraison(int clientId,int livraisonId,Calendar heureLivraisonPrevue,Noeud adresse) {
 		this.clientID = clientId;
 		this.livraisonID = livraisonId;
 		this.heureLivraisonPrevue = heureLivraisonPrevue;
-		this.isZoneVide = isZoneVide;
 		this.adresse = adresse;
 		this.cheminIn = new Chemin();
 		this.cheminOut = new Chemin();
@@ -65,7 +62,6 @@ public class Livraison extends Observable {
 		clientID = 0;
 		livraisonID = 0;
 		heureLivraisonPrevue = Calendar.getInstance();
-		isZoneVide = true;
 		cheminIn = null;
 		cheminOut = null;
 		adresse = adresseEntrepot;
