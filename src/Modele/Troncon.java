@@ -23,12 +23,12 @@ public class Troncon extends Observable {
 	private int longueur ;
 	private Etat etatTroncon;
 	private Noeud fin;
+	private Noeud origine;
+	private List<Observer> observers;
+	
 	public String getNomRue() {
 		return nomRue;
 	}
-
-	private Noeud origine;
-	private List<Observer> observers;
 	
 	/**
 	 * Constructeur par defaut de Troncon

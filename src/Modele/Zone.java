@@ -71,6 +71,11 @@ public class Zone extends Observable {
 		}
 		return null;
 	}
+	/**
+	 * Retourne un noeud qui a comme id celui passé en paramètre
+	 * @param int noeudId
+	 * @return Noeud 
+	 */
 
 	public Noeud rechercherNoeudParId(int noeudId) {
 		for (Noeud noeud : noeuds){
@@ -91,15 +96,6 @@ public class Zone extends Observable {
 			}
 		}
 		return true;
-	}
-
-	
-	/**
-	 * @param File xmlFilePath
-	 */
-	public void XMLtoDOMLivraisons(Document xmlFilePath) {
-		
-		// TODO implement here
 	}
 	
 	/**
@@ -150,13 +146,29 @@ public class Zone extends Observable {
 	                	   Element noeudElement = (Element) listeNoeudsXML.item(i);
 	                	   //Integer idNoeudCourant = Integer.parseInt(noeudElement.getAttribute("id"));
 	                	   NodeList listeTronconsNoeudXML = noeudElement.getElementsByTagName("LeTronconSortant");
-	                	   //Set<Troncon> listeTronconsNoeud = new HashSet<Troncon>();
+	                	   List<Troncon> listeTronconsNoeud = new ArrayList<Troncon>();
 	                	   for (int j=0; j<listeTronconsNoeudXML.getLength();j++) 
 	                	   {
 	                		   Element tronconElt = (Element) listeTronconsNoeudXML.item(j);
 	                		   Noeud origine = listeNoeuds.get(i);
+	                		   listeTronconsNoeud=origine.getTroncons();
 	                		   Noeud fin = listeNoeuds.get(Integer.parseInt(tronconElt.getAttribute("idNoeudDestination")));
-	                		   listeTroncons.add(new Troncon(tronconElt,origine,fin));
+		               		   //vérifier si le noeud de destionation du troncon existe
+	                		   int k=0;
+	                		   for(Noeud n : listeNoeuds) {
+		            				if(fin.getNoeudID()==n.getNoeudID()){
+		            					k++;break;
+		            				}
+		            				if(k==0)
+		            					throw new SAXException();          				
+		            			}
+	                		   Troncon tronconAjouté= new Troncon(tronconElt,origine,fin);
+	                		   listeTroncons.add(tronconAjouté);
+	                		   listeTronconsNoeud.add(tronconAjouté);
+	                		   origine.setTroncons(listeTronconsNoeud);
+	                		   
+	                		   
+	                		   
 	                	   }               	   
 	                   }
 	                   this.noeuds = new HashSet<Noeud>(listeNoeuds);
@@ -260,6 +272,7 @@ public class Zone extends Observable {
 		HashMap<int[], Chemin> cheminsPossibles = new HashMap<int[], Chemin>();
 
 		//Calculer les chemins entre l'entrepot et chaque livraison de premiere plage
+		
 		int[] previous = dijkstra(entrepot.getAdresse().getNoeudID());
 		for (Livraison livraison : plages.get(0).getLivraisons()) {
 			ajouterCheminPossible(entrepot, livraison, previous, cheminsPossibles);
