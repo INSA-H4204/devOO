@@ -53,7 +53,7 @@ public class Zone extends Observable {
 		noeuds = new HashMap<Integer,Noeud>();
 		plages = new ArrayList<PlageHoraire>();
 		observers = new ArrayList<Observer>();
-		graphe = new Graphe(troncons, noeuds.size());
+		grapheOriginal = new NotreGraphe(troncons, noeuds.size());
 		File xml = new File(xmlFilePathPlan);
 		if (!xml.exists()) {
 			throw new FileNotFoundException();
