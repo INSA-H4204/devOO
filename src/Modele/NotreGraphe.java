@@ -5,7 +5,12 @@ import java.util.Set;
 
 import tsp.*;
 
-
+/**
+ * une classe qui implemente classe Graph
+ * utilisee pour creer les graphes que on passe a dijkstra et choco
+ * @author yukaiwang
+ *
+ */
 public class NotreGraphe implements Graph {
 	// Attributs
 	private int nombreSommets;

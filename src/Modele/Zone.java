@@ -328,12 +328,23 @@ public class Zone extends Observable {
 		return false;
 	}
 	
+	/**
+	 * Creer un objet tournee et appeler sa methode pour calculer la tournee
+	 * @author yukaiwang
+	 */
 	public void calculerTournee() {
 		tournee = new Tournee(plages, entrepot);
 		
 		tournee.calculer(this);
 	}
 	
+	/**
+	 * Une methode privee pour trouver et lister tous les troncons de plus court chemin entre deux noeuds
+	 * @param arrivee : le noeud de destination de chemin
+	 * @param precedent	: le tableau qui contient, pour chaque noeud, le noeud precedent dans le plus court chemin de ce noeud et un noeud de source   
+	 * @return une liste de troncon qui compose le plus court chemin entre un noeud de source et un noeud de destination
+	 * @author yukaiwang
+	 */
 	private List<Troncon> listerTroncons(int arrivee, int[] precedent) {
 		int depart = precedent[arrivee];
 		List<Troncon> troncons = new ArrayList<Troncon>();
@@ -349,7 +360,15 @@ public class Zone extends Observable {
 		}
 		return troncons;
 	}
-
+	
+	/**
+	 * trouver et lister tous les chemins d'une tournee
+	 * @param suivant : le tableau qui contient, pour chaque livraison, la livraison suivante
+	 * @param sources : un HashMap qui contient ce que retourne dijkstra pour toutes les livraisons
+	 * @param livraisons : un HashMap qui contient toutes les livraisons d'une journee
+	 * @return une liste de chemin qui compose la tournee calculee
+	 * @author yukaiwang
+	 */
 	public List<Chemin> listerChemins(int[] suivant, HashMap<Integer, ResDijkstra> sources, HashMap<Integer, Livraison> livraisons) {
 		int depart, arrivee, i = 0;
 		int[] precedent;
@@ -365,6 +384,12 @@ public class Zone extends Observable {
 		return listeChemins;
 	}
 
+	/**
+	 * la methode dijkstra pour calculer tous les plus courts chemins d'un noeud de source
+	 * @param source : le noeud de source des plus courts chemins
+	 * @return un objet de type ResDijkstra
+	 * @author fredrik
+	 */
 	public ResDijkstra dijkstra(int source) {
 		int[] poids = new int[grapheOriginal.getNbVertices()];
 		int[] precedent = new int[grapheOriginal.getNbVertices()];
@@ -401,6 +426,13 @@ public class Zone extends Observable {
 		return resDijkstra;
 	}
 	
+	/**
+	 * une methode pour trouver le plusCourtChemin entre une source et une destination
+	 * @param source 
+	 * @param destination
+	 * @return le plus court chemin
+	 * @author yukaiwang
+	 */
 	public Chemin plusCourtChemin(int source, int destination) {
 		ResDijkstra resDijkstra = dijkstra(source);
 		int[] precedent = resDijkstra.getPrecedent();
