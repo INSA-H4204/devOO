@@ -322,8 +322,7 @@ public class Zone extends Observable {
 	public Chemin plusCourtChemin(int source, int destination) {
 		ResDijkstra resDijkstra = dijkstra(source);
 		int[] precedent = resDijkstra.getPrecedent();
-		listerTroncons(destination, precedent);
-		
+		return new Chemin(noeuds.get(source).getLivraison(), noeuds.get(destination).getLivraison(),listerTroncons(destination, precedent));
 	}
 	
 	public Set<Noeud> GetNoeuds(){
