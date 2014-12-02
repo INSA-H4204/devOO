@@ -16,7 +16,8 @@ public class CdeAjouterLivraison extends Commande {
 	private Livraison livraisonPrecedente;
 	private Livraison livraisonAjout;
 	private PlageHoraire plageAjout;
-	
+	private String idClient;
+
 	/**
 	 * Constructeur par défaut de la classe CdeAjouterLivraison
 	 * 
@@ -34,7 +35,8 @@ public class CdeAjouterLivraison extends Commande {
 	public CdeAjouterLivraison(Zone zone, Noeud noeudPrecedent, Noeud noeudSelectionne, String idClient) {
 		
 		super(zone);
-		
+
+		this.idClient = idClient;
 		Livraison livraisonPrecedente = noeudPrecedent.getLivraison();
 		this.livraisonPrecedente = livraisonPrecedente;
 		
@@ -48,21 +50,21 @@ public class CdeAjouterLivraison extends Commande {
 	/**
 	 * Fonction appelée quand on execute la fonction normalement
 	 */
-	protected void execute() {
+	public void execute() {
 		
 	}
 
 	/**
 	 * Fonction appelée quand on annule la fonction normalement
 	 */
-	protected void undo() {
+	public void undo() {
 		// TODO implement here
 	}
 
 	/**
 	 * Fonction appelée quand on réexecute la fonction normalement
 	 */
-	protected void redo() {
+	public void redo() {
 		// TODO implement here
 	}
 

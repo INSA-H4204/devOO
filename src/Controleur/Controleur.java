@@ -195,7 +195,7 @@ public class Controleur implements ActionListener {
 	
 	/**
 	 * Appelée par le bouton Valider pendant l'insertion de point de livraison
-	 * 
+	 * s
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
@@ -208,6 +208,21 @@ public class Controleur implements ActionListener {
 		
 	}
 	
+	/*
+	 * kevin
+	 * Annule la dernière commande executé? TODO ?
+	 */
+	public void undoAction() {
+		
+	}
+	/*
+	 * kevin
+	 * Reexecute la dernière commande executé? TODO ?
+	 */
+	public void redoAction() {
+		
+	}
+		
 	/**
 	 * Appelée par le bouton Supprimer
 	 * 
@@ -234,6 +249,16 @@ public class Controleur implements ActionListener {
 	public void fermerVue() {
 		vueApplication.fermer();
 	}
+
+	public Zone getZone() {
+		return zone;
+	}
+
+	public Stack<Commande> getCommandesExecutees () {
+		return commandesExecutees;
+	}
 	
-	
+	public Stack<Commande> getCommandesAnnulees () {
+		return commandesAnnulees;
+	}	
 }

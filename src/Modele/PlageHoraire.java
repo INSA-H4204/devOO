@@ -1,5 +1,7 @@
 package Modele;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.xml.bind.DatatypeConverter;
@@ -17,8 +19,6 @@ import org.xml.sax.SAXException;
 public class PlageHoraire extends Observable {
 
 	public Calendar heureDebut ;
-
-
 	public Calendar heureFin ;
 	private List<Livraison> livraisonsOrdonnees;
 	private Set<Livraison> livraisons;
@@ -34,6 +34,7 @@ public class PlageHoraire extends Observable {
 	}
 	
 	public List<Livraison> construirePlageAPartirDeDOMXML(Element plageHoraireElement, Zone zone, List<Livraison> listeTousLivraisons) throws SAXException{
+		
 		heureDebut =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureDebut"));	
 		heureFin =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureFin"));
 
