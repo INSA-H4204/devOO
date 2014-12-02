@@ -3,6 +3,9 @@ import Modele.*;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -16,12 +19,20 @@ import org.junit.rules.ErrorCollector;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+
+
+/*
+ * @author : Kevin
+ */
 public class ZoneTest {
 
 	private static String ZoneCorrecteStr = "Resources/plan20x20.xml";
@@ -46,8 +57,16 @@ public class ZoneTest {
 	
 	private Document livraisonXML;
 	
-	private Zone zone;
+	private static Zone zone;
 	
+	/*
+	 * @author : Kevin
+	 */
+	public static Zone init() throws NumberFormatException, SAXException, ParseException, ParserConfigurationException, IOException {
+		  zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
+		  return zone;
+	}
 	@Before
 	public void setUp() throws Exception {
 	}

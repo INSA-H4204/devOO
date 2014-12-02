@@ -8,6 +8,9 @@ import org.junit.Test;
 import Modele.Troncon;
 import Modele.Noeud;
 
+/*
+ * @author : Kevin
+ */
 public class TronconTest {
 	private Troncon troncon;
 	private Noeud origine;

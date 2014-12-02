@@ -12,7 +12,8 @@ import Modele.Zone;
  * @author hgerard
  */
 public class CdeAjouterLivraison extends Commande {
-	
+
+	private String idClient;
 	/**
 	 * Constructeur par défaut de la classe CdeAjouterLivraison
 	 */
@@ -26,6 +27,7 @@ public class CdeAjouterLivraison extends Commande {
 	public CdeAjouterLivraison(Zone zone, Noeud noeudPrecedent, Noeud noeudSelectionne, String idClient) {
 		
 		super(zone);
+		this.idClient = idClient;
 		Livraison livraisonPrecedente = noeudPrecedent.getLivraison();
 		Livraison livraisonAjout = noeudSelectionne.getLivraison();
 		PlageHoraire plageAjout = livraisonPrecedente.getPlage();

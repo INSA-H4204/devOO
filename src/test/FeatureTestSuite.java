@@ -16,7 +16,9 @@ import org.junit.runners.Suite;
   TronconTest.class,
   ZoneTest.class
 })
-
+/*
+ * @author : Kevin
+ */
 public class FeatureTestSuite {
   // the class remains empty,
   // used only as a holder for the above annotations
