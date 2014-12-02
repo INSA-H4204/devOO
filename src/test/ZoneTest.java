@@ -78,7 +78,7 @@ public class ZoneTest {
 			assertNotNull("Echec - Troncon sans fin",t.getFin());
 		}
 	 }
-	 	
+	 
 	 @Test//(expected=SAXParseException.class)
 	 public void AbsenceNoeud() throws Exception {
 		 //collector.checkThat(zone.XMLtoDOMZone(AbsenceNoeudStr,XsdFile), is(SAXParseException.class));
