@@ -36,7 +36,7 @@ public class Noeud extends Observable {
 		posX = x;
 		posY = y;
 		livraison = new Livraison();
-		troncons= new ArrayList <Troncon> ();
+		tronconsSortants= new ArrayList <Troncon> ();
 	}
 	
 	
@@ -49,7 +49,7 @@ public class Noeud extends Observable {
 		this.noeudID = Integer.parseInt(noeudElement.getAttribute("id"));
 		this.posX = Integer.parseInt(noeudElement.getAttribute("x"));
 		this.posY = Integer.parseInt(noeudElement.getAttribute("y"));
-		troncons= new ArrayList <Troncon> ();
+		tronconsSortants= new ArrayList <Troncon> ();
 	}
 	
 
@@ -68,19 +68,14 @@ public class Noeud extends Observable {
 	public Livraison getLivraison() {
 		return livraison;
 	}
-<<<<<<< HEAD
-	public List<Troncon> getTroncons() {
-		return troncons;
-	}
+
 
 	public void setTroncons(List<Troncon> troncons) {
-		this.troncons=troncons;
+		this.tronconsSortants=troncons;
 	}
 
-=======
 	
 	public List<Troncon> getTronconsSortants() {
 		return tronconsSortants;
 	}
->>>>>>> bdfc58e06a8137229e77cc121e3bc569da3babf8
 }
