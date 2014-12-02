@@ -101,6 +101,7 @@ public class ZoneTest {
 	 
 	 @Test
 	 public void XMLtoDOMLivraisons() throws Exception {
+
 		  zone = new Zone(ZoneCorrecteStr,XsdFile);
 		  zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);	
 	 }

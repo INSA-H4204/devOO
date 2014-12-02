@@ -1,6 +1,8 @@
 bin/
 .metadata
 .classpath
+<<<<<<< HEAD
+=======
 /bin/
 /bin/
 /bin/
@@ -19,6 +21,9 @@ bin/
 /bin/
 /bin/
 /bin/
+<<<<<<< HEAD
+>>>>>>> 7b6a24d134dd32735009752b70fc9caafd600223
+=======
 /bin/
 /bin/
 /bin/
@@ -27,3 +32,4 @@ bin/
 /bin/
 /bin/
 /bin/
+>>>>>>> ca8fc461be3afe82a0b53f979c1f0d2da42f744f
