@@ -150,20 +150,20 @@ public class Controleur implements ActionListener {
 	     try {
              
              // 1) Creation de la feuille de route
-             BufferedWriter out = new BufferedWriter(new FileWriter(new File("feuille_de_route_zone.txt")));
+             BufferedWriter out = new BufferedWriter(new FileWriter(new File("Resources/feuille_de_route_zone.txt")));
            
              try {
                
                   // 2) �criture de la feuille de route
-                  out.write("Partez de l'entrep�t situ� "+String.valueOf(zone.getTournee().getEntrepot().getAdresse().getNoeudID())+" � "+String.valueOf(zone.getTournee().getEntrepot().getHeureLivraisonPrevue().get(Calendar.HOUR_OF_DAY)));
+                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getTournee().getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getTournee().getEntrepot().getHeureLivraisonPrevue().get(Calendar.HOUR_OF_DAY)));
                   for(Chemin chemin:zone.getTournee().getChemins())  {
                 	  for(Troncon troncon:chemin.getTroncons()) {
                 		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
                 	  }
                 	  if(chemin.getArrivee().getLivraisonID()!=0)
-                		  out.write("Livrez la commande num�ro "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client num�ro "+String.valueOf(chemin.getArrivee().getClientID())+" � l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apr�s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().get(Calendar.HOUR_OF_DAY)));
+                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apr�s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().get(Calendar.HOUR_OF_DAY)));
                 	  else
-                		  out.write("Vous �tes de retour � l'entrepot");
+                		  out.write("Vous etes de retour a l'entrepot");
                   }
              } finally {
                
@@ -197,7 +197,7 @@ public class Controleur implements ActionListener {
 	 */
 	public void actionBoutonValider(){
 		String idClient = ""; /*getIdClientVue() --> GABRIEL*/
-		if ((noeudPrecedent != null) /*&& (idClient != "")*/){
+		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
 			CdeAjouterLivraison ajout1 = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout1);
 			ajout1.execute();
