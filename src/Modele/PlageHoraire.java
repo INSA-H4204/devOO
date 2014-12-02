@@ -24,7 +24,7 @@ public class PlageHoraire extends Observable {
 	private Set<Livraison> livraisons;
 	
 	/**
-	 * Constructeur par défaut de PlageHoraire
+	 * Constructeur par defaut de PlageHoraire
 	 */
 	public PlageHoraire() {
 		heureDebut = Calendar.getInstance();
@@ -39,15 +39,17 @@ public class PlageHoraire extends Observable {
 
 		Set<Livraison> listeLivraisons = new HashSet<Livraison>();
 		NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
+		int idLivraison=1;
 		for(int i=0;i<listeLivraisonsXML.getLength();i++) {
 			Element livraisonElement = (Element) listeLivraisonsXML.item(i);
-			Livraison livraison = new Livraison(livraisonElement,zone,this);
+			Livraison livraison = new Livraison(livraisonElement,zone,this,idLivraison);
 			for(Livraison p : listeTousLivraisons) {
 				if(livraison.getAdresse()==p.getAdresse())
 					throw new SAXException();
 			}
 			listeLivraisons.add(livraison);
 			listeTousLivraisons.add(livraison);
+			idLivraison++;
 		}
 		this.livraisons = listeLivraisons;
 		return listeTousLivraisons;

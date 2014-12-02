@@ -33,7 +33,7 @@ public class Livraison extends Observable {
 		isZoneVide = true;
 		cheminIn = new Chemin();
 		cheminOut = new Chemin();
-		adresse = new Noeud();
+		adresse = null;
 		plage = new PlageHoraire();
 	}
 	
@@ -74,24 +74,17 @@ public class Livraison extends Observable {
 		adresse = adresseEntrepot;
 		
 	}
-	public Livraison(Element livraisonElement,Zone zone,PlageHoraire plage){
-		this.livraisonID = Integer.parseInt(livraisonElement.getAttribute("id"));
+	public Livraison(Element livraisonElement,Zone zone,PlageHoraire plage,int livraisonID){
+		this.livraisonID = livraisonID;
 		this.clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
 		Noeud adresseLivaison= new Noeud();
-		adresseLivaison=zone.rechercherNoeudParId(Integer.parseInt(livraisonElement.getAttribute("adresse")));
+		adresseLivaison=zone.GetNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
 		this.adresse = adresseLivaison;
 		this.plage=plage;
 		
 	}
 
-	/**
-	 * @return
-	 */
-	private boolean verifierSiZoneVide() {
-		// TODO implement here
-		return false;
-	}
-	
+
 	public Noeud getAdresse() {
 		return adresse;
 	}

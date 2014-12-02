@@ -5,6 +5,7 @@ import Modele.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import static org.junit.Assert.*;
 import org.junit.After;
@@ -29,6 +30,7 @@ public class ZoneTest {
 	private static String TronconSansNoeudStr = "Resources/TronconSansNoeud.xml";
 	private static String LivraisonCorrecteStr = "Resources/livraison20x20-2.xml";
 	private static String XsdFile = "Resources/plan.xsd";
+	private static String xsdFilePathLivraison = "Resources/demandeLivraison.xsd";
 	
 	private Document livraisonXML;
 	
@@ -39,8 +41,6 @@ public class ZoneTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		zone = new Zone();
-		zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);	
 	}
 
 	@After
@@ -55,14 +55,23 @@ public class ZoneTest {
 	 
 	 //-----------------------Chargement d'une zone ----------------------------------//
 	 
+
+	 @Test
+	 public void XMLConstructor() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		 assertNotNull(zone);
+	    }
+	 
+	 
 	 @Test
 	 public void integriteNoeuds() throws Exception {
+		zone = new Zone(ZoneCorrecteStr,XsdFile);
 		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.GetNoeuds().size());
-		assertEquals("Echec - Aucun troncon n'a été chargé",zone.GetTroncons().size());
-		for (Noeud n : zone.GetNoeuds() ) {
-			assertNotNull("Echec - L'id n'est pas renseigné",n.getNoeudID());
-			assertNotNull("Echec - X n'est pas renseigné",n.getPosX());
-			assertNotNull("Echec - Y n'est pas renseigné",n.getPosY());
+		assertNotNull("Echec - Aucun troncon n'a été chargé",zone.GetTroncons().size());
+		for(Entry<Integer, Noeud> iter : zone.GetNoeuds().entrySet()) {
+			assertNotNull("Echec - L'id n'est pas renseigné",iter.getValue().getNoeudID());
+			assertNotNull("Echec - X n'est pas renseigné",iter.getValue().getPosX());
+			assertNotNull("Echec - Y n'est pas renseigné",iter.getValue().getPosY());
 		}
 		for (Troncon t : zone.GetTroncons() ) {
 			assertNotNull("Echec - Troncon sans origine",t.getOrigine());
@@ -77,46 +86,37 @@ public class ZoneTest {
 	       //.XMLtoDOMZone(AbsenceNoeudStr,XsdFile);
 	 }
 	 
-	 
- 
 	 @Test
 	 public void noeudSansTroncon() throws Exception {
-		zone.XMLtoDOMZone(NoeudSansTronconStr,XsdFile);
+		zone = new Zone(NoeudSansTronconStr,XsdFile);
 	 }
 	 
 	 @Test
 	 public void tronconSansNoeud() throws Exception {
-		zone.XMLtoDOMZone(NoeudSansTronconStr,XsdFile);
+		  zone = new Zone(ZoneCorrecteStr,XsdFile);
+	      assertFalse("Echec - La méthode de vérification du fichier XML aurait du declencher une erreur car il y a un troncon sans noeud d'origine ou de fin",zone.verifierUnfichierXML(TronconSansNoeudStr,XsdFile));
 	 }
-	 
-	 
 	 
 	 //---------------------Chargement d'une livraison-----------------------------------------//
 	 
-	 
-	 
 	 @Test
 	 public void XMLtoDOMLivraisons() throws Exception {
-			File fXmlFile = new File(LivraisonCorrecteStr);
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			livraisonXML = dBuilder.parse(fXmlFile);
-			zone.XMLtoDOMLivraisons(livraisonXML,XsdFile);	
+
+		  zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);	
 	 }
 	 
 	 @Test
 	 public void LivraisonSansAdresse() throws Exception {
 		  
 	 }
-	  
 	 
 	 //--------------------------Fin chargement Livraison---------------------------------------//
 	 
 	 
-	 
-	 
 	 @Test
 	 public void rechercherNoeudParPosition() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
 		 Noeud noeudTest = new Noeud(1,800,400);
 		 zone.addNoeud(noeudTest);
 		 assertEquals("Echec - Noeud non trouvé",noeudTest,zone.rechercherNoeudParPosition(800, 400));
@@ -124,8 +124,15 @@ public class ZoneTest {
 	 
 	 
 	 @Test
-	 public void verifierSiZoneSansLivraison() throws Exception {
-		 assertTrue("Echec - zone sans livraison renvoie false",zone.verifierSiZoneSansLivraison());
+	 public void verifierSiZoneSansLivraisonSuccess() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		 assertTrue("Echec - zone sans livraison renvoie false alors qu il n y a pas de livraisons",zone.verifierSiZoneSansLivraison());
+	 }
+	 
+	 @Test
+	 public void verifierSiZoneSansLivraisonFail() throws Exception {
+		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		 assertFalse("Echec - zone sans livraison renvoie true alors qu il y a des livraisons",zone.verifierSiZoneSansLivraison());
 	 }
 	 
 	 @Test
