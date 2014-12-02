@@ -88,7 +88,7 @@ public class VueApplication extends VueGenerale implements ActionListener {
 	public List<VueNoeud> creerListeNoeuds() {
 
 		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
-		for (int i = 1; i < 10; i++) {
+		for (int i = 1; i < 1000; i++) {
 			Random rand = new Random();
 
 			int x = rand.nextInt((800 - 0) + 1) + 0;
@@ -113,13 +113,14 @@ public class VueApplication extends VueGenerale implements ActionListener {
 		vueZone.chargerNoeuds(listeVueNoeud);
 	}
 
+	
 	private int convertiseurMetrePixel(int coordonnee, char xOuY) {
 		switch (xOuY) {
 		case 'x':
-			coordonnee = Math.round(coordonnee * COEF_METRE_PX_X);
+			coordonnee = Math.round(coordonnee * COEF_METRE_PX_X)+10;
 			return coordonnee;
 		case 'y':
-			coordonnee = Math.round(coordonnee * COEF_METRE_PX_Y);
+			coordonnee = Math.round(coordonnee * COEF_METRE_PX_Y)+10;
 			return coordonnee;
 		default:
 			return 0;
