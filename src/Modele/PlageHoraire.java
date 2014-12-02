@@ -17,6 +17,8 @@ import org.xml.sax.SAXException;
 public class PlageHoraire extends Observable {
 
 	public Calendar heureDebut ;
+
+
 	public Calendar heureFin ;
 	private List<Livraison> livraisonsOrdonnees;
 	private Set<Livraison> livraisons;
@@ -50,7 +52,6 @@ public class PlageHoraire extends Observable {
 		this.livraisons = listeLivraisons;
 		return listeTousLivraisons;
 	}
-
 	/**
 	 * 
 	 */
