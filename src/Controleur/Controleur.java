@@ -1,5 +1,7 @@
 package Controleur;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +23,7 @@ import Modele.Tournee;
 import Modele.Zone;
 import Modele.Chemin;
 import Modele.Troncon;
+import Vue.VueApplication;
 import Vue.VueNoeud;
 import Vue.VueTroncon;
 import Vue.VueZone;
@@ -31,10 +34,9 @@ import Vue.VueZone;
  * 
  * @author hgerard
  */
-public class Controleur {
+public class Controleur implements ActionListener {
 	
-	public VueZone vueNoeud;
-	public VueZone vueTroncon;
+	public VueApplication vueApplication;
 	private Zone zone;
 	private boolean isZoneSansLivraison;
 	
@@ -62,14 +64,17 @@ public class Controleur {
 	 */
 	public Controleur(Zone zone) {
 		this.zone = zone;
-		vueNoeud = new VueNoeud(this);
-		vueTroncon = new VueTroncon(this);
-
+		vueApplication = new VueApplication(this);
 		isZoneSansLivraison = true;
 		ajoutEnCours = true;
 		selectionActive = true;
 		noeudSelectionne = null;
 		noeudPrecedent = null;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+//		this.ctrl.chargerZone(XML);
 	}
 
 	/**
@@ -210,17 +215,15 @@ public class Controleur {
 	/**
 	 * Affiche les vues 
 	 */
-	public void displayViews() {
-		vueNoeud.display();
-		vueTroncon.display();
+	public void afficherVue() {
+		vueApplication.afficher();
 	}
 	
 	/**
 	 * Ferme les vues 
 	 */
-	public void closeViews() {
-		vueNoeud.close();
-		vueTroncon.close();
+	public void fermerVue() {
+		vueApplication.fermer();
 	}
 	
 	

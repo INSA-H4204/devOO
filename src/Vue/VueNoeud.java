@@ -1,40 +1,28 @@
 package Vue;
 
-import java.util.Observable;
-import javax.swing.JFrame;
-import Controleur.Controleur;
+import java.awt.Color;
+import java.awt.Graphics;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  * 
  */
-public class VueNoeud extends VueZone {
+public class VueNoeud {
+	private int x,y;
 	
-	private JFrame frame = null;
+	public VueNoeud(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
 	
-	/**
-	 * 
-	 */
-	public VueNoeud(Controleur ctrl) {
-		super(ctrl);
-		frame = new JFrame();
+	public int recupererX(){
+		return x;
 	}
-
-	@Override
-	public void display() {
-		frame.setVisible(true);
-		
+	
+	public int recupererY(){
+		return y;
 	}
-
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Observable obs, Object obj) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 }

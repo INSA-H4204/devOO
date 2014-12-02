@@ -33,8 +33,9 @@ public class Zone extends Observable {
 	private Map<Integer, Noeud> noeuds;
 	private List<Observer> observers;
 	private List<PlageHoraire> plages;
-	private Graphe graphe;
+	private NotreGraphe grapheOriginal;
 	private Livraison entrepot;
+
 	private static int ecartTolere = 5;
 	private Tournee tournee;
 
@@ -106,6 +107,8 @@ public class Zone extends Observable {
 			}
 		}
 	}
+
+
 	/**
 	 * Constructeur par défaut de Zone
 	 */
@@ -114,7 +117,7 @@ public class Zone extends Observable {
 		noeuds = new HashMap<Integer,Noeud>();
 		plages = new ArrayList<PlageHoraire>();
 		observers = new ArrayList<Observer>();
-		graphe = new Graphe(troncons, noeuds.size());
+		grapheOriginal = new NotreGraphe(troncons, noeuds.size());
 	}
 
 	/**
@@ -249,72 +252,44 @@ public class Zone extends Observable {
 	
 	public void calculerTournee() {
 		Tournee tournee = new Tournee(plages, entrepot);
-		//ArrayList<int[]> sources = new ArrayList<int[]>();
-		HashMap<int[], Chemin> cheminsPossibles = new HashMap<int[], Chemin>();
+		
+	}
 
-		//Calculer les chemins entre l'entrepot et chaque livraison de premiere plage
-		int[] previous = dijkstra(entrepot.getAdresse().getNoeudID());
-		for (Livraison livraison : plages.get(0).getLivraisons()) {
-			ajouterCheminPossible(entrepot, livraison, previous, cheminsPossibles);
-		}
+	public List<Chemin> listerChemins(int[] suivant, HashMap<Integer, ResDijkstra> sources, HashMap<Integer, Livraison> livraisons) {
+		int depart, arrivee, i = 0;
+		int[] precedent;
+		List<Chemin> listeChemins = new ArrayList<Chemin>();
 
-		for (int i = 0; i < plages.size()-1 ; i++) {
-			for (Livraison livraison : plages.get(i).getLivraisons()) {
-				previous = dijkstra(livraison.getAdresse().getNoeudID());
-
-				for (Livraison livraisonSuivant : plages.get(i).getLivraisons()) {
-					if (livraison != livraisonSuivant) {
-						ajouterCheminPossible(livraison, livraisonSuivant, previous, cheminsPossibles);
+		do {
+			precedent = sources.get(i).getPrecedent();
+			arrivee = livraisons.get(suivant[i]).getAdresse().getNoeudID();
+			List<Troncon> troncons = new ArrayList<Troncon>();
+			while ((depart=precedent[arrivee]) != 0) {
+				List<Troncon> tronconsSortants = noeuds.get(depart).getTronconsSortants();
+				for (Troncon troncon : tronconsSortants) {
+					if (troncon.getFin().getNoeudID() == arrivee) {
+						troncons.add(0, troncon);
 					}
 				}
-
-				for (Livraison livraisonSuivant : plages.get(i+1).getLivraisons()) {
-						ajouterCheminPossible(livraison, livraisonSuivant, previous, cheminsPossibles);
-				}
+				arrivee = depart;
 			}
-		}
+			listeChemins.add(new Chemin(livraisons.get(i), livraisons.get(suivant[i]), troncons));
+			i = suivant[i];
+		} while (i != 0);
 
-		for (Livraison livraison : plages.get(plages.size()-1).getLivraisons()) {
-			previous = dijkstra(livraison.getAdresse().getNoeudID());
-			for (Livraison livraisonSuivant : plages.get(plages.size()-1).getLivraisons()) {
-				if (livraison != livraisonSuivant) {
-					ajouterCheminPossible(livraison, livraisonSuivant, previous, cheminsPossibles);
-				}
-			}
-			ajouterCheminPossible(livraison, entrepot, previous, cheminsPossibles);
-		}
-
-
+		return listeChemins;
 	}
 
-	private void ajouterCheminPossible(Livraison source, Livraison destination, int[] previous, HashMap<int[], Chemin> cheminsPossibles) {
-		int arrivee = destination.getAdresse().getNoeudID();
-		int depart;
-		List<Troncon> troncons = new ArrayList<Troncon>();
-		while ((depart=previous[arrivee]) != 0) {
-			ArrayList<Troncon> tronconsSortants = graphe.getListeVoisins().get(depart);
-			for (Troncon troncon : tronconsSortants) {
-				if (troncon.getFin().getNoeudID() == arrivee) {
-					troncons.add(0, troncon);
-				}
-			}
-			arrivee = depart;
-		}
-		Chemin chemin = new Chemin(source, destination, troncons);
-		int[] deuxLivraisonsID = {source.getAdresse().getNoeudID(), destination.getAdresse().getNoeudID()};
-		cheminsPossibles.put(deuxLivraisonsID, chemin);
-	}
+	public ResDijkstra dijkstra(int source) {
+		int[] poids = new int[grapheOriginal.getNbVertices()];
+		int[] precedent = new int[grapheOriginal.getNbVertices()];
+		boolean[] visited = new boolean[grapheOriginal.getNbVertices()];
+		Arrays.fill(poids, Integer.MAX_VALUE);
+		Arrays.fill(precedent, -1);
 
-	private int[] dijkstra(int source) {
-		int[] distance = new int[graphe.getNbVertices()];
-		int[] previous = new int[graphe.getNbVertices()];
-		boolean[] visited = new boolean[graphe.getNbVertices()];
-		Arrays.fill(distance, Integer.MAX_VALUE);
-		Arrays.fill(previous, -1);
-
-		distance[source] = 0;
-		previous[source] = 0;	
-		int[][] costs = graphe.getCost();
+		poids[source] = 0;
+		precedent[source] = 0;	
+		int[][] costs = grapheOriginal.getCost();
 		PriorityQueue<DoubleInteger> Q = new PriorityQueue<DoubleInteger>();
 
 		Q.add(new DoubleInteger(source, 0));
@@ -326,18 +301,19 @@ public class Zone extends Observable {
 			u = Q.poll().getX();
 			visited[u] = true;
 
-			if (graphe.getSucc(u) != null) {
-				for (int end : graphe.getSucc(u)) {
-					alt = distance[u] + costs[u][end];
-					if (alt < distance[end] && !visited[end]) {
-						distance[end] = alt;
-						previous[end] = u;
-						Q.offer(new DoubleInteger(end, distance[end]));
+			if (grapheOriginal.getSucc(u) != null) {
+				for (int end : grapheOriginal.getSucc(u)) {
+					alt = poids[u] + costs[u][end];
+					if (alt < poids[end] && !visited[end]) {
+						poids[end] = alt;
+						precedent[end] = u;
+						Q.offer(new DoubleInteger(end, poids[end]));
 					}
 				}
 			}
 		}
-		return previous;
+		ResDijkstra resDijkstra = new ResDijkstra(poids, precedent);
+		return resDijkstra;
 	}
 	
 	public Map<Integer,Noeud> GetNoeuds(){

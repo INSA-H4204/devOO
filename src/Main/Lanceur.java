@@ -14,7 +14,9 @@ public class Lanceur {
 	public static void main(String[] args) {
 		Zone zone = new Zone();
 		Controleur ctrl = new Controleur(zone);
-		ctrl.displayViews();
+		ctrl.afficherVue();
+
+		
 		
 		//ctrl.imprimerFeuilleDeRoute();
 	}
