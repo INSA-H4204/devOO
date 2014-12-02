@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 
 import Controleur.Controleur;
 import Modele.Noeud;
+import Modele.Zone;
 
 public class VueApplication extends JFrame implements Observer {
 
@@ -25,8 +26,8 @@ public class VueApplication extends JFrame implements Observer {
 
 	private final int HAUTEUR_FENETRE = 700;
 	private final int LARGEUR_FENETRE = 1000;
-	private final float COEF_METRE_PX_X = (float) (5.9/8.0);
-	private final float COEF_METRE_PX_Y = (float) (6.3/8.0);
+	private final float COEF_METRE_PX_X = (float) (5.9 / 8.0);
+	private final float COEF_METRE_PX_Y = (float) (6.3 / 8.0);
 
 	/**
 	 * 
@@ -36,26 +37,27 @@ public class VueApplication extends JFrame implements Observer {
 		this.ctrl = ctrl;
 		construireVue();
 	}
-	
+
 	/**
 	 * 
 	 */
 	@Override
 	public void update(Observable obs, Object obj) {
-		try {
-			ArrayList l = (ArrayList)obj;
-		} catch(Exception e) {
+		if(obj != null) {
 			switch(obj.toString()) {
-			case "Noeud":
-				updateNoeud((Noeud)obj);
-				break;
+				case "Noeud":
+					//DO STUFF
+					break;
 			}
+		} else {
+			//READ ALL OF ZONE WHICH IS STORED IN obs.
+			Zone zone = (Zone)obs;
 		}
-		System.out.println("ok");
+		System.out.println("hej");
 	}
-	
+
 	private void updateNoeud(Noeud n) {
-		
+
 	}
 
 	/**
@@ -71,7 +73,7 @@ public class VueApplication extends JFrame implements Observer {
 	public void fermer() {
 		this.setVisible(false);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -131,7 +133,7 @@ public class VueApplication extends JFrame implements Observer {
 		}
 		return listeVueNoeud;
 	}
-	
+
 	/**
 	 * 
 	 * @param listeX
@@ -158,10 +160,10 @@ public class VueApplication extends JFrame implements Observer {
 	private int convertiseurMetrePixel(int coordonnee, char xOuY) {
 		switch (xOuY) {
 		case 'x':
-			coordonnee = Math.round(coordonnee * COEF_METRE_PX_X)+10;
+			coordonnee = Math.round(coordonnee * COEF_METRE_PX_X) + 10;
 			return coordonnee;
 		case 'y':
-			coordonnee = Math.round(coordonnee * COEF_METRE_PX_Y)+10;
+			coordonnee = Math.round(coordonnee * COEF_METRE_PX_Y) + 10;
 			return coordonnee;
 		default:
 			return 0;
