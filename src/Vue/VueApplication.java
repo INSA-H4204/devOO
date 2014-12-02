@@ -43,13 +43,19 @@ public class VueApplication extends JFrame implements Observer {
 	 */
 	@Override
 	public void update(Observable obs, Object obj) {
+		//CHECK IF SENT AN EXTRA PARAMETER
+		//IF SO, ONLY CHANGE SPECIFIC PARAMETER
 		if(obj != null) {
 			switch(obj.toString()) {
 				case "Noeud":
 					//DO STUFF
 					break;
 			}
-		} else {
+		} 
+		
+		//ELSE REDRAW ALL OF THE DATA STORED
+		//IN Zone.
+		else {
 			//READ ALL OF ZONE WHICH IS STORED IN obs.
 			Zone zone = (Zone)obs;
 		}
