@@ -9,6 +9,9 @@ import java.util.*;
  */
 public class Chemin extends Observable {
 
+
+	// Chemin should prbably not contain Livraison. Especially since Livraison contains Chemin.
+
 	private Livraison arrivee;
 	private Livraison depart;
 	private List<Troncon> troncons;
@@ -22,6 +25,17 @@ public class Chemin extends Observable {
 		troncons = new ArrayList<Troncon>();
 	}
 
+	public Chemin(Livraison depart, Livraison arrivee, List<Troncon> troncons) {
+		this.arrivee = arrivee;
+		this.depart = depart;
+		this.troncons = troncons;
+	}
+	public List<Troncon> getTroncons() {
+		return troncons;
+	}
+	public Livraison getArrivee() {
+		return arrivee;
+	}
 
 	/**
 	 * 
