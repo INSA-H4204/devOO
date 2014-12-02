@@ -101,7 +101,7 @@ public class ZoneTest {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			livraisonXML = dBuilder.parse(fXmlFile);
-			zone.XMLtoDOMLivraisons(livraisonXML);	
+			zone.XMLtoDOMLivraisons(livraisonXML,XsdFile);	
 	 }
 	 
 	 @Test
