@@ -8,6 +8,9 @@ import org.junit.Test;
 import Modele.Troncon;
 import Modele.Noeud;
 
+/*
+ * @author : Kevin
+ */
 public class TronconTest {
 	private Troncon troncon;
 	private Noeud origine;
@@ -34,6 +37,5 @@ public class TronconTest {
 	public void getFin() {
 		assertEquals("Echec - le troncon n'a pas de fin",troncon.getFin(),fin);
 	}
-	
 
 }

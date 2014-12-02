@@ -97,4 +97,27 @@ public class Tournee extends Observable {
 		chemins = zone.listerChemins(suivant, sources, livraisons);
 	}
 
+	/**
+	 * Fonction qui supprime un noeud et modifie les chemins de la tournée
+	 * 
+	 * @author hgerard
+	 */
+	public void deleteNoeud(Livraison livraisonSuppression) {
+		
+		for (int i = 0 ; i < chemins.size() ; i++){
+			Chemin cheminPrecedent = chemins.get(i);
+			Livraison arrivee = cheminPrecedent.getArrivee();
+			
+			if (arrivee.equals(livraisonSuppression)){
+				Chemin cheminSuivant = chemins.get(i+1);
+				Livraison nouveauDepart = cheminPrecedent.getDepart();
+				Livraison nouvelleArrivee = cheminSuivant.getArrivee();
+				chemins.remove(cheminSuivant);
+				chemins.remove(cheminPrecedent);
+				Chemin nouveauChemin = new Chemin();// ACHANGER = plusCourtChemin(nouveauDepart, nouvelleArrivee)
+				chemins.add(i,nouveauChemin);
+			}
+		}
+	}
+
 }

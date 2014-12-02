@@ -20,6 +20,9 @@ public abstract class Commande {
 	public Commande() {
 	}
 	
+	/**
+	 * Constructeur de la classe Commande
+	 */
 	public Commande(Zone zone) {
 		this.zone = zone;
 	}

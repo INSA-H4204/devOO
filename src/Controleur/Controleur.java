@@ -79,6 +79,8 @@ public class Controleur implements ActionListener {
 
 	/**
 	 * Vérifie si la zone chargée contient des livraisons
+	 * 
+	 * @author hgerard
 	 */
 	public void verifierSiZoneSansLivraison() {
 		isZoneSansLivraison = zone.verifierSiZoneSansLivraison();
@@ -86,8 +88,9 @@ public class Controleur implements ActionListener {
 	
 	/**
 	 * Sélectionne un noeud
-	 * @param 	int x 				La coordonée x du click effectué sur la carte
-	 * @param 	int y 				La coordonée y du click effectué sur la carte
+	 * @param 	int x 				La coordonnée x du click effectué sur la carte
+	 * @param 	int y 				La coordonnée y du click effectué sur la carte
+	 * @author hgerard thelmer
 	 */
 	public void selectionnerNoeud(int x, int y){
 		verifierSiZoneSansLivraison();
@@ -142,9 +145,9 @@ public class Controleur implements ActionListener {
 	
 	/**
 	* Appelee par le bouton "Valider feuille de route" pour creer le fichier texte de la feuille de route
-	 * 
-	 * @author thelmer
-	 */
+	* 
+	* @author thelmer
+	*/
 	public void imprimerFeuilleDeRoute() {
 
 	     try {
@@ -192,28 +195,47 @@ public class Controleur implements ActionListener {
 	
 	/**
 	 * Appelée par le bouton Valider pendant l'insertion de point de livraison
-	 * 
+	 * s
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
 		String idClient = ""; /*getIdClientVue() --> GABRIEL*/
 		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
-			CdeAjouterLivraison ajout1 = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
-			commandesExecutees.push(ajout1);
-			ajout1.execute();
+			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
+			commandesExecutees.push(ajout);
+			ajout.execute();
 		}
 		
 	}
 	
-	/**
-	 * 
+	/*
+	 * kevin
+	 * Annule la dernière commande executé? TODO ?
 	 */
-	public void supprimerLivraison(){
-		// TODO implement here
+	public void undoAction() {
+		
+	}
+	/*
+	 * kevin
+	 * Reexecute la dernière commande executé? TODO ?
+	 */
+	public void redoAction() {
+		
+	}
+		
+	/**
+	 * Appelée par le bouton Supprimer
+	 * 
+	 * @author hgerard
+	 */
+	public void actionBoutonSupprimer(){
+		CdeSupprimerLivraison suppr = new CdeSupprimerLivraison(zone, noeudSelectionne);
 	}
 
 	/**
 	 * Affiche les vues 
+	 * 
+	 * @author hgerard
 	 */
 	public void afficherVue() {
 		vueApplication.afficher();
@@ -221,10 +243,22 @@ public class Controleur implements ActionListener {
 	
 	/**
 	 * Ferme les vues 
+	 * 
+	 * @author hgerard
 	 */
 	public void fermerVue() {
 		vueApplication.fermer();
 	}
+
+	public Zone getZone() {
+		return zone;
+	}
+
+	public Stack<Commande> getCommandesExecutees () {
+		return commandesExecutees;
+	}
 	
-	
+	public Stack<Commande> getCommandesAnnulees () {
+		return commandesAnnulees;
+	}	
 }

@@ -20,12 +20,17 @@ public class LivraisonTest {
 	@Before
 	public void setUp() throws Exception {
 		Noeud adresse = new Noeud(1,200,200);
+		
 		livraison = new Livraison(1,1,Calendar.getInstance(),true,adresse);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
-
+	
+	@Test public void testConstructor() {
+		assertNotNull(livraison);
+	}
+ 
 
 }
