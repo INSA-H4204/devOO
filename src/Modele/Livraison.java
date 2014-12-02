@@ -77,9 +77,8 @@ public class Livraison extends Observable {
 	public Livraison(Element livraisonElement,Zone zone,PlageHoraire plage,int livraisonID){
 		this.livraisonID = livraisonID;
 		this.clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
-		Noeud adresseLivaison= new Noeud();
-		adresseLivaison=zone.GetNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
-		this.adresse = adresseLivaison;
+		Noeud adresseLivraison=zone.GetNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
+		this.adresse = adresseLivraison;
 		this.plage=plage;
 		
 	}

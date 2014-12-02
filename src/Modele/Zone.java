@@ -196,7 +196,7 @@ public class Zone extends Observable {
 		}
 		else {
 				if(verifierUnfichierXML(xmlFilePathLivraison, xsdFilePathLivraison)){
-					System.out.println("yousra---------------------------------------");
+					System.out.println("yousra---------------------------------");
 					List<PlageHoraire> listeTousPlagesH = new ArrayList<PlageHoraire>();
 					List<Livraison> listeTousLivraisons = new ArrayList<Livraison>();
 

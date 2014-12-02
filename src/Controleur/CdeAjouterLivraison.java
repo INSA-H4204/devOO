@@ -36,21 +36,21 @@ public class CdeAjouterLivraison extends Commande {
 	/**
 	 * 
 	 */
-	protected void execute() {
+	public void execute() {
 		
 	}
 
 	/**
 	 * 
 	 */
-	protected void undo() {
+	public void undo() {
 		// TODO implement here
 	}
 
 	/**
 	 * 
 	 */
-	protected void redo() {
+	public void redo() {
 		// TODO implement here
 	}
 

@@ -111,4 +111,23 @@ public class ControleurTest {
 		ctrl.actionBoutonValider();
 	}	
 	
+	
+	@Test
+	public void undoRedo() throws Exception {
+		Zone zone = new Zone();
+			zone.addNoeud(new Noeud(1,200,256));
+			zone.addNoeud(new Noeud(2,546,254));
+			zone.addNoeud(new Noeud(3,345,410));
+			zone.addNoeud(new Noeud(4,920,200));
+			zone.addNoeud(new Noeud(5,400,200));
+		ctrl = new Controleur(zone);
+		ctrl.selectionnerNoeud(230,530);
+		ctrl.actionBoutonAjouter();
+		ctrl.selectionnerNoeud(400,200);
+		ctrl.actionBoutonValider();
+		assertTrue("La stack des commandes est nulles",ctrl.getCommandesExecutees().size() == 1);
+		ctrl.undoAction();
+
+	}	
+	
 }

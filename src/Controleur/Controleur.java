@@ -205,6 +205,21 @@ public class Controleur implements ActionListener {
 		
 	}
 	
+	/*
+	 * kevin
+	 * Annule la dernière commande executé? TODO ?
+	 */
+	public void undoAction() {
+		
+	}
+	/*
+	 * kevin
+	 * Reexecute la dernière commande executé? TODO ?
+	 */
+	public void redoAction() {
+		
+	}
+		
 	/**
 	 * 
 	 */
@@ -225,6 +240,16 @@ public class Controleur implements ActionListener {
 	public void fermerVue() {
 		vueApplication.fermer();
 	}
+
+	public Zone getZone() {
+		return zone;
+	}
+
+	public Stack<Commande> getCommandesExecutees () {
+		return commandesExecutees;
+	}
 	
-	
+	public Stack<Commande> getCommandesAnnulees () {
+		return commandesAnnulees;
+	}	
 }
