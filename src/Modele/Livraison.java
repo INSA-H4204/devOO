@@ -33,7 +33,7 @@ public class Livraison extends Observable {
 		isZoneVide = true;
 		cheminIn = new Chemin();
 		cheminOut = new Chemin();
-		adresse = new Noeud();
+		adresse = null;
 		plage = new PlageHoraire();
 	}
 	
@@ -84,14 +84,7 @@ public class Livraison extends Observable {
 		
 	}
 
-	/**
-	 * @return
-	 */
-	private boolean verifierSiZoneVide() {
-		// TODO implement here
-		return false;
-	}
-	
+
 	public Noeud getAdresse() {
 		return adresse;
 	}

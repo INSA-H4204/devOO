@@ -28,6 +28,7 @@ public class ControleurTest {
 
 	@Test
 	public void selectionNoeudSuccess() throws Exception {
+		System.out.print("yeah");
 		Noeud noeudCherche = new Noeud(1,230,530);
 		Zone zone = new Zone();
 			zone.addNoeud(new Noeud(2,400,200));
@@ -36,7 +37,6 @@ public class ControleurTest {
 			zone.addNoeud(new Noeud(4,230,120));
 		ctrl = new Controleur(zone);
 		ctrl.selectionnerNoeud(230,530);
-		
 		Field noeudSelectionneField = Controleur.class.getDeclaredField("noeudSelectionne");
 		noeudSelectionneField.setAccessible(true);
 		assertEquals(noeudSelectionneField.get(ctrl),noeudCherche);
@@ -52,7 +52,6 @@ public class ControleurTest {
 			zone.addNoeud(new Noeud(5,400,200));
 		ctrl = new Controleur(zone);
 		ctrl.selectionnerNoeud(230,530);
-		
 		Field noeudSelectionneField = Controleur.class.getDeclaredField("noeudSelectionne");
 		noeudSelectionneField.setAccessible(true);
 		assertNull(noeudSelectionneField.get(ctrl));

@@ -38,88 +38,21 @@ public class Zone extends Observable {
 	private static int ecartTolere = 5;
 	private Tournee tournee;
 
-	
-	public Tournee getTournee() {
-		return tournee;
-	}
 
-	/**
-	 * Constructeur par défaut de Zone
-	 */
-	public Zone() {
-		troncons = new HashSet<Troncon>();
-		noeuds = new HashMap<Integer,Noeud>();
-		plages = new ArrayList<PlageHoraire>();
-		observers = new ArrayList<Observer>();
-		graphe = new Graphe(troncons, noeuds.size());
-	}
-
-	/**
-	 * Retourne un noeud qui se trouve à peu près à la position cliquée
-	 * 
-	 * @param int x 
-	 * @param int y 
-	 * @return Noeud resultat
-	 */
-	public Noeud rechercherNoeudParPosition(int x, int y) {
-		int ecartTolere = 5;
-//		Iterator iter = noeuds.keySet().iterator();
-		for(Entry<Integer, Noeud> iter : noeuds.entrySet()) {
-//		while (iter.hasNext()){
-			int xNoeud = iter.getValue().getPosX();
-			int yNoeud = iter.getValue().getPosY();
-			if ((x < xNoeud + ecartTolere) && (x > xNoeud - ecartTolere) && (y < yNoeud + ecartTolere) && (y > yNoeud - ecartTolere)){
-				return iter.getValue();
-			}
-		}
-		return null;
-	}
 
 	
-	
-	/**
-	 * Renvoie un booleen true si la Zone contient un set de Livraison vide
-	 * @return boolean isSansLivraison
-	 */
-	public boolean verifierSiZoneSansLivraison() {
-		for (PlageHoraire plage : plages){
-			if (!plage.getLivraisons().isEmpty()){
-				return false;
-			}
-		}
-		return true;
-	}
-
-	
-	/**
-	 * @param File xmlFilePath
-	 */
-	public void XMLtoDOMLivraisons(Document xmlFilePath) {
-		
-		// TODO implement here
-	}
-	
-	/**
-     * @author Yousra
-	 */
-	public boolean verifierUnfichierXML(String xmlFilePath, String xsdFilePath){
-		try {
-            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = factory.newSchema(new File(xsdFilePath));
-            Validator validator = schema.newValidator();
-            validator.validate(new StreamSource(new File(xmlFilePath)));
-        } catch (IOException | SAXException e) {
-            System.out.println("Exception: "+e.getMessage());
-            //return false;
-        }
-        return true;
-	}
 	/**
 	 * @param  xmlFilePath      le chemin du fichier xml Plan
 	 * @param  xsdFilePathPlan  le chemin du fichier xsd Plan pour valider le fichier xml
      * @author Yousra
 	 */
-	public void XMLtoDOMZone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
+	public Zone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
+		
+		troncons = new HashSet<Troncon>();
+		noeuds = new HashMap<Integer,Noeud>();
+		plages = new ArrayList<PlageHoraire>();
+		observers = new ArrayList<Observer>();
+		graphe = new Graphe(troncons, noeuds.size());
 		File xml = new File(xmlFilePathPlan);
 		if (!xml.exists()) {
 			throw new FileNotFoundException();
@@ -136,7 +69,7 @@ public class Zone extends Observable {
 						NodeList listeNoeudsXML = racine.getElementsByTagName("Noeud");
 						for(int i=0; i<listeNoeudsXML.getLength();i++) 
 						{
-							int key =  Integer.parseInt((String) ((DocumentBuilderFactory) listeNoeudsXML.item(i)).getAttribute("id")) ;
+							int key =  Integer.parseInt((String) ((Element) listeNoeudsXML.item(i)).getAttribute("id")) ;
 							noeuds.put(key,new Noeud((Element)listeNoeudsXML.item(i)));                	   
 						}
 	                   for(int i=0; i<listeNoeudsXML.getLength();i++) 
@@ -170,11 +103,76 @@ public class Zone extends Observable {
 		}
 	}
 	/**
+	 * Constructeur par défaut de Zone
+	 */
+	public Zone() {
+		troncons = new HashSet<Troncon>();
+		noeuds = new HashMap<Integer,Noeud>();
+		plages = new ArrayList<PlageHoraire>();
+		observers = new ArrayList<Observer>();
+		graphe = new Graphe(troncons, noeuds.size());
+	}
+
+	/**
+	 * Retourne un noeud qui se trouve à peu près à la position cliquée
+	 * 
+	 * @param int x 
+	 * @param int y 
+	 * @return Noeud resultat
+	 */
+	public Noeud rechercherNoeudParPosition(int x, int y) {
+		int ecartTolere = 5;
+		
+		for(Entry<Integer, Noeud> iter : noeuds.entrySet()) {
+			
+			int xNoeud = iter.getValue().getPosX();
+			int yNoeud = iter.getValue().getPosY();
+			if ((x < xNoeud + ecartTolere) && (x > xNoeud - ecartTolere) && (y < yNoeud + ecartTolere) && (y > yNoeud - ecartTolere)){
+				return iter.getValue();
+			}
+		}
+		return null;
+	}
+
+	
+	
+	/**
+	 * Renvoie un booleen true si la Zone contient un set de Livraison vide
+	 * @return boolean isSansLivraison
+	 */
+	public boolean verifierSiZoneSansLivraison() {
+		for (PlageHoraire plage : plages){
+			if (!plage.getLivraisons().isEmpty()){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	
+
+	
+	/**
+     * @author Yousra
+	 */
+	public boolean verifierUnfichierXML(String xmlFilePath, String xsdFilePath){
+		try {
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = factory.newSchema(new File(xsdFilePath));
+            Validator validator = schema.newValidator();
+            validator.validate(new StreamSource(new File(xmlFilePath)));
+        } catch (IOException | SAXException e) {
+            System.out.println("Exception: "+e.getMessage());
+            //return false;
+        }
+        return true;
+	}
+	
+	/**
 	 * @param xmlFilePathLivraison (le chemin du fichier xml DemandeLivaison)
 	 * @param xsdFilePathLivraison (le chemin du fichier xsd Plan pour valider le fichier xml)
      * @author Yousra
 	 */
-	
 	public void XMLtoDOMLivraisons(String xmlFilePathLivraison, String xsdFilePathLivraison) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
 
 		File xml = new File(xmlFilePathLivraison);
@@ -358,7 +356,10 @@ public class Zone extends Observable {
 	public Set<Troncon> GetTroncons() {
 		return troncons;
 	}
-
+	
+	public Tournee getTournee() {
+		return tournee;
+	}
 	
 
 }

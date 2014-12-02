@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
  * @author hgerard
  */
 public class Noeud extends Observable {
-
+	
 	private int noeudID;
 	private int posX;
 	private int posY;
@@ -48,14 +48,14 @@ public class Noeud extends Observable {
 		this.posX = Integer.parseInt(noeudElement.getAttribute("x"));
 		this.posY = Integer.parseInt(noeudElement.getAttribute("y"));	
 	}
-
+	
 
 	public int getPosX() {
 		return posX;
 	}
 	
 	public int getPosY() {
-		return posX;
+		return posY;
 	}
 	
 	public int getNoeudID() {

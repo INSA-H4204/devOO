@@ -2,11 +2,14 @@ package Controleur;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Stack;
+
+import org.xml.sax.SAXException;
 
 import Modele.Livraison;
 import Modele.Noeud;
@@ -55,7 +58,7 @@ public class Controleur {
 	 * @author hgerard
 	 */
 	public Controleur(Zone zone) {
-		
+		System.out.print("yeah");
 		this.zone = zone;
 		vueNoeud = new VueNoeud(this);
 		vueTroncon = new VueTroncon(this);
@@ -110,10 +113,14 @@ public class Controleur {
 	
 	/**
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
+	 * @throws SAXException 
+	 * @throws FileNotFoundException 
+	 * @throws NumberFormatException 
 	 * 
 	 */
-	public void chargerZone(File XMLFilePath) {
-		// TODO implement here
+	public void chargerZone(String XMLFilePath) throws NumberFormatException, FileNotFoundException, SAXException {
+		zone = new Zone(XMLFilePath,"Resources/plan.xsd");
+		
 	}
 	
 	/**
@@ -137,20 +144,20 @@ public class Controleur {
            
              try {
                
-                  // 2) écriture de la feuille de route
-                  out.write("Partez de l'entrepôt situé "+String.valueOf(zone.getTournee().getEntrepot().getAdresse().getNoeudID())+" à "+String.valueOf(zone.getTournee().getEntrepot().getHeureLivraisonPrevue().get(Calendar.HOUR_OF_DAY)));
+                  // 2) ï¿½criture de la feuille de route
+                  out.write("Partez de l'entrepï¿½t situï¿½ "+String.valueOf(zone.getTournee().getEntrepot().getAdresse().getNoeudID())+" ï¿½ "+String.valueOf(zone.getTournee().getEntrepot().getHeureLivraisonPrevue().get(Calendar.HOUR_OF_DAY)));
                   for(Chemin chemin:zone.getTournee().getChemins())  {
                 	  for(Troncon troncon:chemin.getTroncons()) {
                 		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
                 	  }
                 	  if(chemin.getArrivee().getLivraisonID()!=0)
-                		  out.write("Livrez la commande numéro "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numéro "+String.valueOf(chemin.getArrivee().getClientID())+" à l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" après "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().get(Calendar.HOUR_OF_DAY)));
+                		  out.write("Livrez la commande numï¿½ro "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numï¿½ro "+String.valueOf(chemin.getArrivee().getClientID())+" ï¿½ l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" aprï¿½s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().get(Calendar.HOUR_OF_DAY)));
                 	  else
-                		  out.write("Vous êtes de retour à l'entrepot");
+                		  out.write("Vous ï¿½tes de retour ï¿½ l'entrepot");
                   }
              } finally {
                
-                  // 3) Libération de la ressource exploitée par l'objet
+                  // 3) Libï¿½ration de la ressource exploitï¿½e par l'objet
                   out.close();
                
              }
