@@ -14,6 +14,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import Controleur.Controleur;
+import Modele.Noeud;
 
 public class VueApplication extends JFrame implements Observer {
 
@@ -41,7 +42,20 @@ public class VueApplication extends JFrame implements Observer {
 	 */
 	@Override
 	public void update(Observable obs, Object obj) {
+		try {
+			ArrayList l = (ArrayList)obj;
+		} catch(Exception e) {
+			switch(obj.toString()) {
+			case "Noeud":
+				updateNoeud((Noeud)obj);
+				break;
+			}
+		}
 		System.out.println("ok");
+	}
+	
+	private void updateNoeud(Noeud n) {
+		
 	}
 
 	/**
