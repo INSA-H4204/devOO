@@ -249,7 +249,23 @@ public class Zone extends Observable {
 	
 	public void calculerTournee() {
 		Tournee tournee = new Tournee(plages, entrepot);
-		
+		tournee.calculer(this);
+	}
+	
+	private List<Troncon> listerTroncons(int arrivee, int[] precedent) {
+		int depart = precedent[arrivee];
+		List<Troncon> troncons = new ArrayList<Troncon>();
+		while (depart != 0) {
+			List<Troncon> tronconsSortants = noeuds.get(depart).getTronconsSortants();
+			for (Troncon troncon : tronconsSortants) {
+				if (troncon.getFin().getNoeudID() == arrivee) {
+					troncons.add(0, troncon);
+				}
+			}
+			arrivee = depart;
+			depart = precedent[arrivee];
+		}
+		return troncons;
 	}
 
 	public List<Chemin> listerChemins(int[] suivant, HashMap<Integer, ResDijkstra> sources, HashMap<Integer, Livraison> livraisons) {
@@ -260,17 +276,7 @@ public class Zone extends Observable {
 		do {
 			precedent = sources.get(i).getPrecedent();
 			arrivee = livraisons.get(suivant[i]).getAdresse().getNoeudID();
-			List<Troncon> troncons = new ArrayList<Troncon>();
-			while ((depart=precedent[arrivee]) != 0) {
-				List<Troncon> tronconsSortants = noeuds.get(depart).getTronconsSortants();
-				for (Troncon troncon : tronconsSortants) {
-					if (troncon.getFin().getNoeudID() == arrivee) {
-						troncons.add(0, troncon);
-					}
-				}
-				arrivee = depart;
-			}
-			listeChemins.add(new Chemin(livraisons.get(i), livraisons.get(suivant[i]), troncons));
+			listeChemins.add(new Chemin(livraisons.get(i), livraisons.get(suivant[i]), listerTroncons(arrivee, precedent)));
 			i = suivant[i];
 		} while (i != 0);
 
@@ -311,6 +317,13 @@ public class Zone extends Observable {
 		}
 		ResDijkstra resDijkstra = new ResDijkstra(poids, precedent);
 		return resDijkstra;
+	}
+	
+	public Chemin plusCourtChemin(int source, int destination) {
+		ResDijkstra resDijkstra = dijkstra(source);
+		int[] precedent = resDijkstra.getPrecedent();
+		listerTroncons(destination, precedent);
+		
 	}
 	
 	public Set<Noeud> GetNoeuds(){
