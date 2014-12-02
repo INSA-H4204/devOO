@@ -81,7 +81,11 @@ public class Zone extends Observable {
 	                		   Element tronconElt = (Element) listeTronconsNoeudXML.item(j);
 	                		   Noeud origine = noeuds.get(i);
 	                		   Noeud fin = noeuds.get(Integer.parseInt(tronconElt.getAttribute("idNoeudDestination")));
-	                		   troncons.add(new Troncon(tronconElt,origine,fin));
+	                		   //Vérifier si le noeud de destination existe
+	                		   if(fin!=null)
+	                			   troncons.add(new Troncon(tronconElt,origine,fin));
+	                		   else
+	                			   throw new SAXException();
 	                	   }               	   
 	                   }
 	                   
@@ -209,7 +213,6 @@ public class Zone extends Observable {
 							else {
 								throw new SAXException();
 							}
-							listeTousPlagesH.add(plageHoraire);
 						}
 
 					}

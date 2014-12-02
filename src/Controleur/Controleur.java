@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Stack;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
@@ -58,7 +61,6 @@ public class Controleur {
 	 * @author hgerard
 	 */
 	public Controleur(Zone zone) {
-		System.out.print("yeah");
 		this.zone = zone;
 		vueNoeud = new VueNoeud(this);
 		vueTroncon = new VueTroncon(this);
@@ -105,10 +107,14 @@ public class Controleur {
 
 	/**
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la tournée
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
+	 * @throws ParseException 
 	 * 
 	 */
-	public void chargerLivraisons(File XMLFilePath) {
-		// TODO implement here
+	public void chargerLivraisons(String XMLFilePath) throws ParseException, ParserConfigurationException, SAXException, IOException {
+		zone.XMLtoDOMLivraisons(XMLFilePath,"Resources/demandeLivraison.xsd" );
 	}
 	
 	/**
@@ -120,7 +126,6 @@ public class Controleur {
 	 */
 	public void chargerZone(String XMLFilePath) throws NumberFormatException, FileNotFoundException, SAXException {
 		zone = new Zone(XMLFilePath,"Resources/plan.xsd");
-		
 	}
 	
 	/**
