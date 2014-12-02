@@ -1,5 +1,9 @@
-package Modele;
+package tsp;
 
+/**
+ * @author Christine Solnon
+ *
+ */
 public interface Graph {
 
 	/**
@@ -39,5 +43,8 @@ public interface Graph {
 	 */
 	public abstract int getNbSucc(int i)
 			throws ArrayIndexOutOfBoundsException;
+
+	public abstract void ajouterDansGraphe(int depart, int arrivee, int poids);
+
 
 }

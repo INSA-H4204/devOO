@@ -15,6 +15,7 @@ public class Noeud extends Observable {
 	private int posX;
 	private int posY;
 	private Livraison livraison;
+	private List<Troncon> tronconsSortants;
 	
 	/**
 	 * Constructeur par defaut de Noeud
@@ -24,7 +25,7 @@ public class Noeud extends Observable {
 		posX = 0;
 		posY = 0;
 		livraison = new Livraison();
-
+		tronconsSortants = new ArrayList<Troncon>();
 	}
 	
 	/**
@@ -65,5 +66,8 @@ public class Noeud extends Observable {
 	public Livraison getLivraison() {
 		return livraison;
 	}
-
+	
+	public List<Troncon> getTronconsSortants() {
+		return tronconsSortants;
+	}
 }

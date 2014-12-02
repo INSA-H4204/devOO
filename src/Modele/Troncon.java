@@ -23,6 +23,7 @@ public class Troncon extends Observable {
 	private int longueur ;
 	private Etat etatTroncon;
 	private Noeud fin;
+	
 	public String getNomRue() {
 		return nomRue;
 	}
@@ -71,6 +72,10 @@ public class Troncon extends Observable {
 	
 	public int getLongueur() {
 		return longueur;
+	}
+
+	public int getVitesse() {
+		return vitesse;
 	}
 
 	public void construireTronconAPartirDeDOMXML(Element tronconElement,Integer indexNoeudOrigineDansLaliste, Set<Noeud> listeNoeuds) {
