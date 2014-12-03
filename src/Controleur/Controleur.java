@@ -26,6 +26,7 @@ import Modele.Tournee;
 import Modele.Troncon;
 import Modele.Zone;
 import Vue.VueApplication;
+import Vue.VueZone;
 
 /**
  * Le contrôleur fait le lien entre la vue et le modèle. Lorsqu'un utilisateur agit sur
@@ -180,10 +181,25 @@ zone.test();
 	 * @author hgerard thelmer
 	 */
 	public void selectionnerNoeud(){
+		
 		verifierSiZoneSansLivraison();
 		if (selectionActive && isZoneSansLivraison) {
 			selectionActive = false;
+			
+			if (noeudPrecedent != null) {
+				vueApplication.deselectionnerNoeud(noeudPrecedent.getPosX(),noeudPrecedent.getPosY());
+			}
+			
+			if (noeudSelectionne != null) {
+				vueApplication.deselectionnerNoeud(noeudSelectionne.getPosX(),noeudSelectionne.getPosY());
+			}
+			
+			noeudSelectionne = null;
+			noeudPrecedent = null;
+			
 			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
+			vueApplication.selectionnerNoeud(noeudClique.getPosX(),noeudClique.getPosY());
+			
 			if (noeudClique != null) {
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
