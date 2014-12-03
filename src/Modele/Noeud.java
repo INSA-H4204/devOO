@@ -69,9 +69,8 @@ public class Noeud extends Observable {
 		return livraison;
 	}
 
-
-	public void setTroncons(List<Troncon> troncons) {
-		this.tronconsSortants=troncons;
+	public void setTronconsSortants(List<Troncon> tronconsSortants) {
+		this.tronconsSortants=tronconsSortants;
 	}
 
 	
