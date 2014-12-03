@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
-import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 
@@ -45,7 +44,6 @@ public class VueApplication extends JFrame implements Observer {
 	 */
 	@Override
 	public void update(Observable obs, Object obj) {
-		System.out.println("il est dedans");
 		if (obj != null) {
 			switch (obj.toString()) {
 			case "Noeud":
@@ -56,11 +54,9 @@ public class VueApplication extends JFrame implements Observer {
 				break;
 			}
 		} else {
-			System.out.println("ici aussi");
 			Zone zone = (Zone) obs;
 			chargerNoeudsDeZone(zone);
 			chargerTronconsDeZone(zone);
-
 		}
 	}
 
@@ -194,7 +190,7 @@ public class VueApplication extends JFrame implements Observer {
 			int xInit = convertiseurMetrePixel(t.getOrigine().getPosX(), 'x');
 			int yInit = convertiseurMetrePixel(t.getOrigine().getPosY(), 'y');
 			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
-			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'x');
+			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
 			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, t.getNomRue());
 			listeVueTroncons.add(vt);
 		}

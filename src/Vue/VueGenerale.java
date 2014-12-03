@@ -1,12 +1,9 @@
 package Vue;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import Controleur.Controleur;
 

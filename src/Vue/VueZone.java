@@ -1,25 +1,13 @@
 package Vue;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-
-import Controleur.Controleur;
-import Modele.Troncon;
 
 public class VueZone extends JPanel {
 	private static List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();

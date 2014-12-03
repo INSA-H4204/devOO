@@ -1,8 +1,6 @@
 package Vue;
 
-import java.util.Observable;
 import javax.swing.JFrame;
-import Controleur.Controleur;
 
 /**
  * Classe qui gère les modifications sur les tronçons

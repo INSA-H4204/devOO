@@ -1,6 +1,6 @@
 package Modele;
 
-import java.util.*;
+import java.util.Observable;
 
 /**
  * Une livraison est un lieu de livraison associé à une plage horaire 

@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Stack;
 
 import javax.swing.JFileChooser;
@@ -20,7 +19,6 @@ import org.xml.sax.SAXException;
 import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
-import Modele.Tournee;
 import Modele.Troncon;
 import Modele.Zone;
 import Vue.VueApplication;
@@ -78,17 +76,18 @@ public class Controleur implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		switch (action) {
-		case "Charger Plan":
-			
+		case "Charger Plan":			
 			String planXML = choisirXML();
-			if(planXML != null){
+			planXML = null;
+			System.out.println("l"+planXML);
+//			if(planXML != null){
 				try {
 					chargerZone(planXML);
 				} catch (NumberFormatException | FileNotFoundException | SAXException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
+//			}
 			
 			break;
 			
@@ -180,8 +179,7 @@ zone.test();
 	 * @throws IOException 
 	 * @throws SAXException 
 	 * @throws ParserConfigurationException 
-	 * @throws ParseException 
-	 * 
+	 * @throws ParseException 	 * 
 	 */
 	public void chargerLivraisons(String XMLFilePath) throws ParseException, ParserConfigurationException, SAXException, IOException {
 		zone.XMLtoDOMLivraisons(XMLFilePath,"Resources/demandeLivraison.xsd" );
@@ -191,8 +189,7 @@ zone.test();
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
 	 * @throws SAXException 
 	 * @throws FileNotFoundException 
-	 * @throws NumberFormatException 
-	 * 
+	 * @throws NumberFormatException 	 * 
 	 */
 	public void chargerZone(String XMLFilePath) throws NumberFormatException, FileNotFoundException, SAXException {
 		zone.XMLtoDOMZone(XMLFilePath, "Resources/plan.xsd");
