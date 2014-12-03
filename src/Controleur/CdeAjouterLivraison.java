@@ -6,9 +6,7 @@ import java.util.List;
 import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
-import Modele.PlageHoraire;
 import Modele.Tournee;
-import Modele.Troncon;
 import Modele.Zone;
 
 /**
@@ -17,10 +15,11 @@ import Modele.Zone;
  * @author hgerard
  */
 public class CdeAjouterLivraison extends Commande {
+	
 	private Zone zone;
 	private Noeud noeudPrecedent;
 	private Noeud noeudSelectionne;
-	private String idClient;
+	private int idClient;
 
 	/**
 	 * Constructeur par défaut de la classe CdeAjouterLivraison
@@ -36,14 +35,13 @@ public class CdeAjouterLivraison extends Commande {
 	 * 
 	 * @author hgerard
 	 */
-	public CdeAjouterLivraison(Zone zone, Noeud noeudPrecedent, Noeud noeudSelectionne, String idClient) {
+	public CdeAjouterLivraison(Zone zone, Noeud noeudPrecedent, Noeud noeudSelectionne, int idClient) {
 		
 		super(zone);
 
 		this.idClient = idClient;
 		this.noeudSelectionne = noeudSelectionne;
 		this.noeudPrecedent = noeudPrecedent;
-		this.zone = zone;
 		
 		
 	}
@@ -54,13 +52,15 @@ public class CdeAjouterLivraison extends Commande {
 	 */
 
 	public void execute() {
-		Livraison livraisonAjout = new Livraison(idClient,nombreLivraison,Calendar.getInstance(),noeudSelectionne.getNoeudID());
+
+		
+		Livraison livraisonAjout = new Livraison(idClient,noeudSelectionne);
 		int posCheminSupprimer=-2;
 		List<Chemin> chemins = zone.getTournee().getChemins();
 		for(Chemin chemin : chemins){
 			if(posCheminSupprimer != -2){
 				int adressePrecedente= noeudPrecedent.getNoeudID();
-				int adresseAjoute = livraisonAjout.getAdresse().getNoeudID();
+				int adresseAjoute = noeudSelectionne.getNoeudID();
 				int adresseSuivante = chemin.getArrivee().getAdresse().getNoeudID();
 				Chemin cheminPrecedent = zone.plusCourtChemin(adressePrecedente,adresseAjoute);
 				Chemin cheminSuivant = zone.plusCourtChemin(adresseAjoute,adresseSuivante);
@@ -72,28 +72,36 @@ public class CdeAjouterLivraison extends Commande {
 			else{
 				if(chemin.getArrivee().getAdresse() == noeudPrecedent){
 					posCheminSupprimer = chemins.indexOf(chemin)+1;
-					
+					livraisonAjout.setPlage(chemin.getArrivee().getPlage());
 				}
 			}
 		}
-
-		
 	}
 
 	/**
-	 * Fonction appelée quand on annule la fonction normalement
+	 * Fonction appelée quand on annule la fonction
 	 */
 	public void undo() {
-		// TODO implement here
+		
+		Livraison livraisonSuppression = noeudSelectionne.getLivraison();
+		Tournee tournee = zone.getTournee();
+		List<Chemin> chemins = tournee.getChemins();
+		
+		for (int i = 0 ; i < chemins.size() ; i++){
+			Chemin cheminPrecedent = chemins.get(i);
+			Livraison arrivee = cheminPrecedent.getArrivee();
+			
+			if (arrivee.equals(livraisonSuppression)){
+				Chemin cheminSuivant = chemins.get(i+1);
+				Livraison nouveauDepart = cheminPrecedent.getDepart();
+				Livraison nouvelleArrivee = cheminSuivant.getArrivee();
+				int idDepart = nouveauDepart.getAdresse().getNoeudID();
+				int idArrivee = nouvelleArrivee.getAdresse().getNoeudID();
+				chemins.remove(cheminSuivant);
+				chemins.remove(cheminPrecedent);
+				Chemin nouveauChemin = zone.plusCourtChemin(idDepart, idArrivee);
+				chemins.add(i,nouveauChemin);
+			}
+		}
 	}
-
-	/**
-	 * Fonction appelée quand on réexecute la fonction normalement
-	 */
-	public void redo() {
-		// TODO implement here
-	}
-
-
-
 }

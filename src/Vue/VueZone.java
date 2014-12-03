@@ -76,7 +76,12 @@ public class VueZone extends JPanel {
 		this.repaint();
 	}
 
-	public void chargerTroncon(VueTroncon vueTroncon) {
+	public void chargerTroncons(List<VueTroncon> listeVueTroncons) {
+		this.listeVueTroncon = listeVueTroncons;
+		this.repaint();
+	}
+	
+	public void chargerTroncons(VueTroncon vueTroncon) {
 		this.listeVueTroncon.add(vueTroncon);
 		this.repaint();
 	}
@@ -90,8 +95,8 @@ public class VueZone extends JPanel {
 		signX = (int) Math.signum(deltaX);
 		signY = (int) Math.signum(deltaY);
 		g.drawLine(xInit, yInit, xFin, yFin);
-		g.drawLine(xMoyen, yMoyen, xMoyen, yMoyen + (-signY)*15);
-		g.drawLine(xMoyen, yMoyen, xMoyen + (-signX)*15, yMoyen);		
+//		g.drawLine(xMoyen, yMoyen, xMoyen, yMoyen + (-signY)*15);
+//		g.drawLine(xMoyen, yMoyen, xMoyen + (-signX)*15, yMoyen);		
 	}
 }
 
