@@ -126,8 +126,7 @@ public class ControleurTest {
 		ctrl.selectionnerNoeud(400,200);
 		ctrl.actionBoutonValider();
 		assertTrue("La stack des commandes est nulles",ctrl.getCommandesExecutees().size() == 1);
-		//ctrl.undoAction();
-
+		ctrl.undo();
 	}	
 	
 }
