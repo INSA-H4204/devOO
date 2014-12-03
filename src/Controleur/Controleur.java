@@ -316,7 +316,7 @@ public class Controleur implements ActionListener {
 	public void redo() {
 		if (!commandesAnnulees.isEmpty()){
 			Commande commandeReexecution = commandesAnnulees.pop();
-			commandeReexecution.redo();
+			commandeReexecution.execute();
 			commandesExecutees.push(commandeReexecution);
 		}
 	}
