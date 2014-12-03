@@ -194,7 +194,7 @@ public class VueApplication extends JFrame implements Observer {
 			int xInit = convertiseurMetrePixel(t.getOrigine().getPosX(), 'x');
 			int yInit = convertiseurMetrePixel(t.getOrigine().getPosY(), 'y');
 			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
-			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'x');
+			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
 			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, t.getNomRue());
 			listeVueTroncons.add(vt);
 		}
