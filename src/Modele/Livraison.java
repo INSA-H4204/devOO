@@ -20,6 +20,8 @@ public class Livraison extends Observable {
 	private Noeud  adresse;
 	private PlageHoraire plage;
 	
+
+
 	/**
 	 * Constructeur par défaut de Livraison
 	 */
@@ -76,5 +78,9 @@ public class Livraison extends Observable {
 
 	public PlageHoraire getPlage() {
 		return plage;
+	}
+	
+	public void setPlage(PlageHoraire plage) {
+		this.plage = plage;
 	}
 }

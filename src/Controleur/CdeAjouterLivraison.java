@@ -1,5 +1,6 @@
 package Controleur;
 
+import java.util.Calendar;
 import java.util.List;
 
 import Modele.Chemin;
@@ -16,10 +17,9 @@ import Modele.Zone;
  * @author hgerard
  */
 public class CdeAjouterLivraison extends Commande {
-	
-	private Livraison livraisonPrecedente;
-	private Livraison livraisonAjout;
-	private PlageHoraire plageAjout;
+	private Zone zone;
+	private Noeud noeudPrecedent;
+	private Noeud noeudSelectionne;
 	private String idClient;
 
 	/**
@@ -41,14 +41,11 @@ public class CdeAjouterLivraison extends Commande {
 		super(zone);
 
 		this.idClient = idClient;
-		Livraison livraisonPrecedente = noeudPrecedent.getLivraison();
-		this.livraisonPrecedente = livraisonPrecedente;
+		this.noeudSelectionne = noeudSelectionne;
+		this.noeudPrecedent = noeudPrecedent;
+		this.zone = zone;
 		
-		Livraison livraisonAjout = noeudSelectionne.getLivraison();
-		this.livraisonAjout = livraisonAjout;
 		
-		PlageHoraire plageAjout = livraisonPrecedente.getPlage();
-		this.plageAjout = plageAjout;
 	}
 
 	/**
@@ -57,23 +54,26 @@ public class CdeAjouterLivraison extends Commande {
 	 */
 
 	public void execute() {
+		Livraison livraisonAjout = new Livraison(idClient,nombreLivraison,Calendar.getInstance(),noeudSelectionne.getNoeudID());
 		int posCheminSupprimer=-2;
 		List<Chemin> chemins = zone.getTournee().getChemins();
-		for(Chemin chemin:chemins){
+		for(Chemin chemin : chemins){
 			if(posCheminSupprimer != -2){
-				int adressePrecedente= livraisonPrecedente.getAdresse().getNoeudID();
+				int adressePrecedente= noeudPrecedent.getNoeudID();
 				int adresseAjoute = livraisonAjout.getAdresse().getNoeudID();
 				int adresseSuivante = chemin.getArrivee().getAdresse().getNoeudID();
 				Chemin cheminPrecedent = zone.plusCourtChemin(adressePrecedente,adresseAjoute);
 				Chemin cheminSuivant = zone.plusCourtChemin(adresseAjoute,adresseSuivante);
-				zone.getTournee().getChemins().remove(posCheminSupprimer);
-				zone.getTournee().getChemins().add(posCheminSupprimer,cheminPrecedent);
-				zone.getTournee().getChemins().add(posCheminSupprimer+1,cheminSuivant);
+				chemins.remove(posCheminSupprimer);
+				chemins.add(posCheminSupprimer,cheminPrecedent);
+				chemins.add(posCheminSupprimer+1,cheminSuivant);
 				return;
 			}
 			else{
-				if(chemin.getArrivee() == livraisonPrecedente)
+				if(chemin.getArrivee().getAdresse() == noeudPrecedent){
 					posCheminSupprimer = chemins.indexOf(chemin)+1;
+					
+				}
 			}
 		}
 
