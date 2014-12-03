@@ -3,12 +3,19 @@ package Modele;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.DatatypeConverter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,12 +24,12 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import tsp.*;
-import Modele.*;
+import tsp.Graph;
+import tsp.TSP;
 
 /**
  * Une zone est l’ensemble des noeuds et troncons d’une zone géographique. 
@@ -104,7 +111,7 @@ public Zone() {
 	                	   for (int j=0; j<listeTronconsNoeudXML.getLength();j++) 
 	                	   {
 	                		   Element tronconElement = (Element) listeTronconsNoeudXML.item(j);
-	                		   Noeud origine = noeuds.get(i);
+	                		   Noeud origine = noeuds.get(Integer.parseInt((String) ((Element) noeudElement).getAttribute("id")));
 	                		   Noeud fin = noeuds.get(Integer.parseInt(tronconElement.getAttribute("idNoeudDestination")));
 	                		   String nomRue= tronconElement.getAttribute("nomRue");
 	                	       int vitesse=(int)Double.parseDouble(tronconElement.getAttribute("vitesse").replaceAll(",", "."));
@@ -127,7 +134,7 @@ public Zone() {
 	                	   }               	   
 	                   }
 	                   	this.setChanged();
-	           			this.notifyObservers();
+	           			this.notifyObservers("Plan");
 	           			this.clearChanged();
 	                   
 				   }	
@@ -241,9 +248,11 @@ public Zone() {
 						Livraison entrepot = new Livraison(adresseEntrepot);
 						this.setEntrepot(entrepot);
 						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
+						//Heure prevue de l'entrepot
+						Time heurePrevuEntrepot=new Time(((Element) listePlagesHoraireXML.item(0)).getAttribute("heureDebut"));
+						entrepot.setHeurePrevue(heurePrevuEntrepot);
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
 							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);
-							// to do
 							Time heureDebut = new Time(plageHoraireElement.getAttribute("heureDebut"));
 							Time heureFin = new Time(plageHoraireElement.getAttribute("heureFin"));
 							List<Livraison> listeLivraisonsPlage = new ArrayList<Livraison>();
@@ -276,9 +285,11 @@ public Zone() {
 								throw new SAXException();
 							}
 						}
+						this.setChanged();
+						this.notifyObservers("Livraisons");
+						this.clearChanged();
 
-					}
-					else {
+					}else {
 						this.plages = null;
 						this.entrepot = null;
 						throw new SAXException();

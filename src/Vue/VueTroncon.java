@@ -1,8 +1,6 @@
 package Vue;
 
-import java.util.Observable;
 import javax.swing.JFrame;
-import Controleur.Controleur;
 
 /**
  * Classe qui gère les modifications sur les tronçons
@@ -10,7 +8,10 @@ import Controleur.Controleur;
 public class VueTroncon {
 
 	private JFrame frame = null;
-	int xInit, yInit, xFin, yFin;
+	private int xInit;
+	private int yInit;
+	private int xFin;
+	private int yFin;
 	String nom;
 	
 	/**

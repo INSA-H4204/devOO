@@ -1,6 +1,10 @@
 package Modele;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
 
 import org.w3c.dom.Element;
 
@@ -72,12 +76,21 @@ public class Troncon extends Observable {
     	this.fin = arrayListNoeud.get(Integer.parseInt(tronconElement.getAttribute("idNoeudDestination")));
 	}
 
+
 	public boolean isEmprunte() {
 		return isEmprunte;
 	}
 
 	public void setEmprunte(boolean isEmprunte) {
 		this.isEmprunte = isEmprunte;
+	}
+	
+	/**
+	 * @return retourne le nom de la classe pour de l'indintification
+	 * @author gabrielcae
+	 */
+	public String toString(){
+		return "Troncon";
 	}
 
 }

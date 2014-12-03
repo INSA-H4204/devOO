@@ -2,6 +2,11 @@ package Vue;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,14 +16,18 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 public class VueZone extends JPanel {
+
 	private List<VueNoeud> listeVueNoeud;
 	private List<VueTroncon> listeVueTroncon;
+	
 	/**
 	 * 
 	 */
 	public VueZone() {
 		listeVueNoeud = new ArrayList<VueNoeud>();
-		listeVueTroncon =  new ArrayList<VueTroncon>();
+
+		listeVueTroncon = new ArrayList<VueTroncon>();
+
 		chargerVueZone();
 	}
 
@@ -58,6 +67,7 @@ public class VueZone extends JPanel {
 
 	public void chargerNoeuds(List<VueNoeud> listeVueNoeud) {
 		this.listeVueNoeud = listeVueNoeud;
+		
 		this.repaint();
 	}
 

@@ -2,13 +2,14 @@ package Controleur;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Stack;
 
 import javax.swing.JFileChooser;
@@ -20,7 +21,6 @@ import org.xml.sax.SAXException;
 import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
-import Modele.Tournee;
 import Modele.Troncon;
 import Modele.Zone;
 import Vue.VueApplication;
@@ -31,11 +31,14 @@ import Vue.VueApplication;
  * 
  * @author hgerard
  */
-public class Controleur implements ActionListener {
+public class Controleur implements ActionListener, MouseListener {
 	
 	public VueApplication vueApplication;
 	private Zone zone;
 	private boolean isZoneSansLivraison;
+	
+	private int xSouris;
+	private int ySouris;
 	
 	// Contient les commandes qui ont été éxécutées et annulées pour pouvoir les annuler ou les rééxecuter
 	private Stack<Commande> commandesExecutees;
@@ -79,7 +82,10 @@ public class Controleur implements ActionListener {
 		String action = e.getActionCommand();
 		switch (action) {
 		case "Charger Plan":
-			
+			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);
+
 			String planXML = choisirXML();
 			if(planXML != null){
 				try {
@@ -88,16 +94,30 @@ public class Controleur implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+
 			}
-			
+			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
+			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
 			break;
 			
 		case "Charger Livraisons":
+			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);			
+			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
+
+			String livraisonXML = choisirXML();
+			if(livraisonXML != null){				
+					try {
+						chargerLivraisons(livraisonXML);
+					} catch (ParseException | ParserConfigurationException| SAXException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}				
+			}
 
 			break;
 			
 		case "Undo":
-zone.test();
+			
 			break;
 			
 		case "Redo":
@@ -106,16 +126,31 @@ zone.test();
 			
 		case "Impression":
 
-			break;	
-			
-		case "Ajouter Livraison":
 
+			break;
+		case "Calculer Tournee" :
+			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(true);
+			break;
+
+		case "Ajouter Livraison":
+			vueApplication.getVueInfo().ajouter.setEnabled(false);
+			actionBoutonAjouter();
+			
 			break;
 			
 		case "Supprimer Livraison":
-
+			vueApplication.getVueInfo().supprimer.setEnabled(false);
+			break;
+		case "valider Livraison":
+			vueApplication.getVueInfo().valider.setEnabled(false);
 			break;
 
+		case "Selectionner Noeud":
+			
+			selectionnerNoeud();
+			break;
+			
 		default:
 			break;
 		}
@@ -154,21 +189,21 @@ zone.test();
 	 * @param 	int y 				La coordonnée y du click effectué sur la carte
 	 * @author hgerard thelmer
 	 */
-	public void selectionnerNoeud(int x, int y){
+	public void selectionnerNoeud(){
 		verifierSiZoneSansLivraison();
 		if (selectionActive && isZoneSansLivraison) {
 			selectionActive = false;
-			Noeud noeudClique = zone.rechercherNoeudParPosition(x,y);
+			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
 			if (noeudClique != null) {
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
 				} else {
 					this.noeudSelectionne = noeudClique;
-	//				if (noeudSelectionne.getLivraison() == null) {
-	//						// Vue.ActiverBoutonAjouter -> Gabriel
-	//				} else {
-	//					// Vue.ActiverBoutonSupprimer -> Gabriel
-	//				}
+				if (noeudSelectionne.getLivraison() == null) {
+						vueApplication.getVueInfo().ajouter.setEnabled(true);
+					} else {
+						vueApplication.getVueInfo().supprimer.setEnabled(true);
+					}
 				}
 			}
 			selectionActive = true;
@@ -180,8 +215,7 @@ zone.test();
 	 * @throws IOException 
 	 * @throws SAXException 
 	 * @throws ParserConfigurationException 
-	 * @throws ParseException 
-	 * 
+	 * @throws ParseException 	 * 
 	 */
 	public void chargerLivraisons(String XMLFilePath) throws ParseException, ParserConfigurationException, SAXException, IOException {
 		zone.XMLtoDOMLivraisons(XMLFilePath,"Resources/demandeLivraison.xsd" );
@@ -191,8 +225,7 @@ zone.test();
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
 	 * @throws SAXException 
 	 * @throws FileNotFoundException 
-	 * @throws NumberFormatException 
-	 * 
+	 * @throws NumberFormatException 	 * 
 	 */
 	public void chargerZone(String XMLFilePath) throws NumberFormatException, FileNotFoundException, SAXException {
 		zone.XMLtoDOMZone(XMLFilePath, "Resources/plan.xsd");
@@ -337,5 +370,37 @@ zone.test();
 	
 	public Stack<Commande> getCommandesAnnulees () {
 		return commandesAnnulees;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		xSouris = e.getX();
+		ySouris = e.getY();
+		System.out.println(xSouris+" : "+ySouris);
+		selectionnerNoeud();
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}	
 }

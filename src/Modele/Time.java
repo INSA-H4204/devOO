@@ -39,8 +39,7 @@ public class Time {
 		this.minute = time.minute;
 		this.seconde = time.seconde;
 	}
-	
-	
+
 	public boolean isBefore(Time time) {
 		if (this.heure < time.getHeure()) {
 			return true;

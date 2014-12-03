@@ -1,6 +1,6 @@
 package Modele;
 
-import java.util.*;
+import java.util.Observable;
 
 /**
  * Une livraison est un lieu de livraison associé à une plage horaire 
@@ -18,26 +18,19 @@ public class Livraison extends Observable {
 	static int nombreLivraison=0;
 	private boolean isPonctuel;
 
-	
-
 
 	/**
-	 * Constructeur par défaut de Livraison
+	 * Constructeur par defaut de Livraison
 	 */
 	public Livraison() {
 		clientID = 0;
+		livraisonID = ++nombreLivraison;
 		livraisonID = 0;
 		heurePrevue = new Time();
 		adresse = null;
 		plage = new PlageHoraire();
 		isPonctuel = true;
 	}
-	
-	public Time getHeurePrevue() {
-		return heurePrevue;
-	}
-	
-
 
 	public Livraison(int clientId, Noeud adresse) {
 		this.clientID = clientId;
@@ -85,5 +78,15 @@ public class Livraison extends Observable {
 		this.isPonctuel = isPonctuel;
 	}
 	
+	public Time getHeurePrevue(){
+		return this.heurePrevue;
+	}
 	
+	public void setHeurePrevue(Time heurePrevue){
+		this.heurePrevue.setTime(heurePrevue);;
+	}
+
+	public void setHeurePrevue(Time heurePrevue, int duree){
+		this.heurePrevue.setTime(heurePrevue, duree);
+	}
 }
