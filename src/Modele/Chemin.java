@@ -71,5 +71,13 @@ public class Chemin extends Observable {
 	public Livraison getDepart() {
 		return depart;
 	}
+	
+	public int getPoidsChemin() {
+		int poids = 0;
+		for (Troncon troncon : troncons) {
+			poids += troncon.getLongueur()/troncon.getVitesse();
+		}
+		return poids;
+	}
 
 }
