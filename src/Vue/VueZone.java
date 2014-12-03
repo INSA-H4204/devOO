@@ -72,8 +72,8 @@ public class VueZone extends JPanel {
 		}
 		if (noeudSelectionne != null) {
 			g.setColor(Color.BLACK);
-			g.fillOval(noeudSelectionne.recupererX(),
-					noeudSelectionne.recupererY(), 12, 12);
+			g.fillOval(noeudSelectionne.recupererX()-2,
+					noeudSelectionne.recupererY()-2, 12, 12);
 		}
 	}
 
