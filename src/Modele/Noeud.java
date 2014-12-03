@@ -62,4 +62,12 @@ public class Noeud extends Observable {
 	public List<Troncon> getTronconsSortants() {
 		return tronconsSortants;
 	}
+	
+	/**
+	 * @return retourne le nom de la classe pour de l'indintification
+	 * @author gabrielcae
+	 */
+	public String toString(){
+		return "Noeud";
+	}
 }

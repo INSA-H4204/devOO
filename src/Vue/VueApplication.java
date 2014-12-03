@@ -45,6 +45,7 @@ public class VueApplication extends JFrame implements Observer {
 	@Override
 	public void update(Observable obs, Object obj) {
 		if (obj != null) {
+			Zone zone = (Zone) obs;
 			switch (obj.toString()) {
 			case "Noeud":
 				chargerNoeud((Noeud) obj);
@@ -52,12 +53,17 @@ public class VueApplication extends JFrame implements Observer {
 			case "Troncon":
 				chargerTroncon((Troncon) obj);
 				break;
+			case "Plan":
+				chargerNoeudsDeZone(zone);
+				chargerTronconsDeZone(zone);
+				break;
+			case "Livraison":				
+//				chargerEntrepot(zone);
+//				chargerPlageHoraires(zone);
+//				chargerLivraisons(zone);				
+				break;
 			}
-		} else {
-			Zone zone = (Zone) obs;
-			chargerNoeudsDeZone(zone);
-			chargerTronconsDeZone(zone);
-		}
+		} 
 	}
 
 	/**
@@ -130,21 +136,6 @@ public class VueApplication extends JFrame implements Observer {
 		vuePlageHoraire.btnImpr.addActionListener(ctrl);
 		vuePlageHoraire.btnImpr.setActionCommand("Impression");
 
-	}
-
-	// TODO: pour le test d'affichage des noeuds
-	public List<VueNoeud> creerListeNoeuds() {
-
-		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
-		for (int i = 1; i < 400; i++) {
-			Random rand = new Random();
-
-			int x = rand.nextInt((800 - 0) + 1) + 0;
-			int y = rand.nextInt((800 - 0) + 1) + 0;
-			VueNoeud vn = new VueNoeud(x, y);
-			listeVueNoeud.add(vn);
-		}
-		return listeVueNoeud;
 	}
 
 	/**

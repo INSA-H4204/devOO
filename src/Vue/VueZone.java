@@ -10,13 +10,15 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 public class VueZone extends JPanel {
-	private static List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
-	private static List<VueTroncon> listeVueTroncon = new ArrayList<VueTroncon>();
+	private List<VueNoeud> listeVueNoeud;
+	private List<VueTroncon> listeVueTroncon;
 
 	/**
 	 * 
 	 */
 	public VueZone() {
+		listeVueNoeud = new ArrayList<VueNoeud>();
+		listeVueTroncon = new ArrayList<VueTroncon>();
 		chargerVueZone();
 	}
 

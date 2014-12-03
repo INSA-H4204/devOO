@@ -78,21 +78,26 @@ public class Controleur implements ActionListener {
 		switch (action) {
 		case "Charger Plan":			
 			String planXML = choisirXML();
-			planXML = null;
-			System.out.println("l"+planXML);
-//			if(planXML != null){
+			if(planXML != null){
 				try {
 					chargerZone(planXML);
 				} catch (NumberFormatException | FileNotFoundException | SAXException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-//			}
-			
+			}			
 			break;
 			
 		case "Charger Livraisons":
-
+			String livraisonXML = choisirXML();
+			if(livraisonXML != null){				
+					try {
+						chargerLivraisons(livraisonXML);
+					} catch (ParseException | ParserConfigurationException| SAXException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}				
+			}
 			break;
 			
 		case "Undo":

@@ -78,6 +78,13 @@ public class Troncon extends Observable {
 		this.origine = arrayListNoeud.get(indexNoeudOrigineDansLaliste);
     	this.fin = arrayListNoeud.get(Integer.parseInt(tronconElement.getAttribute("idNoeudDestination")));
 	}
-
+	
+	/**
+	 * @return retourne le nom de la classe pour de l'indintification
+	 * @author gabrielcae
+	 */
+	public String toString(){
+		return "Troncon";
+	}
 
 }

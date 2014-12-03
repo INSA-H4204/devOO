@@ -134,7 +134,7 @@ public Zone() {
 	                	   }               	   
 	                   }
 	                   	this.setChanged();
-	           			this.notifyObservers();
+	           			this.notifyObservers("Plan");
 	           			this.clearChanged();
 	                   
 				   }	
@@ -250,7 +250,6 @@ public Zone() {
 						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
 							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);
-							// to do
 							Time heureDebut = new Time(plageHoraireElement.getAttribute("heureDebut"));
 							Time heureFin = new Time(plageHoraireElement.getAttribute("heureFin"));
 							List<Livraison> listeLivraisonsPlage = new ArrayList<Livraison>();
@@ -283,9 +282,11 @@ public Zone() {
 								throw new SAXException();
 							}
 						}
+						this.setChanged();
+						this.notifyObservers("Livraisons");
+						this.clearChanged();
 
-					}
-					else {
+					}else {
 						this.plages = null;
 						this.entrepot = null;
 						throw new SAXException();
