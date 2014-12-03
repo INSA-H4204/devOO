@@ -54,6 +54,8 @@ public class Zone extends Observable {
 		grapheOriginal = new NotreGraphe(troncons, noeuds.size());
 		File xml = new File(xmlFilePathPlan);
 		if (!xml.exists()) {
+			this.troncons = null;
+			this.noeuds = null;
 			throw new FileNotFoundException();
 		}
 		else {
@@ -94,24 +96,33 @@ public class Zone extends Observable {
 		    	                   origine.setTronconsSortants(listTronconsNoeud);
 	                			   troncons.add(troncon);
 	                		   }
-	                		   else
-	                			   throw new SAXException();
+	                		   else {
+	                				this.troncons = null;
+	                				this.noeuds = null;
+	                				throw new SAXException();
+	                			}
 	                	   }               	   
 	                   }
 	                   
 				   }	
 	               else 
 	               {
+	            	   this.troncons = null;
+       				   this.noeuds = null;
 	            	   throw new SAXException();
 	               }
 				}
 			}
 			catch (ParserConfigurationException e)
 			{
+				this.troncons = null;
+				this.noeuds = null;
 				System.out.println(e);
 			}
 			catch (IOException e)
 			{
+				this.troncons = null;
+				this.noeuds = null;
 				e.printStackTrace();
 			}
 		}
@@ -196,6 +207,8 @@ public class Zone extends Observable {
 	public void XMLtoDOMLivraisons(String xmlFilePathLivraison, String xsdFilePathLivraison) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
 		File xml = new File(xmlFilePathLivraison);
 		if (!xml.exists()) {
+			this.plages = null;
+			this.entrepot = null;
 			throw new FileNotFoundException();
 		}
 		else {
@@ -207,8 +220,9 @@ public class Zone extends Observable {
 					DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 					org.w3c.dom.Document document = dBuilder.parse(xml);           
 					Element racine = document.getDocumentElement();
-
+					
 					if (racine.getNodeName().equals("JourneeType")) {
+						
 						// Partie Entrepot
 						Element entrepotElement = (Element)racine.getElementsByTagName("Entrepot") .item(0);
 						Noeud adresseEntrepot= new Noeud();
@@ -219,9 +233,8 @@ public class Zone extends Observable {
 						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
 							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);						
-							
-					        Calendar heureDebut =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureDebut"));	
-							Calendar heureFin =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureFin"));
+							Calendar heureDebut =  Calendar.getInstance();//DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureDebut"));	
+							Calendar heureFin =  Calendar.getInstance();//DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureFin"));
 							Set<Livraison> listeLivraisonsPlage = new HashSet<Livraison>();
 							NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
 							int livraisonID=1;
@@ -233,7 +246,11 @@ public class Zone extends Observable {
 								Calendar heureLivraisonPrevue=null;
 								for(Livraison l : listeTousLivraisons) {
 									if(l.getAdresse()==adresseLivaison)
+									{
+										this.plages = null;
+										this.entrepot = null;
 										throw new SAXException();
+									}
 								}
 								Livraison livraison = new Livraison(clientID,livraisonID,heureLivraisonPrevue,adresseLivaison);
 								
@@ -241,24 +258,28 @@ public class Zone extends Observable {
 								listeTousLivraisons.add(livraison);
 								livraisonID++;
 							}
-							List livraisonsOrdonnees = new ArrayList<Livraison>();
 							PlageHoraire plageHoraire = new PlageHoraire(heureDebut,heureFin,listeLivraisonsPlage);
-							
 							if(!verifierPlage(plageHoraire,listeTousPlagesH)){
 								listeTousPlagesH.add(plageHoraire);
 							}
 							else {
+								this.plages = null;
+								this.entrepot = null;
 								throw new SAXException();
 							}
 						}
 
 					}
 					else {
+						this.plages = null;
+						this.entrepot = null;
 						throw new SAXException();
 					}
 					this.setPlages(listeTousPlagesH);
 				}
 				else{
+					this.plages = null;
+					this.entrepot = null;
 				    throw new SAXException();
 				}
 		}
@@ -467,6 +488,10 @@ public class Zone extends Observable {
 	
 	public Tournee getTournee() {
 		return tournee;
+	}
+	
+	public List<PlageHoraire> getPlageHoraire() {
+		return plages;
 	}
 	
 
