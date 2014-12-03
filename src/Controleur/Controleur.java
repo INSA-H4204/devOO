@@ -213,9 +213,10 @@ public class Controleur implements ActionListener, MouseListener {
 			noeudPrecedent = null;
 			
 			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
-			vueApplication.selectionnerNoeud(noeudClique.getPosX(),noeudClique.getPosY());
-			
+			System.out.println(noeudClique);
 			if (noeudClique != null) {
+				System.out.println(noeudClique.getPosX()+" : "+noeudClique.getPosY());
+				vueApplication.selectionnerNoeud(noeudClique.getPosX(),noeudClique.getPosY());
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
 				} else {
@@ -397,7 +398,6 @@ public class Controleur implements ActionListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		xSouris = e.getX();
 		ySouris = e.getY();
-	//	System.out.println(xSouris+" : "+ySouris);
 		selectionnerNoeud();
 	}
 
