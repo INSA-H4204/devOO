@@ -95,6 +95,7 @@ public class ZoneTest {
 		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		 zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
 		 zone.calculerTournee();
+		 
 			ListIterator<PlageHoraire>  iterPlage= zone.getPlageHoraire().listIterator();
 			while (iterPlage.hasNext())
 			{

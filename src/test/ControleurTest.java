@@ -35,8 +35,20 @@ public class ControleurTest {
 
 	@Test
 	public void selectionNoeudSuccess() throws Exception {
+<<<<<<< HEAD
 		Noeud noeudCherche = ctrl.getZone().rechercherNoeudParPosition(33,151);//id="3" 
 		ctrl.getZone().rechercherNoeudParPosition(29, 155);
+=======
+		Noeud noeudCherche = new Noeud(1,230,530);
+		Zone zone = new Zone();
+			zone.addNoeud(new Noeud(2,400,200));
+			zone.addNoeud(new Noeud(3,300,240));
+			zone.addNoeud(noeudCherche);
+			zone.addNoeud(new Noeud(4,230,120));
+		ctrl = new Controleur(zone);
+		
+		ctrl.selectionnerNoeud(230,530);
+>>>>>>> abeea70ad96db5dbceeea567b562f88a7904fdbd
 		Field noeudSelectionneField = Controleur.class.getDeclaredField("noeudSelectionne");
 		noeudSelectionneField.setAccessible(true);
 		assertEquals(noeudSelectionneField.get(ctrl),noeudCherche);
@@ -77,9 +89,9 @@ public class ControleurTest {
 
 	@Test
 	public void ajoutLivraison() throws Exception {
-		ctrl.selectionnerNoeud(230,530);
+		//ctrl.selectionnerNoeud(230,530);
 		ctrl.actionBoutonAjouter();
-		ctrl.selectionnerNoeud(400,200);
+		//ctrl.selectionnerNoeud(400,200);
 		ctrl.actionBoutonValider();
 	}	
 	
@@ -87,9 +99,9 @@ public class ControleurTest {
 	@Test
 	public void undoRedo() throws Exception {
 
-		ctrl.selectionnerNoeud(230,530);
+		//ctrl.selectionnerNoeud(230,530);
 		ctrl.actionBoutonAjouter();
-		ctrl.selectionnerNoeud(400,200);
+		//ctrl.selectionnerNoeud(400,200);
 		ctrl.actionBoutonValider();
 		assertTrue("La stack des commandes est nulles",ctrl.getCommandesExecutees().size() == 1);
 		ctrl.undo();

@@ -24,6 +24,7 @@ import Modele.Noeud;
 import Modele.Troncon;
 import Modele.Zone;
 import Vue.VueApplication;
+import Vue.VueZone;
 
 /**
  * Le contrôleur fait le lien entre la vue et le modèle. Lorsqu'un utilisateur agit sur
@@ -125,11 +126,12 @@ public class Controleur implements ActionListener, MouseListener {
 			break;
 			
 		case "Impression":
-
+			imprimerFeuilleDeRoute();
 
 			break;
 		case "Calculer Tournee" :
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
+			calculerTournee();
 			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(true);
 			break;
 
@@ -190,11 +192,27 @@ public class Controleur implements ActionListener, MouseListener {
 	 * @author hgerard thelmer
 	 */
 	public void selectionnerNoeud(){
+		
 		verifierSiZoneSansLivraison();
 		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
+			
+			if (noeudPrecedent != null) {
+				vueApplication.deselectionnerNoeud(noeudPrecedent.getPosX(),noeudPrecedent.getPosY());
+			}
+			
+			if (noeudSelectionne != null) {
+				vueApplication.deselectionnerNoeud(noeudSelectionne.getPosX(),noeudSelectionne.getPosY());
+			}
+			
+			noeudSelectionne = null;
+			noeudPrecedent = null;
+			
 			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
+			System.out.println(noeudClique);
 			if (noeudClique != null) {
+				System.out.println(noeudClique.getPosX()+" : "+noeudClique.getPosY());
+				vueApplication.selectionnerNoeud(noeudClique.getPosX(),noeudClique.getPosY());
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
 				} else {
@@ -375,7 +393,7 @@ public class Controleur implements ActionListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		xSouris = e.getX();
 		ySouris = e.getY();
-		System.out.println(xSouris+" : "+ySouris);
+		//System.out.println(xSouris+" : "+ySouris);
 		selectionnerNoeud();
 	}
 

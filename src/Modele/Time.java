@@ -34,18 +34,12 @@ public class Time {
 		this.seconde = time.getSeconde()+secondeAjoutee;
 	}
 	
-	public void setTime(String str) {
-		String[] parties = str.split(":");
-		this.heure = Integer.parseInt(parties[1]);
-		this.minute = Integer.parseInt(parties[2]);
-		this.seconde = Integer.parseInt(parties[3]);
+	public void setTime(Time time) {
+		this.heure = time.heure;
+		this.minute = time.minute;
+		this.seconde = time.seconde;
 	}
-	public void sommeTime(String str) {
-		String[] parties = str.split(":");
-		this.heure = Integer.parseInt(parties[1]);
-		this.minute = Integer.parseInt(parties[2]);
-		this.seconde = Integer.parseInt(parties[3]);
-	}
+
 	public boolean isBefore(Time time) {
 		if (this.heure < time.getHeure()) {
 			return true;

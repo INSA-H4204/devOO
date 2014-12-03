@@ -44,7 +44,7 @@ public class Zone extends Observable {
 	private List<PlageHoraire> plages;
 	private Livraison entrepot;
 	private NotreGraphe grapheOriginal;
-	private static int ecartTolere = 5;
+	private static int ecartTolere = 20;
 	private Tournee tournee;
 
 public Zone(Set<Troncon> troncons,Map<Integer, Noeud> noeuds,List<PlageHoraire> plages,Livraison entrepot,NotreGraphe grapheOriginal,Tournee tournee){
@@ -261,8 +261,7 @@ public Zone() {
 							for(int j=0;j<listeLivraisonsXML.getLength();j++) {
 								Element livraisonElement = (Element) listeLivraisonsXML.item(j);
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
-								Noeud adresseLivaison= new Noeud();
-								adresseLivaison=this.getNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
+								Noeud adresseLivaison = this.getNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
 								for(Livraison l : listeTousLivraisons) {
 									if(l.getAdresse()==adresseLivaison)
 									{
@@ -326,18 +325,7 @@ public Zone() {
 		return false;
 	}
 	
-	public void test() {
-		Noeud n = new Noeud(1,26,35);
-		Noeud z = new Noeud(2,76,98);
-		noeuds.put(1, n);
-		noeuds.put(z.getNoeudID(), z);
-		Troncon t = new Troncon(n, z, 12, 12, "yousra");
-		troncons.add(t);
-		this.setChanged();
-		this.notifyObservers();
-		this.clearChanged();
-	}
-	
+
 	/**
 	 * Creer un objet tournee et appeler sa methode pour calculer la tournee
 	 * @author yukaiwang
@@ -349,8 +337,10 @@ public Zone() {
 		for (PlageHoraire plage : plages ) {
 			for (Livraison livraison : plage.getLivraisons()) {
 				livraisons.put(livraison.getLivraisonID(), livraison);
+				System.out.println(livraison.getLivraisonID());
 			}
 		}
+
 		Graph grapheChoco = new NotreGraphe(livraisons.size());
 		HashMap<Integer, ResDijkstra> sources = new HashMap<Integer, ResDijkstra>();
 		int depart, arrivee;
@@ -370,16 +360,18 @@ public Zone() {
 				for (Livraison livraisonSuivante : plages.get(i).getLivraisons()) {
 					if (livraison != livraisonSuivante) {
 						arrivee = livraisonSuivante.getLivraisonID();
+						System.out.println("------debug-----");
 						grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(livraisonSuivante.getAdresse().getNoeudID()));
 					}
 				}
 				for (Livraison livraisonSuivante : plages.get(i+1).getLivraisons()) {
 						arrivee = livraisonSuivante.getLivraisonID();
 						grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(livraisonSuivante.getAdresse().getNoeudID()));
+						
 				}
 			}
 		}
-
+		
 
 		for (Livraison livraison : plages.get(plages.size()-1).getLivraisons()) {
 			resDijkstra = dijkstra(livraison.getAdresse().getNoeudID());
@@ -403,7 +395,8 @@ public Zone() {
 			System.out.println(suivant[i]);
 		}
 		tournee.setChemins(listerChemins(suivant, sources, livraisons));
-
+		tournee.setEtatTroncons();
+		tournee.verifierPonctualite();
 	}
 	
 	/**

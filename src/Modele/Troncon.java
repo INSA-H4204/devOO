@@ -16,12 +16,7 @@ import org.w3c.dom.Element;
  * @hgerard	
  */
 public class Troncon extends Observable {
-
-	public enum Etat {
-		Emprunte, // A modifier
-		NonEmprunte
-	}
-
+	private boolean isEmprunte;
 	private String nomRue;
 	private int vitesse;
 	private int longueur;
@@ -37,6 +32,7 @@ public class Troncon extends Observable {
 	 * Constructeur par defaut de Troncon
 	 */
 	public Troncon() {
+		isEmprunte = false;
 		nomRue = "Inconnu";
 		vitesse = 0;
 		longueur = 0;
@@ -46,6 +42,7 @@ public class Troncon extends Observable {
 	}
 	
 	public Troncon(Noeud origine, Noeud fin, int vitesse, int longueur, String nomRue) {
+		isEmprunte = false;
 		this.origine = origine;
 		this.fin = fin;
 		this.vitesse = vitesse;
@@ -77,6 +74,15 @@ public class Troncon extends Observable {
 		List<Noeud> arrayListNoeud = new ArrayList<Noeud>(listeNoeuds);
 		this.origine = arrayListNoeud.get(indexNoeudOrigineDansLaliste);
     	this.fin = arrayListNoeud.get(Integer.parseInt(tronconElement.getAttribute("idNoeudDestination")));
+	}
+
+
+	public boolean isEmprunte() {
+		return isEmprunte;
+	}
+
+	public void setEmprunte(boolean isEmprunte) {
+		this.isEmprunte = isEmprunte;
 	}
 	
 	/**

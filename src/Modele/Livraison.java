@@ -16,7 +16,7 @@ public class Livraison extends Observable {
 	private Noeud  adresse;
 	private PlageHoraire plage;
 	static int nombreLivraison=0;
-	boolean isPonctuel;
+	private boolean isPonctuel;
 
 
 	/**
@@ -55,7 +55,7 @@ public class Livraison extends Observable {
 		livraisonID = 0;
 		heurePrevue = new Time();
 		adresse = adresseEntrepot;
-		
+		isPonctuel = true;
 	}
 
 	public Noeud getAdresse() {
@@ -73,11 +73,23 @@ public class Livraison extends Observable {
 	public static void resetLivraisonId() {
 		nombreLivraison = 0;
 	}
+	public boolean isPonctuel() {
+		return isPonctuel;
+	}
+
+	public void setPonctuel(boolean isPonctuel) {
+		this.isPonctuel = isPonctuel;
+	}
+	
 	public Time getHeurePrevue(){
 		return this.heurePrevue;
 	}
 	
 	public void setHeurePrevue(Time heurePrevue){
-		this.heurePrevue=heurePrevue;
+		this.heurePrevue.setTime(heurePrevue);;
+	}
+
+	public void setHeurePrevue(Time heurePrevue, int duree){
+		this.heurePrevue.setTime(heurePrevue, duree);
 	}
 }

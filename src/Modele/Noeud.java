@@ -24,7 +24,7 @@ public class Noeud extends Observable {
 		noeudID = 0;
 		posX = 0;
 		posY = 0;
-		livraison = new Livraison();
+		livraison = null;
 		tronconsSortants = new ArrayList <Troncon>();
 	}
 	
@@ -35,7 +35,7 @@ public class Noeud extends Observable {
 		this.noeudID = noeudID;
 		this.posX = posX;
 		this.posY = posY;
-		this.livraison = new Livraison();
+		this.livraison = null;
 		this.tronconsSortants= new ArrayList <Troncon> ();
 	}
 
