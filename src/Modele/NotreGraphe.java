@@ -1,6 +1,5 @@
 package Modele;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 import tsp.*;
@@ -17,7 +16,7 @@ public class NotreGraphe implements Graph {
 	private int[][] poids; 
 	private ArrayList<ArrayList<Integer>> listeSommetsSuivants;
 
-	public NotreGraphe(Set<Troncon> troncons, int nombreNoeuds) {
+	public NotreGraphe(Set<Troncon> troncons, int nombreSommets) {
 		this.nombreSommets = nombreSommets;
 		poids = new int[nombreSommets][nombreSommets];
 		listeSommetsSuivants = new ArrayList<ArrayList<Integer>>();

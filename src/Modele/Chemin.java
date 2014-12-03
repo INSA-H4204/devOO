@@ -54,7 +54,7 @@ public class Chemin extends Observable {
 	}
 
 	/**
-	 * 
+	 * Cette méthode doit assigner une heure prévue aux livraisons et assigner le booléen isPonctuel dans Livraison
 	 */
 	private void calculerHeureProchaineLivraison() {
 		// TODO implement here

@@ -95,13 +95,13 @@ public class ZoneTest {
 	 public void integriteNoeuds() throws Exception {
 		zone = new Zone(ZoneCorrecteStr,XsdFile);
 		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.getNoeuds().size());
-		assertNotNull("Echec - Aucun troncon n'a été chargé",zone.GetTroncons().size());
+		assertNotNull("Echec - Aucun troncon n'a été chargé",zone.getTroncons().size());
 		for(Entry<Integer, Noeud> iter : zone.getNoeuds().entrySet()) {
 			assertNotNull("Echec - L'id n'est pas renseigné",iter.getValue().getNoeudID());
 			assertNotNull("Echec - X n'est pas renseigné",iter.getValue().getPosX());
 			assertNotNull("Echec - Y n'est pas renseigné",iter.getValue().getPosY());
 		}
-		for (Troncon t : zone.GetTroncons() ) {
+		for (Troncon t : zone.getTroncons() ) {
 			assertNotNull("Echec - Troncon sans origine",t.getOrigine());
 			assertNotNull("Echec - Troncon sans fin",t.getFin());
 		}

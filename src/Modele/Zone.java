@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import tsp.*;
 import Modele.*;
 
 /**
@@ -223,7 +224,7 @@ public class Zone extends Observable {
 								Element livraisonElement = (Element) listeLivraisonsXML.item(j);
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
 								Noeud adresseLivaison= new Noeud();
-								adresseLivaison=this.GetNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
+								adresseLivaison=this.getNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
 								Calendar heureLivraisonPrevue=null;
 								for(Livraison l : listeTousLivraisons) {
 									if(l.getAdresse()==adresseLivaison)
@@ -284,6 +285,8 @@ public class Zone extends Observable {
 	 * @author yukaiwang
 	 */
 	public void calculerTournee() {
+		Tournee tournee = new Tournee();
+
 		HashMap<Integer, Livraison> livraisons = new HashMap<Integer, Livraison>();
 		livraisons.put(entrepot.getLivraisonID(), entrepot);
 		for (PlageHoraire plage : plages ) {
@@ -339,7 +342,7 @@ public class Zone extends Observable {
 		TSP tsp = new TSP(grapheChoco);
 		tsp.solve(10000, 100000);
 		int[] suivant = tsp.getNext();
-		chemins = zone.listerChemins(suivant, sources, livraisons);
+		tournee.setChemins(listerChemins(suivant, sources, livraisons));
 	}
 	
 	/**
@@ -443,7 +446,7 @@ public class Zone extends Observable {
 		return new Chemin(noeuds.get(source).getLivraison(), noeuds.get(destination).getLivraison(),listerTroncons(destination, precedent));
 	}
 
-	public Map<Integer,Noeud> GetNoeuds(){
+	public Map<Integer,Noeud> getNoeuds(){
 		return noeuds;
 	}
 
@@ -459,12 +462,17 @@ public class Zone extends Observable {
 		noeuds.put(noeud.getNoeudID(),noeud);
 	}
 	
-	public Set<Troncon> GetTroncons() {
+	public Set<Troncon> getTroncons() {
 		return troncons;
 	}
 	
 	public Tournee getTournee() {
 		return tournee;
+	}
+
+
+	public Livraison getEntrepot() {
+		return entrepot;
 	}
 	
 

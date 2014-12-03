@@ -19,9 +19,8 @@ public class Troncon extends Observable {
 	}
 
 	private String nomRue;
-	private int vitesse ;
-	private int longueur ;
-	private Etat etatTroncon;
+	private int vitesse;
+	private int longueur;
 	private Noeud fin;
 	private Noeud origine;
 	private List<Observer> observers;
@@ -37,7 +36,6 @@ public class Troncon extends Observable {
 		nomRue = "Inconnu";
 		vitesse = 0;
 		longueur = 0;
-		etatTroncon = null;
 		fin = new Noeud();
 		origine = new Noeud();
 		observers = new ArrayList<Observer>();
@@ -50,16 +48,7 @@ public class Troncon extends Observable {
 		this.longueur= longueur;
 		this.nomRue = nomRue;
 		this.observers = new ArrayList<Observer>();
-		this.etatTroncon = null;
 	}
-
-//	public Troncon(Element tronconElement,Noeud origine, Noeud fin) {
-//		this.nomRue= tronconElement.getAttribute("nomRue");
-//     	this.vitesse=(int)Double.parseDouble(tronconElement.getAttribute("vitesse").replaceAll(",", "."));
-//		this.longueur=(int)Double.parseDouble(tronconElement.getAttribute("longueur").replaceAll(",", "."));
-//		this.origine = origine;
-//		this.fin = fin;
-//	}
 	
 	public Noeud getOrigine() {
 		return origine;

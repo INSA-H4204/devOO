@@ -29,5 +29,4 @@ public class Tournee extends Observable {
 		this.chemins = chemins;
 	}
 
-
 }
