@@ -56,7 +56,7 @@ public class CdeAjouterLivraison extends Commande {
 	 * @author thelmer
 	 */
 
-	protected void execute() {
+	public void execute() {
 		int posCheminSupprimer=-2;
 		List<Chemin> chemins = zone.getTournee().getChemins();
 		for(Chemin chemin:chemins){

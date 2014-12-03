@@ -85,9 +85,15 @@ public class Zone extends Observable {
 	                		   String nomRue= tronconElement.getAttribute("nomRue");
 	                	       int vitesse=(int)Double.parseDouble(tronconElement.getAttribute("vitesse").replaceAll(",", "."));
 	                		   int longueur=(int)Double.parseDouble(tronconElement.getAttribute("longueur").replaceAll(",", "."));
-	                		   //Verifier si le noeud de destination existe
-	                		   if(fin!=null)
-	                			   troncons.add(new Troncon(origine,fin,vitesse,longueur,nomRue));
+
+	                		   //Verifier si le noeud de destination existe avant d'instancier Troncon
+	                		   if(fin!=null){
+		                		   Troncon troncon=new Troncon(origine,fin,vitesse,longueur,nomRue);
+		    	                   List<Troncon> listTronconsNoeud=origine.getTronconsSortants();
+		                		   listTronconsNoeud.add(troncon);
+		    	                   origine.setTronconsSortants(listTronconsNoeud);
+	                			   troncons.add(troncon);
+	                		   }
 	                		   else
 	                			   throw new SAXException();
 	                	   }               	   
@@ -240,7 +246,7 @@ public class Zone extends Observable {
 								livraisonID++;
 							}
 							List livraisonsOrdonnees = new ArrayList<Livraison>();
-							PlageHoraire plageHoraire = new PlageHoraire(heureDebut,heureFin,listeLivraisonsPlage,livraisonsOrdonnees);
+							PlageHoraire plageHoraire = new PlageHoraire(heureDebut,heureFin,listeLivraisonsPlage);
 							
 							if(!verifierPlage(plageHoraire,listeTousPlagesH)){
 								listeTousPlagesH.add(plageHoraire);
