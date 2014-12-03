@@ -2,8 +2,6 @@ package Modele;
 
 import java.util.*;
 
-import org.w3c.dom.Element;
-
 /**
  * Un noeud peut être une Livraison ou une intersection, un carrefour.
  * 
@@ -69,12 +67,10 @@ public class Noeud extends Observable {
 		return livraison;
 	}
 
-
 	public void setTroncons(List<Troncon> troncons) {
 		this.tronconsSortants=troncons;
 	}
 
-	
 	public List<Troncon> getTronconsSortants() {
 		return tronconsSortants;
 	}

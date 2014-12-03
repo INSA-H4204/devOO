@@ -1,5 +1,9 @@
 package Controleur;
 
+
+import java.util.List;
+
+import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
 import Modele.Tournee;
@@ -33,13 +37,32 @@ public class CdeSupprimerLivraison extends Commande {
 	}
 	
 	/**
-	 *
 	 * Fonction appelée quand on execute la fonction normalement
+	 * 
+	 * @author hgerard
 	 */
 	protected void execute() {
+		
 		Tournee tournee = zone.getTournee();
 		Livraison livraisonSuppression = noeudSuppression.getLivraison();
-		tournee.deleteNoeud(livraisonSuppression);
+		List<Chemin> chemins = tournee.getChemins();
+		
+		for (int i = 0 ; i < chemins.size() ; i++){
+			Chemin cheminPrecedent = chemins.get(i);
+			Livraison arrivee = cheminPrecedent.getArrivee();
+			
+			if (arrivee.equals(livraisonSuppression)){
+				Chemin cheminSuivant = chemins.get(i+1);
+				Livraison nouveauDepart = cheminPrecedent.getDepart();
+				Livraison nouvelleArrivee = cheminSuivant.getArrivee();
+				int idDepart = nouveauDepart.getAdresse().getNoeudID();
+				int idArrivee = nouvelleArrivee.getAdresse().getNoeudID();
+				chemins.remove(cheminSuivant);
+				chemins.remove(cheminPrecedent);
+				Chemin nouveauChemin = zone.plusCourtChemin(idDepart, idArrivee);
+				chemins.add(i,nouveauChemin);
+			}
+		}
 	}
 
 	/**
