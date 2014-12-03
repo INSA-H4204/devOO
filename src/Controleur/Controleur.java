@@ -256,7 +256,7 @@ public class Controleur implements ActionListener {
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
-		String idClient = ""; /*getIdClientVue() --> GABRIEL*/
+		int idClient = 0; /*getIdClientVue() --> GABRIEL*/
 		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);

@@ -118,7 +118,8 @@ public class ZoneTest {
 	 @Test
 	 public void AbsenceNoeud()  {
 	       try {
-			zone = new Zone(AbsenceNoeudStr,XsdFile);
+			zone = new Zone();
+			zone.XMLtoDOMZone(AbsenceNoeudStr,XsdFile);
 		} catch (NumberFormatException | FileNotFoundException | SAXException e) {
 			assertEquals(e.getClass(),"class org.xml.sax.SAXException");
 		}
