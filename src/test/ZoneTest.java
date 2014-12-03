@@ -214,7 +214,7 @@ public class ZoneTest {
 	 @Test
 	 public void LivraisonPlageSansLivraison() {
 		 try {
-			 zone = new Zone(;
+			 zone = new Zone();
 			 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 			 zone.XMLtoDOMLivraisons(LivraisonPlageSansLivraison,xsdFilePathLivraison);	
 			 fail();
