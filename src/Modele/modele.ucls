@@ -101,200 +101,292 @@
     </display>  
   </class>  
   <association id="12">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="13" name="depart"/>      
-      <multiplicity id="14" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="13" name="etatTroncon">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="14" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="15">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="16" name="livraison">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="17" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="15">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="16" name="cheminIn"/>      
-      <multiplicity id="17" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <association id="18">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="19" name="plages"/>      
-      <multiplicity id="20" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="19" name="fin">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="20" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="21">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="22" name="arrivee"/>      
-      <multiplicity id="23" minimum="0" maximum="1"/>    
+    <bendpoint x="-91" y="951"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="22" name="entrepot">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="23" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="24">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="25" name="livraisons"/>      
-      <multiplicity id="26" minimum="0" maximum="2147483647"/>    
+      <attribute id="25" name="livraisons">        
+        <position height="16" width="54" x="175" y="878"/>      
+      </attribute>      
+      <multiplicity id="26" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="27">    
-    <bendpoint x="469" y="365"/>    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="28" name="plages"/>      
-      <multiplicity id="29" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="28" name="plages">        
+        <position height="16" width="40" x="165" y="651"/>      
+      </attribute>      
+      <multiplicity id="29" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="30">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
-  </nesting>  
-  <association id="31">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="32" name="fin"/>      
-      <multiplicity id="33" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="34">    
-    <bendpoint x="864" y="365"/>    
-    <bendpoint x="864" y="680"/>    
-    <bendpoint x="864" y="923"/>    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="35" name="noeuds"/>      
-      <multiplicity id="36" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="37">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="38" name="tronconsSortants"/>      
-      <multiplicity id="39" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="40">    
+  <association id="30">    
     <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="41" name="cheminOut"/>      
-      <multiplicity id="42" minimum="0" maximum="1"/>    
+      <attribute id="31" name="cheminIn">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="32" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="43">    
-    <bendpoint x="666" y="365"/>    
-    <bendpoint x="666" y="680"/>    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="44" name="troncons"/>      
-      <multiplicity id="45" minimum="0" maximum="2147483647"/>    
+  <association id="33">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="34" name="cheminOut">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="35" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="36">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="37" name="chemins">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="38" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="39">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="40" name="troncons">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="41" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="46">    
+  <association id="42">    
+    <bendpoint x="469" y="365"/>    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="47" name="grapheOriginal"/>      
-      <multiplicity id="48" minimum="0" maximum="1"/>    
+      <attribute id="43" name="plages">        
+        <position height="16" width="40" x="255" y="649"/>      
+      </attribute>      
+      <multiplicity id="44" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="49">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="50" name="adresse"/>      
-      <multiplicity id="51" minimum="0" maximum="1"/>    
+  <association id="45">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="46" name="origine">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="47" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="52">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="53" name="livraison"/>      
-      <multiplicity id="54" minimum="0" maximum="1"/>    
+  <association id="48">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="49" name="plage">        
+        <position height="16" width="34" x="242" y="902"/>      
+      </attribute>      
+      <multiplicity id="50" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="52" name="livraisonsOrdonnees">        
+        <position height="16" width="108" x="135" y="893"/>      
+      </attribute>      
+      <multiplicity id="53" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="55">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="56" name="troncons"/>      
-      <multiplicity id="57" minimum="0" maximum="2147483647"/>    
+  <association id="54">    
+    <bendpoint x="666" y="365"/>    
+    <bendpoint x="666" y="680"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="55" name="troncons">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="56" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="58">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="59" name="tournee"/>      
-      <multiplicity id="60" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="61">    
-    <bendpoint x="645" y="365"/>    
-    <bendpoint x="645" y="680"/>    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="62" name="entrepot"/>      
-      <multiplicity id="63" minimum="0" maximum="1"/>    
+  <association id="57">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="58" name="arrivee">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="59" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="64">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="65" name="etatTroncon"/>      
-      <multiplicity id="66" minimum="0" maximum="1"/>    
+  <association id="60">    
+    <bendpoint x="645" y="365"/>    
+    <bendpoint x="645" y="680"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="61" name="entrepot">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="62" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="63">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </nesting>  
+  <association id="64">    
+    <bendpoint x="864" y="365"/>    
+    <bendpoint x="864" y="680"/>    
+    <bendpoint x="864" y="923"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="65" name="noeuds">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="66" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="67">    
-    <bendpoint x="-104" y="680"/>    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="68" name="entrepot"/>      
-      <multiplicity id="69" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="68" name="depart">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="69" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="70">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="71" name="livraisonsOrdonnees"/>      
-      <multiplicity id="72" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="71" name="tournee">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="72" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="73">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="74" name="origine"/>      
-      <multiplicity id="75" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="74" name="tronconsSortants">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="75" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="76">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="77" name="adresse">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="78" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="76">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="77" name="chemins"/>      
-      <multiplicity id="78" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <association id="79">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="80" name="plage"/>      
-      <multiplicity id="81" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="80" name="grapheOriginal">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="81" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

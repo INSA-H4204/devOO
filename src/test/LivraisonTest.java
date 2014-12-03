@@ -31,6 +31,4 @@ public class LivraisonTest {
 	@Test public void testConstructor() {
 		assertNotNull(livraison);
 	}
- 
-
 }

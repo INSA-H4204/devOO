@@ -17,8 +17,6 @@ public class Livraison extends Observable {
 	private int clientID;
 	private int livraisonID;
 	private Calendar heureLivraisonPrevue;
-	private Chemin cheminIn;
-	private Chemin cheminOut;
 	private Noeud  adresse;
 	private PlageHoraire plage;
 	
@@ -29,8 +27,6 @@ public class Livraison extends Observable {
 		clientID = 0;
 		livraisonID = 0;
 		heureLivraisonPrevue = Calendar.getInstance();
-		cheminIn = new Chemin();
-		cheminOut = new Chemin();
 		adresse = null;
 		plage = new PlageHoraire();
 	}
@@ -44,8 +40,6 @@ public class Livraison extends Observable {
 		this.livraisonID = livraisonId;
 		this.heureLivraisonPrevue = heureLivraisonPrevue;
 		this.adresse = adresse;
-		this.cheminIn = new Chemin();
-		this.cheminOut = new Chemin();
 	}
 
 
@@ -62,8 +56,6 @@ public class Livraison extends Observable {
 		clientID = 0;
 		livraisonID = 0;
 		heureLivraisonPrevue = Calendar.getInstance();
-		cheminIn = null;
-		cheminOut = null;
 		adresse = adresseEntrepot;
 		
 	}
@@ -80,14 +72,6 @@ public class Livraison extends Observable {
 
 	public Noeud getAdresse() {
 		return adresse;
-	}
-	
-	public void setCheminOut(Chemin cheminOut) {
-		this.cheminOut = cheminOut;
-	}
-	
-	public void setCheminIn(Chemin cheminIn) {
-		this.cheminIn = cheminIn;
 	}
 
 	public PlageHoraire getPlage() {
