@@ -241,12 +241,11 @@ public Zone() {
 						Livraison entrepot = new Livraison(adresseEntrepot);
 						this.setEntrepot(entrepot);
 						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
-						int livraisonID=1;
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
 							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);
 							// to do
-							Time heureDebut = new Time();
-							Time heureFin = new Time();
+							Time heureDebut = new Time(plageHoraireElement.getAttribute("heureDebut"));
+							Time heureFin = new Time(plageHoraireElement.getAttribute("heureFin"));
 							List<Livraison> listeLivraisonsPlage = new ArrayList<Livraison>();
 							NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
 							for(int j=0;j<listeLivraisonsXML.getLength();j++) {
@@ -254,7 +253,6 @@ public Zone() {
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
 								Noeud adresseLivaison= new Noeud();
 								adresseLivaison=this.getNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
-								Time heureLivraisonPrevue=null;
 								for(Livraison l : listeTousLivraisons) {
 									if(l.getAdresse()==adresseLivaison)
 									{

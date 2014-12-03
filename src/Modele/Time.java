@@ -1,5 +1,11 @@
 package Modele;
 
+/**
+ * 
+ * @author yukaiwang
+ *
+ */
+
 public class Time {
 	private int heure;
 	private int minute;
