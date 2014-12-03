@@ -37,6 +37,11 @@ public class Tournee extends Observable {
 		this.entrepot = entrepot;
 	}
 
+	/**
+	 * la methode pour calculer une tournee
+	 * @param zone : le zone dans lequel existe la tournee
+	 * @author yukaiwang
+	 */
 	public void calculer(Zone zone) {
 		HashMap<Integer, Livraison> livraisons = new HashMap<Integer, Livraison>();
 		int nombreLivraisons = 1;
