@@ -2,7 +2,7 @@ package test;
 
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -14,11 +14,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-
 import Controleur.CdeAjouterLivraison;
 import Controleur.Controleur;
 import Modele.Noeud;
-import Modele.Zone;
 /*
  * @author : Kevin
  */

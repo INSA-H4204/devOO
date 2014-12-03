@@ -1,6 +1,8 @@
 package Modele;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 /**
  * Une plage horaire est une portion de temps (par ex : 8h-12h) dans laquelle 

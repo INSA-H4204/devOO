@@ -2,7 +2,7 @@ package Modele;
 import java.util.ArrayList;
 import java.util.Set;
 
-import tsp.*;
+import tsp.Graph;
 
 /**
  * une classe qui implemente classe Graph

@@ -1,7 +1,5 @@
 package test;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -16,7 +14,6 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import Modele.PlageHoraire;
-import Modele.Zone;
 /*
  * @author : Kevin
  */

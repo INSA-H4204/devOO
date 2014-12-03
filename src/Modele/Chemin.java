@@ -1,6 +1,8 @@
 package Modele;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 /**
  * Représente un ensemble de tronçons liant deux point de livraisons
@@ -68,6 +70,14 @@ public class Chemin extends Observable {
 	 */
 	public Livraison getDepart() {
 		return depart;
+	}
+	
+	public int getPoidsChemin() {
+		int poids = 0;
+		for (Troncon troncon : troncons) {
+			poids += troncon.getLongueur()/troncon.getVitesse();
+		}
+		return poids;
 	}
 
 }
