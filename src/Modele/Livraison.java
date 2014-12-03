@@ -19,6 +19,7 @@ public class Livraison extends Observable {
 	private Calendar heureLivraisonPrevue;
 	private Noeud  adresse;
 	private PlageHoraire plage;
+	static int nombreLivraison=0;
 	
 	/**
 	 * Constructeur par défaut de Livraison
@@ -35,9 +36,9 @@ public class Livraison extends Observable {
 		return heureLivraisonPrevue;
 	}
 
-	public Livraison(int clientId,int livraisonId,Calendar heureLivraisonPrevue,Noeud adresse) {
+	public Livraison(int clientId,Calendar heureLivraisonPrevue,Noeud adresse) {
 		this.clientID = clientId;
-		this.livraisonID = livraisonId;
+		this.livraisonID = ++nombreLivraison;
 		this.heureLivraisonPrevue = heureLivraisonPrevue;
 		this.adresse = adresse;
 	}

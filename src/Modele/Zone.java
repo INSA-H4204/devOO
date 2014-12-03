@@ -3,6 +3,7 @@ package Modele;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -38,7 +39,27 @@ public class Zone extends Observable {
 	private static int ecartTolere = 5;
 	private Tournee tournee;
 
+public Zone(Set<Troncon> troncons,Map<Integer, Noeud> noeuds,List<PlageHoraire> plages,Livraison entrepot,NotreGraphe grapheOriginal,Tournee tournee){
 
+	this.troncons=troncons;
+	this.noeuds=noeuds;
+	this.plages=plages;
+	this.entrepot=entrepot;
+	this.grapheOriginal=grapheOriginal;
+	this.tournee=tournee;
+
+}
+
+/**
+ * Constructeur par défaut de Zone
+ */
+public Zone() {
+	troncons = new HashSet<Troncon>();
+	noeuds = new HashMap<Integer,Noeud>();
+	plages = new ArrayList<PlageHoraire>();
+	observers = new ArrayList<Observer>();
+	grapheOriginal = new NotreGraphe(troncons, noeuds.size());
+}
 
 	
 	/**
@@ -46,7 +67,10 @@ public class Zone extends Observable {
 	 * @param  xsdFilePathPlan  le chemin du fichier xsd Plan pour valider le fichier xml
      * @author Yousra
 	 */
-	public Zone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
+	public void XMLtoDOMZone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
+//		System.out.println("*****************************************************");
+//		System.out.println(xmlFilePathPlan);
+//		System.out.println(xsdFilePathPlan);
 		troncons = new HashSet<Troncon>();
 		noeuds = new HashMap<Integer,Noeud>();
 		plages = new ArrayList<PlageHoraire>();
@@ -119,17 +143,6 @@ public class Zone extends Observable {
 
 
 	/**
-	 * Constructeur par défaut de Zone
-	 */
-	public Zone() {
-		troncons = new HashSet<Troncon>();
-		noeuds = new HashMap<Integer,Noeud>();
-		plages = new ArrayList<PlageHoraire>();
-		observers = new ArrayList<Observer>();
-		grapheOriginal = new NotreGraphe(troncons, noeuds.size());
-	}
-
-	/**
 	 * Retourne un noeud qui se trouve à peu près à la position cliquée
 	 * 
 	 * @param int x 
@@ -186,14 +199,15 @@ public class Zone extends Observable {
         }
         return true;
 	}
-
-
 	/**
 	 * @param xmlFilePathLivraison (le chemin du fichier xml DemandeLivaison)
 	 * @param xsdFilePathLivraison (le chemin du fichier xsd Plan pour valider le fichier xml)
      * @author Yousra
 	 */
 	public void XMLtoDOMLivraisons(String xmlFilePathLivraison, String xsdFilePathLivraison) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
+//		System.out.println("----------------------------------------------------------");
+//		System.out.println(xmlFilePathLivraison);
+//		System.out.println(xsdFilePathLivraison);
 		File xml = new File(xmlFilePathLivraison);
 		if (!xml.exists()) {
 			throw new FileNotFoundException();
@@ -219,12 +233,16 @@ public class Zone extends Observable {
 						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
 							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);						
+
+							Calendar heureDebut= Calendar.getInstance();;
+						
 							
-					        Calendar heureDebut =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureDebut"));	
-							Calendar heureFin =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureFin"));
+							Calendar heureFin= Calendar.getInstance();;
+							
+					
+							
 							Set<Livraison> listeLivraisonsPlage = new HashSet<Livraison>();
 							NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
-							int livraisonID=1;
 							for(int j=0;j<listeLivraisonsXML.getLength();j++) {
 								Element livraisonElement = (Element) listeLivraisonsXML.item(j);
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
@@ -235,13 +253,11 @@ public class Zone extends Observable {
 									if(l.getAdresse()==adresseLivaison)
 										throw new SAXException();
 								}
-								Livraison livraison = new Livraison(clientID,livraisonID,heureLivraisonPrevue,adresseLivaison);
+								Livraison livraison = new Livraison(clientID,heureLivraisonPrevue,adresseLivaison);
 								
 								listeLivraisonsPlage.add(livraison);
 								listeTousLivraisons.add(livraison);
-								livraisonID++;
 							}
-							List livraisonsOrdonnees = new ArrayList<Livraison>();
 							PlageHoraire plageHoraire = new PlageHoraire(heureDebut,heureFin,listeLivraisonsPlage);
 							
 							if(!verifierPlage(plageHoraire,listeTousPlagesH)){
@@ -263,56 +279,7 @@ public class Zone extends Observable {
 				}
 		}
 	}
-//	public void XMLtoDOMLivraisons(String xmlFilePathLivraison, String xsdFilePathLivraison) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
-//
-//		System.out.println(xmlFilePathLivraison);
-//		System.out.println(xsdFilePathLivraison);
-//		File xml = new File(xmlFilePathLivraison);
-//		if (!xml.exists()) {
-//			throw new FileNotFoundException();
-//		}
-//		else {
-//				if(verifierUnfichierXML(xmlFilePathLivraison, xsdFilePathLivraison)){
-//					List<PlageHoraire> listeTousPlagesH = new ArrayList<PlageHoraire>();
-//					List<Livraison> listeTousLivraisons = new ArrayList<Livraison>();
-//
-//					DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-//					DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-//					org.w3c.dom.Document document = dBuilder.parse(xml);           
-//					Element racine = document.getDocumentElement();
-//
-//					if (racine.getNodeName().equals("JourneeType")) {
-//						Element entrepotElement = (Element)racine.getElementsByTagName("Entrepot") .item(0);
-//						Noeud adresseEntrepot= new Noeud();
-//						adresseEntrepot = noeuds.get(Integer.parseInt(entrepotElement.getAttribute("adresse")));
-//						Livraison entrepot = new Livraison(adresseEntrepot);
-//						this.setEntrepot(entrepot);
-//
-//						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
-//						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
-//							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);						
-//
-//							PlageHoraire plageHoraire = new PlageHoraire();
-//							listeTousLivraisons=plageHoraire.construirePlageAPartirDeDOMXML(plageHoraireElement,this,listeTousLivraisons);
-//							if(!verifierPlage(plageHoraire,listeTousPlagesH)){
-//								listeTousPlagesH.add(plageHoraire);
-//							}
-//							else {
-//								throw new SAXException();
-//							}
-//						}
-//
-//					}
-//					else {
-//						throw new SAXException();
-//					}
-//					this.setPlages(listeTousPlagesH);
-//				}
-//				else{
-//				    throw new SAXException();
-//				}
-//		}
-//	}
+
 	/**
 	 * Verifier si l'heure de debut est avant heure fin et s'il y a des intersection entre la plage courante et toutes les autres plages
 	 * @param plage   La plage horaire a valider
@@ -468,6 +435,7 @@ public class Zone extends Observable {
 	public Tournee getTournee() {
 		return tournee;
 	}
+
 	
 
 }
