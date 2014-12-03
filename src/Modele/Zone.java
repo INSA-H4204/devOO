@@ -61,7 +61,6 @@ public Zone() {
 	observers = new ArrayList<Observer>();
 	grapheOriginal = new NotreGraphe(troncons, noeuds.size());
 }
-
 	
 	/**
 	 * @param  xmlFilePath      le chemin du fichier xml Plan
@@ -69,14 +68,12 @@ public Zone() {
      * @author Yousra
 	 */
 	public void XMLtoDOMZone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
-//		System.out.println("*****************************************************");
-//		System.out.println(xmlFilePathPlan);
-//		System.out.println(xsdFilePathPlan);
 		troncons = new HashSet<Troncon>();
 		noeuds = new HashMap<Integer,Noeud>();
 		plages = new ArrayList<PlageHoraire>();
 		observers = new ArrayList<Observer>();
 		grapheOriginal = new NotreGraphe(troncons, noeuds.size());
+		
 		File xml = new File(xmlFilePathPlan);
 		if (!xml.exists()) {
 			throw new FileNotFoundException();
@@ -117,6 +114,9 @@ public Zone() {
 	                			   throw new SAXException();
 	                	   }               	   
 	                   }
+	                   	this.setChanged();
+	           			this.notifyObservers();
+	           			this.clearChanged();
 	                   
 				   }	
 	               else 
@@ -200,9 +200,6 @@ public Zone() {
      * @author Yousra
 	 */
 	public void XMLtoDOMLivraisons(String xmlFilePathLivraison, String xsdFilePathLivraison) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
-//		System.out.println("----------------------------------------------------------");
-//		System.out.println(xmlFilePathLivraison);
-//		System.out.println(xsdFilePathLivraison);
 		File xml = new File(xmlFilePathLivraison);
 		if (!xml.exists()) {
 			throw new FileNotFoundException();
@@ -301,6 +298,8 @@ public Zone() {
 		Noeud z = new Noeud(2,76,98);
 		noeuds.put(1, n);
 		noeuds.put(z.getNoeudID(), z);
+		Troncon t = new Troncon(n, z, 12, 12, "yousra");
+		troncons.add(t);
 		this.setChanged();
 		this.notifyObservers();
 		this.clearChanged();
