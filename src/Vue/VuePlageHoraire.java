@@ -9,12 +9,18 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 public class VuePlageHoraire extends JPanel {
 	
-	public Button btnRecLiv = new Button("Recuperer livraisons");
+	public Button btnChargPlan = new Button("Charger Plan");
+	public Button btnChargLiv = new Button("Charger Livraison");
+	public Button btnUndo = new Button("Undo");
+	public Button btnRedo = new Button("Redo");
+	public Button btnImpr = new Button("Impression");
 	
 	public VuePlageHoraire(){
 		chargerVuePlageHoraire();
@@ -26,17 +32,34 @@ public class VuePlageHoraire extends JPanel {
 		Border border = BorderFactory.createCompoundBorder(raisedLevel,loweredbevel);
 
 		this.setBorder(border);
-		this.setBackground(Color.GREEN);
+		this.setBackground(Color.LIGHT_GRAY);
 		
-		this.setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
+		JPanel jPanelHaut = new JPanel();
+		JPanel jPanelBas = new JPanel();
+		JPanel jPanelUndoRedo = new JPanel();
+		jPanelHaut.setBackground(Color.LIGHT_GRAY);
+		jPanelBas.setBackground(Color.LIGHT_GRAY);
+		jPanelUndoRedo.setBackground(Color.LIGHT_GRAY);
 		
-		gbc.anchor = GridBagConstraints.PAGE_END;
-		gbc.weighty = 1;
-		gbc.insets = new Insets(0, 0, 5, 0);
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		this.add(jPanelHaut);
+		this.add(jPanelBas);
 		
-		btnRecLiv.setPreferredSize(new Dimension(150,40));
-		this.add(btnRecLiv, gbc);
+		jPanelBas.setLayout(new BoxLayout(jPanelBas, BoxLayout.PAGE_AXIS));
+		jPanelBas.setPreferredSize(new Dimension(100, 200));
+		jPanelBas.setMaximumSize(new Dimension(200, 200));
+		jPanelBas.setMinimumSize(new Dimension(20, 20));
+		jPanelBas.add(btnChargPlan);
+		jPanelBas.add(btnChargLiv);
+		jPanelBas.add(jPanelUndoRedo);
+		
+		jPanelUndoRedo.setLayout(new BoxLayout(jPanelUndoRedo, BoxLayout.LINE_AXIS));
+		jPanelUndoRedo.add(Box.createHorizontalGlue());
+		jPanelUndoRedo.add(btnUndo);
+		jPanelUndoRedo.add(Box.createHorizontalGlue());
+		jPanelUndoRedo.add(btnImpr);
+		jPanelUndoRedo.add(Box.createHorizontalGlue());
+		jPanelUndoRedo.add(btnRedo); 		
 	}
 
 }

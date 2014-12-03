@@ -223,7 +223,7 @@ public class Zone extends Observable {
 								Element livraisonElement = (Element) listeLivraisonsXML.item(j);
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
 								Noeud adresseLivaison= new Noeud();
-								adresseLivaison=this.GetNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
+								adresseLivaison=this.getNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
 								Calendar heureLivraisonPrevue=null;
 								for(Livraison l : listeTousLivraisons) {
 									if(l.getAdresse()==adresseLivaison)
@@ -439,7 +439,7 @@ public class Zone extends Observable {
 		return new Chemin(noeuds.get(source).getLivraison(), noeuds.get(destination).getLivraison(),listerTroncons(destination, precedent));
 	}
 
-	public Map<Integer,Noeud> GetNoeuds(){
+	public Map<Integer,Noeud> getNoeuds(){
 		return noeuds;
 	}
 
