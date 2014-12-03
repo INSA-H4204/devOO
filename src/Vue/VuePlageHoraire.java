@@ -53,7 +53,7 @@ public class VuePlageHoraire extends JPanel {
 		jPanelBas.add(btnChargLiv);
 		jPanelBas.add(jPanelUndoRedo);
 		
-		jPanelUndoRedo.setLayout(new BoxLayout(jPanelUndoRedo, BoxLayout.LINE_AXIS));
+		jPanelUndoRedo.setLayout(new BoxLayout(jPanelUndoRedo, BoxLayout.LINE_AXIS));	
 		jPanelUndoRedo.add(Box.createHorizontalGlue());
 		jPanelUndoRedo.add(btnUndo);
 		jPanelUndoRedo.add(Box.createHorizontalGlue());

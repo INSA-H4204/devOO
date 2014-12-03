@@ -108,7 +108,11 @@ public class Zone extends Observable {
 			{
 				e.printStackTrace();
 			}
-		}
+		} 
+		System.out.println(noeuds.size());
+		this.setChanged();
+		this.notifyObservers();
+		this.clearChanged();
 	}
 
 

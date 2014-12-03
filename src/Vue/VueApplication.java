@@ -46,6 +46,7 @@ public class VueApplication extends JFrame implements Observer {
 	 */
 	@Override
 	public void update(Observable obs, Object obj) {
+		System.out.println("il est dedans");
 		if (obj != null) {
 			switch (obj.toString()) {
 			case "Noeud":
@@ -57,9 +58,10 @@ public class VueApplication extends JFrame implements Observer {
 			}
 		}
 		else {
+			System.out.println("ici aussi");
 			Zone zone = (Zone) obs;
 			chargerNoeudsDeZone(zone);
-			chargerTronconsDeZone(zone);
+//			chargerTronconsDeZone(zone);
 
 		}
 	}
