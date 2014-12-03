@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Stack;
 
 import javax.swing.JFileChooser;
@@ -20,7 +19,6 @@ import org.xml.sax.SAXException;
 import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
-import Modele.Tournee;
 import Modele.Troncon;
 import Modele.Zone;
 import Vue.VueApplication;
@@ -82,6 +80,7 @@ public class Controleur implements ActionListener {
 			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(false);
 			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(false);
 			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);
+
 			String planXML = choisirXML();
 			if(planXML != null){
 				try {
@@ -90,19 +89,30 @@ public class Controleur implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+
 			}
 			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
 			break;
 			
 		case "Charger Livraisons":
-			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);
-			
+			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);			
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
+
+			String livraisonXML = choisirXML();
+			if(livraisonXML != null){				
+					try {
+						chargerLivraisons(livraisonXML);
+					} catch (ParseException | ParserConfigurationException| SAXException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}				
+			}
+
 			break;
 			
 		case "Undo":
-zone.test();
+			
 			break;
 			
 		case "Redo":
@@ -195,8 +205,7 @@ zone.test();
 	 * @throws IOException 
 	 * @throws SAXException 
 	 * @throws ParserConfigurationException 
-	 * @throws ParseException 
-	 * 
+	 * @throws ParseException 	 * 
 	 */
 	public void chargerLivraisons(String XMLFilePath) throws ParseException, ParserConfigurationException, SAXException, IOException {
 		zone.XMLtoDOMLivraisons(XMLFilePath,"Resources/demandeLivraison.xsd" );
@@ -206,8 +215,7 @@ zone.test();
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
 	 * @throws SAXException 
 	 * @throws FileNotFoundException 
-	 * @throws NumberFormatException 
-	 * 
+	 * @throws NumberFormatException 	 * 
 	 */
 	public void chargerZone(String XMLFilePath) throws NumberFormatException, FileNotFoundException, SAXException {
 		zone.XMLtoDOMZone(XMLFilePath, "Resources/plan.xsd");

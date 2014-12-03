@@ -1,6 +1,8 @@
 package Modele;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 /**
  * Représente un ensemble de tronçons liant deux point de livraisons

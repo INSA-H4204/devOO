@@ -1,8 +1,8 @@
 package Modele;
 
-import java.util.*;
-
-import tsp.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 /**
  * Une tournée est un ensemble ordonné de chemins. La tournée représente 
