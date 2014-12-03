@@ -14,9 +14,14 @@ import Modele.Chemin;
 import Modele.Noeud;
 import Modele.Troncon;
 import Modele.Zone;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+
 /*
- * @author : Kevin
- */
+* @author : Kevin
+*/
 public class CheminTest {
 	private Controleur ctrl;
 

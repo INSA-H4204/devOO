@@ -1,35 +1,29 @@
 package test;
-import Controleur.Controleur;
-import Modele.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Map.Entry;
 
-import static org.junit.Assert.*;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Rule;
-import org.junit.rules.ErrorCollector;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+
+import Modele.Livraison;
+import Modele.Noeud;
+import Modele.PlageHoraire;
+import Modele.Troncon;
+import Modele.Zone;
 
 
 
@@ -101,10 +95,23 @@ public class ZoneTest {
 		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		 zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
 		 zone.calculerTournee();
+			ListIterator<PlageHoraire>  iterPlage= zone.getPlageHoraire().listIterator();
+			while (iterPlage.hasNext())
+			{
+				PlageHoraire plage = iterPlage.next();
+				System.out.println("------Plage horraire Debut----- "+plage.getHeureDebut().getHeure()+"h"+plage.getHeureDebut().getMinute()+"m"+plage.getHeureDebut().getSeconde()+"s");
+				ListIterator<Livraison>  iterLivraison =  plage.getLivraisons().listIterator();
+				while (iterLivraison.hasNext())
+				{
+					Livraison livraison = iterLivraison.next();
+					System.out.println(livraison.getHeurePrevue().getHeure()+"h"+livraison.getHeurePrevue().getMinute()+"m"+livraison.getHeurePrevue().getSeconde()+"s");
+				}
+				System.out.println("------Plage horraire Fin----- "+plage.getHeureFin().getHeure()+"h"+plage.getHeureFin().getMinute()+"m"+plage.getHeureFin().getSeconde()+"s");
+			}
+		 
 		 assertNotNull(zone.getTournee());
 		 assertNotNull(zone.getTournee().getChemins());
 	 }
-	 
 	 
 	 @Test
 	 public void integriteNoeuds() throws Exception {

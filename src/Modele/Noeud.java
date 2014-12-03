@@ -1,6 +1,8 @@
 package Modele;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 /**
  * Un noeud peut être une Livraison ou une intersection, un carrefour.
@@ -59,5 +61,13 @@ public class Noeud extends Observable {
 
 	public List<Troncon> getTronconsSortants() {
 		return tronconsSortants;
+	}
+	
+	/**
+	 * @return retourne le nom de la classe pour de l'indintification
+	 * @author gabrielcae
+	 */
+	public String toString(){
+		return "Noeud";
 	}
 }

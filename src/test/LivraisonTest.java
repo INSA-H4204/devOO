@@ -1,14 +1,11 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import java.util.Calendar;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
 
@@ -21,7 +18,7 @@ public class LivraisonTest {
 	public void setUp() throws Exception {
 		Noeud adresse = new Noeud(1,200,200);
 		
-		livraison = new Livraison(1,Calendar.getInstance(),adresse);
+		livraison = new Livraison(1,adresse);
 	}
 
 	@After

@@ -5,10 +5,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
-import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 
@@ -21,7 +21,11 @@ public class VueApplication extends JFrame implements Observer {
 
 	protected Controleur ctrl;
 	private VueInfo vueInfo = new VueInfo();
+	
+
 	private VuePlageHoraire vuePlageHoraire = new VuePlageHoraire();
+	
+
 	private VueZone vueZone = new VueZone();
 
 	private final int HAUTEUR_FENETRE = 700;
@@ -38,14 +42,19 @@ public class VueApplication extends JFrame implements Observer {
 		this.ctrl = ctrl;
 		construireVue();
 	}
-
+	public VuePlageHoraire getVuePlageHoraire() {
+		return vuePlageHoraire;
+	}
+	public VueInfo getVueInfo() {
+		return vueInfo;
+	}
 	/**
 	 * @author frederic, gabrielcae
 	 */
 	@Override
 	public void update(Observable obs, Object obj) {
-		System.out.println("il est dedans");
 		if (obj != null) {
+			Zone zone = (Zone) obs;
 			switch (obj.toString()) {
 			case "Noeud":
 				chargerNoeud((Noeud) obj);
@@ -53,17 +62,18 @@ public class VueApplication extends JFrame implements Observer {
 			case "Troncon":
 				chargerTroncon((Troncon) obj);
 				break;
+			case "Plan":
+				chargerNoeudsDeZone(zone);
+				chargerTronconsDeZone(zone);
+				break;
+			case "Livraison":				
+//				chargerEntrepot(zone);
+//				chargerPlageHoraires(zone);
+//				chargerLivraisons(zone);				
+				break;
 			}
-		}
-		else {
-			System.out.println("ici aussi");
-			Zone zone = (Zone) obs;
-			chargerNoeudsDeZone(zone);
-//			chargerTronconsDeZone(zone);
-
-		}
+		} 
 	}
-	
 
 	/**
 	 * @author gabrielcae
@@ -122,77 +132,63 @@ public class VueApplication extends JFrame implements Observer {
 
 		vuePlageHoraire.btnChargPlan.addActionListener(ctrl);
 		vuePlageHoraire.btnChargPlan.setActionCommand("Charger Plan");
+
+		
+		vuePlageHoraire.btnCalcTourn.addActionListener(ctrl);
+		vuePlageHoraire.btnCalcTourn.setActionCommand("Calculer Tournee");
 		
 		vuePlageHoraire.btnChargLiv.addActionListener(ctrl);
 		vuePlageHoraire.btnChargLiv.setActionCommand("Charger Livraisons");
 		
-		vuePlageHoraire.btnUndo.addActionListener(ctrl);
-		vuePlageHoraire.btnUndo.setActionCommand("Undo");
+		vueInfo.btnUndo.addActionListener(ctrl);
+		vueInfo.btnUndo.setActionCommand("Undo");
 		
-		vuePlageHoraire.btnRedo.addActionListener(ctrl);
-		vuePlageHoraire.btnRedo.setActionCommand("Redo");
+		vueInfo.btnRedo.addActionListener(ctrl);
+		vueInfo.btnRedo.setActionCommand("Redo");
 		
+
 		vuePlageHoraire.btnImpr.addActionListener(ctrl);
 		vuePlageHoraire.btnImpr.setActionCommand("Impression");
+		
+		vueInfo.ajouter.addActionListener(ctrl);
+		vueInfo.ajouter.setActionCommand("Ajouter Livraison");
+		
+		vueInfo.supprimer.addActionListener(ctrl);
+		vueInfo.supprimer.setActionCommand("Supprimer Livraison");
+		
+		vueInfo.valider.addActionListener(ctrl);
+		vueInfo.valider.setActionCommand("Valider Livraison");
 
-	}
-
-	// TODO: pour le test d'affichage des noeuds
-	public List<VueNoeud> creerListeNoeuds() {
-
-		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
-		for (int i = 1; i < 400; i++) {
-			Random rand = new Random();
-
-			int x = rand.nextInt((800 - 0) + 1) + 0;
-			int y = rand.nextInt((800 - 0) + 1) + 0;
-			VueNoeud vn = new VueNoeud(x, y);
-			listeVueNoeud.add(vn);
-		}
-		return listeVueNoeud;
+		vueZone.addMouseListener(ctrl);
 	}
 
 	/**
-	 * Methode qui recupere les coordonnées des noeuds d'une zone et les passe à chargerNoeuds(listX,listY)
+	 * Methode qui recupere les coordonnées des noeuds d'une zone et les passe à
+	 * chargerNoeuds(listX,listY)
+	 * 
 	 * @param zone
 	 * @author gabrielcae
 	 */
 	private void chargerNoeudsDeZone(Zone zone) {
-		List<Integer> listeX = new ArrayList<Integer>();
-		List<Integer> listeY = new ArrayList<Integer>();
-		for (Entry<Integer, Noeud> iter : zone.getNoeuds().entrySet()) {
-			int x = iter.getValue().getPosX();
-			int y = iter.getValue().getPosY();
-			listeX.add(x);
-			listeY.add(y);
-		}
-		chargerNoeuds(listeX, listeY);
-	}
-	
-	private void chargerTronconsDeZone(Zone zone) {
-		//TODO: a implemanter
-	}
-	
-	/**
-	 * Méthode qui recupère des listes de coordonnées des noeuds, en lètres, les convertis en pixel, crée une liste de VueNoeuds et les envoye a vueZone pour l'affichage
-	 * @param listeX , liste d'entiers en mètres
-	 * @param listeY , liste d'entiers en mètres
-	 * @author gabrielcae
-	 */
-	public void chargerNoeuds(List<Integer> listeX, List<Integer> listeY) {
-
 		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
-		for (int i = 0; i < listeX.size(); i++) {
-			int x = convertiseurMetrePixel(listeX.get(i), 'x');
-			int y = convertiseurMetrePixel(listeY.get(i), 'y');
+		Map<Integer, Noeud> mapNoeuds = zone.getNoeuds();
+		int i=0;
+		for (Integer iter : mapNoeuds.keySet()) {
+			Noeud noeud = mapNoeuds.get(iter);
+			int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
+			int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
 			VueNoeud vn = new VueNoeud(x, y);
 			listeVueNoeud.add(vn);
+			i++;
 		}
+		System.out.println(listeVueNoeud.size());
 		vueZone.chargerNoeuds(listeVueNoeud);
 	}
 
 	/**
-	 * Méthode qui converti les coordonnées d'un noeud, crée une nouvelle VueNoeud et l'envoye pour l'affichage
+	 * Méthode qui converti les coordonnées d'un noeud, crée une nouvelle
+	 * VueNoeud et l'envoye pour l'affichage
+	 * 
 	 * @param noeud
 	 */
 	public void chargerNoeud(Noeud noeud) {
@@ -202,6 +198,19 @@ public class VueApplication extends JFrame implements Observer {
 
 		vueZone.chargerNoeuds(vn);
 	}
+	
+	private void chargerTronconsDeZone(Zone zone) {
+		List<VueTroncon> listeVueTroncons = new ArrayList<VueTroncon>();
+		for (Troncon t : zone.getTroncons()) {
+			int xInit = convertiseurMetrePixel(t.getOrigine().getPosX(), 'x');
+			int yInit = convertiseurMetrePixel(t.getOrigine().getPosY(), 'y');
+			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
+			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
+			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, t.getNomRue());
+			listeVueTroncons.add(vt);
+		}
+		vueZone.chargerTroncons(listeVueTroncons);
+	}
 
 	private void chargerTroncon(Troncon troncon) {
 		int xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
@@ -210,7 +219,7 @@ public class VueApplication extends JFrame implements Observer {
 		int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
 		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome");
 
-		vueZone.chargerTroncon(vt);
+		vueZone.chargerTroncons(vt);
 	}
 
 	/**
@@ -236,4 +245,3 @@ public class VueApplication extends JFrame implements Observer {
 		}
 	}
 }
-

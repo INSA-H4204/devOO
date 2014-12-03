@@ -1,7 +1,6 @@
 package Controleur;
 
 
-import java.util.Calendar;
 import java.util.List;
 
 import Modele.Chemin;
@@ -26,6 +25,7 @@ public class CdeSupprimerLivraison extends Commande {
 	 * @author hgerard
 	 */
 	public CdeSupprimerLivraison() {
+		
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class CdeSupprimerLivraison extends Commande {
 	protected void undo() {
 		int idClient = livraisonSuppression.getClientID();
 		Noeud noeudSuppression = livraisonSuppression.getAdresse();
-		Livraison livraisonAjout = new Livraison(idClient,Calendar.getInstance(),noeudSuppression);
+		Livraison livraisonAjout = new Livraison(idClient, noeudSuppression);
 		int posCheminSupprimer=-2;
 		List<Chemin> chemins = zone.getTournee().getChemins();
 		Noeud noeudPrecedent = livraisonPrecedente.getAdresse();

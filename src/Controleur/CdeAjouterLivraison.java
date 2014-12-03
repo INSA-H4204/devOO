@@ -1,6 +1,5 @@
 package Controleur;
 
-import java.util.Calendar;
 import java.util.List;
 
 import Modele.Chemin;
@@ -54,7 +53,7 @@ public class CdeAjouterLivraison extends Commande {
 	public void execute() {
 
 		
-		Livraison livraisonAjout = new Livraison(idClient,Calendar.getInstance(),noeudSelectionne);
+		Livraison livraisonAjout = new Livraison(idClient,noeudSelectionne);
 		int posCheminSupprimer=-2;
 		List<Chemin> chemins = zone.getTournee().getChemins();
 		for(Chemin chemin : chemins){
