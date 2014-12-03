@@ -280,6 +280,16 @@ public class Zone extends Observable {
 		return false;
 	}
 	
+	public void test() {
+		Noeud n = new Noeud(1,26,35);
+		Noeud z = new Noeud(2,76,98);
+		noeuds.put(1, n);
+		noeuds.put(z.getNoeudID(), z);
+		this.setChanged();
+		this.notifyObservers();
+		this.clearChanged();
+	}
+	
 	/**
 	 * Creer un objet tournee et appeler sa methode pour calculer la tournee
 	 * @author yukaiwang
