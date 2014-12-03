@@ -84,14 +84,14 @@ public class CdeAjouterLivraison extends Commande {
 	 * Fonction appelée quand on annule la fonction normalement
 	 */
 	public void undo() {
-		// TODO implement here
+		
 	}
 
 	/**
 	 * Fonction appelée quand on réexecute la fonction normalement
 	 */
 	public void redo() {
-		// TODO implement here
+		execute();
 	}
 
 
