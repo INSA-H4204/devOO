@@ -18,6 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import Modele.Chemin;
+import Modele.Livraison;
 import Modele.Noeud;
 import Modele.Tournee;
 import Modele.Troncon;
@@ -157,12 +158,12 @@ public class Controleur implements ActionListener {
 					this.noeudPrecedent = noeudClique;
 				} else {
 					this.noeudSelectionne = noeudClique;
+	//				if (noeudSelectionne.getLivraison() == null) {
+	//						// Vue.ActiverBoutonAjouter -> Gabriel
+	//				} else {
+	//					// Vue.ActiverBoutonSupprimer -> Gabriel
+	//				}
 				}
-//				if (noeudSelectionne.getLivraison() == null) {
-//					// Vue.ActiverBoutonAjouter -> Gabriel
-//				} else {
-//					// Vue.ActiverBoutonSupprimer -> Gabriel
-//				}
 			}
 			selectionActive = true;
 		}
@@ -244,6 +245,7 @@ public class Controleur implements ActionListener {
 	 */
 	public void actionBoutonAjouter(){
 		if (noeudSelectionne != null) {
+			//DesactiverBoutonAjouter
 			ajoutEnCours = true;
 		}
 	}
@@ -262,21 +264,6 @@ public class Controleur implements ActionListener {
 		}
 		
 	}
-	
-	/*
-	 * kevin
-	 * Annule la dernière commande executé? TODO ?
-	 */
-	public void undoAction() {
-		
-	}
-	/*
-	 * kevin
-	 * Reexecute la dernière commande executé? TODO ?
-	 */
-	public void redoAction() {
-		
-	}
 		
 	/**
 	 * Appelée par le bouton Supprimer
@@ -284,7 +271,10 @@ public class Controleur implements ActionListener {
 	 * @author hgerard
 	 */
 	public void actionBoutonSupprimer(){
-		CdeSupprimerLivraison suppr = new CdeSupprimerLivraison(zone, noeudSelectionne);
+		Livraison livraisonSelectionnee = noeudSelectionne.getLivraison();
+		if (noeudSelectionne.getLivraison() != null) {
+			CdeSupprimerLivraison suppr = new CdeSupprimerLivraison(zone, livraisonSelectionnee);
+		}
 	}
 
 	/**

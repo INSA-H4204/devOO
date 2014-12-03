@@ -17,6 +17,7 @@ import Modele.Zone;
  * @author hgerard
  */
 public class CdeAjouterLivraison extends Commande {
+	
 	private Zone zone;
 	private Noeud noeudPrecedent;
 	private Noeud noeudSelectionne;
@@ -54,7 +55,8 @@ public class CdeAjouterLivraison extends Commande {
 	 */
 
 	public void execute() {
-		Livraison livraisonAjout = new Livraison(idClient,nombreLivraison,Calendar.getInstance(),noeudSelectionne.getNoeudID());
+		
+		Livraison livraisonAjout = new Livraison(idClient,nombreLivraison,Calendar.getInstance(),noeudSelectionne);
 		int posCheminSupprimer=-2;
 		List<Chemin> chemins = zone.getTournee().getChemins();
 		for(Chemin chemin : chemins){
@@ -76,24 +78,32 @@ public class CdeAjouterLivraison extends Commande {
 				}
 			}
 		}
-
-		
 	}
 
 	/**
-	 * Fonction appelée quand on annule la fonction normalement
+	 * Fonction appelée quand on annule la fonction
 	 */
 	public void undo() {
 		
+		Livraison livraisonSuppression = noeudSelectionne.getLivraison();
+		Tournee tournee = zone.getTournee();
+		List<Chemin> chemins = tournee.getChemins();
+		
+		for (int i = 0 ; i < chemins.size() ; i++){
+			Chemin cheminPrecedent = chemins.get(i);
+			Livraison arrivee = cheminPrecedent.getArrivee();
+			
+			if (arrivee.equals(livraisonSuppression)){
+				Chemin cheminSuivant = chemins.get(i+1);
+				Livraison nouveauDepart = cheminPrecedent.getDepart();
+				Livraison nouvelleArrivee = cheminSuivant.getArrivee();
+				int idDepart = nouveauDepart.getAdresse().getNoeudID();
+				int idArrivee = nouvelleArrivee.getAdresse().getNoeudID();
+				chemins.remove(cheminSuivant);
+				chemins.remove(cheminPrecedent);
+				Chemin nouveauChemin = zone.plusCourtChemin(idDepart, idArrivee);
+				chemins.add(i,nouveauChemin);
+			}
+		}
 	}
-
-	/**
-	 * Fonction appelée quand on réexecute la fonction normalement
-	 */
-	public void redo() {
-		execute();
-	}
-
-
-
 }
