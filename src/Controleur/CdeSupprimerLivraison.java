@@ -54,7 +54,7 @@ public class CdeSupprimerLivraison extends Commande {
 	 * Fonction appelée quand on réexecute la fonction 
 	 */
 	protected void redo() {
-		// TODO implement here
+		execute();
 	}
 
 	/**

@@ -249,6 +249,32 @@ public class Controleur implements ActionListener {
 	public void fermerVue() {
 		vueApplication.fermer();
 	}
+	
+	/**
+	 * Annule la dernière commande utilisée 
+	 * 
+	 * @author hgerard
+	 */
+	public void undo() {
+		if (!commandesExecutees.isEmpty()){
+			Commande commandeAnnulation = commandesExecutees.pop();
+			commandeAnnulation.undo();
+			commandesAnnulees.push(commandeAnnulation);
+		}
+	}
+	
+	/**
+	 * Réexecute la dernière commande annulée
+	 * 
+	 * @author hgerard
+	 */
+	public void redo() {
+		if (!commandesAnnulees.isEmpty()){
+			Commande commandeReexecution = commandesAnnulees.pop();
+			commandeReexecution.redo();
+			commandesExecutees.push(commandeReexecution);
+		}
+	}
 
 	public Zone getZone() {
 		return zone;
