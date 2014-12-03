@@ -189,7 +189,7 @@ public class Controleur implements ActionListener {
 	 * 
 	 */
 	public void chargerZone(String XMLFilePath) throws NumberFormatException, FileNotFoundException, SAXException {
-		zone = new Zone(XMLFilePath,"Resources/plan.xsd");
+		zone.XMLtoDOMZone(XMLFilePath, "Resources/plan.xsd");
 	}
 	
 	/**
