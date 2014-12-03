@@ -12,6 +12,7 @@ public class Chemin extends Observable {
 	private Livraison arrivee;
 	private Livraison depart;
 	private List<Troncon> troncons;
+	private final int dureeArret=10*60;//10 min
 	
 	/**
 	 * Constructeur par défaut de chemin
@@ -54,12 +55,12 @@ public class Chemin extends Observable {
 	}
 
 	/**
-	 * Cette méthode doit assigner une heure prévue aux livraisons et assigner le booléen isPonctuel dans Livraison
+	 * Cette méthode doit assigner une heure prevue aux livraisons et assigner le booléen isPonctuel dans Livraison
 	 */
 	private void calculerHeureProchaineLivraison() {
 		// TODO implement here
-	}
-
+	}	
+	
 	/**
 	 * Getter de depart
 	 * 

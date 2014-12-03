@@ -12,35 +12,30 @@ public class Livraison extends Observable {
 
 	private int clientID;
 	private int livraisonID;
-	private Calendar heureLivraisonPrevue;
+	private Time heurePrevue;
 	private Noeud  adresse;
 	private PlageHoraire plage;
 	static int nombreLivraison=0;
 	boolean isPonctuel;
 
-	
-
 
 	/**
-	 * Constructeur par défaut de Livraison
+	 * Constructeur par defaut de Livraison
 	 */
 	public Livraison() {
 		clientID = 0;
+		livraisonID = ++nombreLivraison;
 		livraisonID = 0;
-		heureLivraisonPrevue = Calendar.getInstance();
+		heurePrevue = new Time();
 		adresse = null;
 		plage = new PlageHoraire();
 		isPonctuel = true;
 	}
-	
-	public Calendar getHeureLivraisonPrevue() {
-		return heureLivraisonPrevue;
-	}
 
-	public Livraison(int clientId,Calendar heureLivraisonPrevue,Noeud adresse) {
+	public Livraison(int clientId, Noeud adresse) {
 		this.clientID = clientId;
 		this.livraisonID = ++nombreLivraison;
-		this.heureLivraisonPrevue = heureLivraisonPrevue;
+		this.heurePrevue = new Time();
 		this.adresse = adresse;
 		isPonctuel = true;
 	}
@@ -58,7 +53,7 @@ public class Livraison extends Observable {
 	public Livraison(Noeud adresseEntrepot){
 		clientID = 0;
 		livraisonID = 0;
-		heureLivraisonPrevue = Calendar.getInstance();
+		heurePrevue = new Time();
 		adresse = adresseEntrepot;
 		
 	}
@@ -73,5 +68,13 @@ public class Livraison extends Observable {
 	
 	public void setPlage(PlageHoraire plage) {
 		this.plage = plage;
+	}
+	
+	public Time getHeurePrevue(){
+		return this.heurePrevue;
+	}
+	
+	public void setHeurePrevue(Time heurePrevue){
+		this.heurePrevue=heurePrevue;
 	}
 }

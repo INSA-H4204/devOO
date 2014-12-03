@@ -211,8 +211,8 @@ zone.test();
 	/**
 	 * 
 	 */
-	private void calculerTournee(Tournee tournee) {
-		// TODO implement here
+	public void calculerTournee() {
+		zone.calculerTournee();
 	}
 	
 	/**
@@ -230,13 +230,13 @@ zone.test();
              try {
                
                   // 2) �criture de la feuille de route
-                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeureLivraisonPrevue().get(Calendar.HOUR_OF_DAY)));
+                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure()));
                   for(Chemin chemin:zone.getTournee().getChemins())  {
                 	  for(Troncon troncon:chemin.getTroncons()) {
                 		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
                 	  }
                 	  if(chemin.getArrivee().getLivraisonID()!=0)
-                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apr�s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().get(Calendar.HOUR_OF_DAY)));
+                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apr�s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure()));
                 	  else
                 		  out.write("Vous etes de retour a l'entrepot");
                   }

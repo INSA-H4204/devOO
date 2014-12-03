@@ -104,7 +104,7 @@ public Zone() {
 	                	   for (int j=0; j<listeTronconsNoeudXML.getLength();j++) 
 	                	   {
 	                		   Element tronconElement = (Element) listeTronconsNoeudXML.item(j);
-	                		   Noeud origine = noeuds.get(Integer.parseInt((String) ((Element) noeudElement).getAttribute("id"))); 
+	                		   Noeud origine = noeuds.get(Integer.parseInt((String) ((Element) noeudElement).getAttribute("id")));
 	                		   Noeud fin = noeuds.get(Integer.parseInt(tronconElement.getAttribute("idNoeudDestination")));
 	                		   String nomRue= tronconElement.getAttribute("nomRue");
 	                	       int vitesse=(int)Double.parseDouble(tronconElement.getAttribute("vitesse").replaceAll(",", "."));
@@ -241,11 +241,14 @@ public Zone() {
 						Livraison entrepot = new Livraison(adresseEntrepot);
 						this.setEntrepot(entrepot);
 						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
-						int livraisonID=1;
+						//Heure prevue de l'entrepot
+						Time heurePrevuEntrepot=new Time(((Element) listePlagesHoraireXML.item(0)).getAttribute("heureDebut"));
+						entrepot.setHeurePrevue(heurePrevuEntrepot);
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
-							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);						
-							Calendar heureDebut= Calendar.getInstance();;
-							Calendar heureFin= Calendar.getInstance();;
+							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);
+							// to do
+							Time heureDebut = new Time(plageHoraireElement.getAttribute("heureDebut"));
+							Time heureFin = new Time(plageHoraireElement.getAttribute("heureFin"));
 							List<Livraison> listeLivraisonsPlage = new ArrayList<Livraison>();
 							NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
 							for(int j=0;j<listeLivraisonsXML.getLength();j++) {
@@ -253,7 +256,6 @@ public Zone() {
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
 								Noeud adresseLivaison= new Noeud();
 								adresseLivaison=this.getNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
-								Calendar heureLivraisonPrevue=null;
 								for(Livraison l : listeTousLivraisons) {
 									if(l.getAdresse()==adresseLivaison)
 									{
@@ -262,7 +264,7 @@ public Zone() {
 										throw new SAXException();
 									}
 								}
-								Livraison livraison = new Livraison(clientID,heureLivraisonPrevue,adresseLivaison);
+								Livraison livraison = new Livraison(clientID, adresseLivaison);
 								
 								listeLivraisonsPlage.add(livraison);
 								listeTousLivraisons.add(livraison);
@@ -302,12 +304,12 @@ public Zone() {
      * @author Yousra
 	 */
 	private boolean verifierPlage(PlageHoraire plage,List<PlageHoraire> plages) {
-		if(plage.getHeureDebut().before(plage.getHeureFin())){
+		if(plage.getHeureDebut().isBefore(plage.getHeureFin())){
 			for(PlageHoraire p : plages) {
-				if(plage.getHeureDebut().before(p.getHeureFin()) && plage.getHeureFin().after(p.getHeureFin())) {
+				if(plage.getHeureDebut().isBefore(p.getHeureFin()) && plage.getHeureFin().isAfter(p.getHeureFin())) {
 					return true;
 				}
-				else if(plage.getHeureDebut().before(p.getHeureDebut()) && plage.getHeureFin().after(p.getHeureDebut())){
+				else if(plage.getHeureDebut().isBefore(p.getHeureDebut()) && plage.getHeureFin().isAfter(p.getHeureDebut())){
 					return true;
 				}
 			}
@@ -348,7 +350,7 @@ public Zone() {
 		depart = entrepot.getLivraisonID();
 		for (Livraison livraison : plages.get(0).getLivraisons()) {
 			arrivee = livraison.getLivraisonID();
-			grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(entrepot.getAdresse().getNoeudID()));
+			grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(livraison.getAdresse().getNoeudID()));
 		}
 
 		for (int i = 0; i < plages.size()-1 ; i++) {
@@ -388,6 +390,9 @@ public Zone() {
 		TSP tsp = new TSP(grapheChoco);
 		tsp.solve(10000, 10000);
 		int[] suivant = tsp.getNext();
+		for (int i = 0; i < suivant.length; i++) {
+			System.out.println(suivant[i]);
+		}
 		tournee.setChemins(listerChemins(suivant, sources, livraisons));
 
 	}
