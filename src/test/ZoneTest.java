@@ -55,12 +55,9 @@ public class ZoneTest {
 	private static String LivraisonSansId = "Resources/LivraisonSansId.xml";
 	private static String LivraisonSansPlageHoraires = "Resources/LivraisonSansPlageHoraires.xml";
 	private static String PlageHoraireChevauchement = "Resources/PlageHoraireChevauchement.xml";
-	
-	
+
 	private static String XsdFile = "Resources/plan.xsd";
 	private static String xsdFilePathLivraison = "Resources/demandeLivraison.xsd";
-	
-	private Document livraisonXML;
 	
 	private static Zone zone;
 	
@@ -99,14 +96,14 @@ public class ZoneTest {
 	 @Test
 	 public void integriteNoeuds() throws Exception {
 		zone = new Zone(ZoneCorrecteStr,XsdFile);
-		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.GetNoeuds().size());
-		assertNotNull("Echec - Aucun troncon n'a été chargé",zone.GetTroncons().size());
-		for(Entry<Integer, Noeud> iter : zone.GetNoeuds().entrySet()) {
+		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.getNoeuds().size());
+		assertNotNull("Echec - Aucun troncon n'a été chargé",zone.getTroncons().size());
+		for(Entry<Integer, Noeud> iter : zone.getNoeuds().entrySet()) {
 			assertNotNull("Echec - L'id n'est pas renseigné",iter.getValue().getNoeudID());
 			assertNotNull("Echec - X n'est pas renseigné",iter.getValue().getPosX());
 			assertNotNull("Echec - Y n'est pas renseigné",iter.getValue().getPosY());
 		}
-		for (Troncon t : zone.GetTroncons() ) {
+		for (Troncon t : zone.getTroncons() ) {
 			assertNotNull("Echec - Troncon sans origine",t.getOrigine());
 			assertNotNull("Echec - Troncon sans fin",t.getFin());
 		}
@@ -127,7 +124,7 @@ public class ZoneTest {
 			zone = new Zone(NoeudSansTronconStr,XsdFile);
 			
 		} catch (NumberFormatException | FileNotFoundException | SAXException e) {
-			assertNull(zone.GetNoeuds());
+			assertNull(zone.getNoeuds());
 		}
 	 }
 	 

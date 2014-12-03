@@ -1,14 +1,6 @@
 package Modele;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
-
-import javax.xml.bind.DatatypeConverter;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * Une plage horaire est une portion de temps (par ex : 8h-12h) dans laquelle 
@@ -20,7 +12,7 @@ public class PlageHoraire extends Observable {
 
 	public Calendar heureDebut;
 	public Calendar heureFin;
-	private Set<Livraison> livraisons;
+	private List<Livraison> livraisons;
 	
 	/**
 	 * Constructeur par defaut de PlageHoraire
@@ -28,9 +20,9 @@ public class PlageHoraire extends Observable {
 	public PlageHoraire() {
 		heureDebut = Calendar.getInstance();
 		heureFin = Calendar.getInstance();
-		livraisons = new HashSet<Livraison>();
+		livraisons = new ArrayList<Livraison>();
 	}
-	public PlageHoraire(Calendar heureDebut,Calendar heureFin,Set<Livraison> livraisons) {
+	public PlageHoraire(Calendar heureDebut,Calendar heureFin,List<Livraison> livraisons) {
 		this.heureDebut =heureDebut;
 		this.heureFin =heureFin;
 		this.livraisons = livraisons;
@@ -58,17 +50,11 @@ public class PlageHoraire extends Observable {
 //		this.livraisons = listeLivraisons;
 //		return listeTousLivraisons;
 //	}
-	/**
-	 * 
-	 */
-	private void verifierPonctualite() {
-		// TODO implement here
-	}
 
 	/**
 	 * Retourne le Set des livraisons de la plage horaire
 	 */
-	public Set<Livraison> getLivraisons() {
+	public List<Livraison> getLivraisons() {
 		return livraisons;
 	}
 	 public Calendar getHeureDebut(){
