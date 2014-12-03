@@ -215,6 +215,7 @@ public Zone() {
      * @author Yousra
 	 */
 	public void XMLtoDOMLivraisons(String xmlFilePathLivraison, String xsdFilePathLivraison) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
+		Livraison.resetLivraisonId();// Remet l'incrementateur d'id static de livraison à 0; 
 		File xml = new File(xmlFilePathLivraison);
 		if (!xml.exists()) {
 			this.plages = null;

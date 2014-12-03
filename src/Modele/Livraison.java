@@ -74,4 +74,8 @@ public class Livraison extends Observable {
 	public void setPlage(PlageHoraire plage) {
 		this.plage = plage;
 	}
+
+	public static void resetLivraisonId() {
+		nombreLivraison = 0;
+	}
 }

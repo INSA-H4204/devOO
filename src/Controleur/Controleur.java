@@ -149,8 +149,9 @@ public class Controleur implements ActionListener {
 	 * @author hgerard thelmer
 	 */
 	public void selectionnerNoeud(int x, int y){
+		//System.out.print();
 		verifierSiZoneSansLivraison();
-		if (selectionActive && isZoneSansLivraison) {
+		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
 			Noeud noeudClique = zone.rechercherNoeudParPosition(x,y);
 			if (noeudClique != null) {
@@ -193,13 +194,6 @@ public class Controleur implements ActionListener {
 	}
 	
 	/**
-	 * 
-	 */
-	private void calculerTournee(Tournee tournee) {
-		// TODO implement here
-	}
-	
-	/**
 	* Appelee par le bouton "Valider feuille de route" pour creer le fichier texte de la feuille de route
 	* 
 	* @author thelmer
@@ -210,7 +204,6 @@ public class Controleur implements ActionListener {
              
              // 1) Creation de la feuille de route
              BufferedWriter out = new BufferedWriter(new FileWriter(new File("Resources/feuille_de_route_zone.txt")));
-           
              try {
                
                   // 2) �criture de la feuille de route
