@@ -13,7 +13,6 @@ public class PlageHoraire extends Observable {
 	public Calendar heureDebut;
 	public Calendar heureFin;
 	private List<Livraison> livraisons;
-	
 	/**
 	 * Constructeur par defaut de PlageHoraire
 	 */
@@ -22,10 +21,10 @@ public class PlageHoraire extends Observable {
 		heureFin = Calendar.getInstance();
 		livraisons = new ArrayList<Livraison>();
 	}
-	public PlageHoraire(Calendar heureDebut,Calendar heureFin,List<Livraison> livraisons) {
+	public PlageHoraire(Calendar heureDebut,Calendar heureFin,List<Livraison> listeLivraisonsPlage) {
 		this.heureDebut =heureDebut;
 		this.heureFin =heureFin;
-		this.livraisons = livraisons;
+		this.livraisons = listeLivraisonsPlage;
 	}
 	
 //	public List<Livraison> construirePlageAPartirDeDOMXML(Element plageHoraireElement, Zone zone, List<Livraison> listeTousLivraisons) throws SAXException{

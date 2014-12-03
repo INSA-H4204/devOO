@@ -3,6 +3,7 @@ package Modele;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -39,7 +40,27 @@ public class Zone extends Observable {
 	private static int ecartTolere = 5;
 	private Tournee tournee;
 
+public Zone(Set<Troncon> troncons,Map<Integer, Noeud> noeuds,List<PlageHoraire> plages,Livraison entrepot,NotreGraphe grapheOriginal,Tournee tournee){
 
+	this.troncons=troncons;
+	this.noeuds=noeuds;
+	this.plages=plages;
+	this.entrepot=entrepot;
+	this.grapheOriginal=grapheOriginal;
+	this.tournee=tournee;
+
+}
+
+/**
+ * Constructeur par défaut de Zone
+ */
+public Zone() {
+	troncons = new HashSet<Troncon>();
+	noeuds = new HashMap<Integer,Noeud>();
+	plages = new ArrayList<PlageHoraire>();
+	observers = new ArrayList<Observer>();
+	grapheOriginal = new NotreGraphe(troncons, noeuds.size());
+}
 
 	
 	/**
@@ -47,7 +68,7 @@ public class Zone extends Observable {
 	 * @param  xsdFilePathPlan  le chemin du fichier xsd Plan pour valider le fichier xml
      * @author Yousra
 	 */
-	public Zone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
+	public void XMLtoDOMZone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
 		troncons = new HashSet<Troncon>();
 		noeuds = new HashMap<Integer,Noeud>();
 		plages = new ArrayList<PlageHoraire>();
@@ -132,17 +153,6 @@ public class Zone extends Observable {
 
 
 	/**
-	 * Constructeur par défaut de Zone
-	 */
-	public Zone() {
-		troncons = new HashSet<Troncon>();
-		noeuds = new HashMap<Integer,Noeud>();
-		plages = new ArrayList<PlageHoraire>();
-		observers = new ArrayList<Observer>();
-		grapheOriginal = new NotreGraphe(troncons, noeuds.size());
-	}
-
-	/**
 	 * Retourne un noeud qui se trouve à peu près à la position cliquée
 	 * 
 	 * @param int x 
@@ -199,7 +209,6 @@ public class Zone extends Observable {
         }
         return true;
 	}
-
 	/**
 	 * @param xmlFilePathLivraison (le chemin du fichier xml DemandeLivaison)
 	 * @param xsdFilePathLivraison (le chemin du fichier xsd Plan pour valider le fichier xml)
@@ -232,11 +241,10 @@ public class Zone extends Observable {
 						int livraisonID=1;
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
 							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);						
-							Calendar heureDebut =  Calendar.getInstance();//DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureDebut"));	
-							Calendar heureFin =  Calendar.getInstance();//DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureFin"));
+							Calendar heureDebut= Calendar.getInstance();;
+							Calendar heureFin= Calendar.getInstance();;
 							List<Livraison> listeLivraisonsPlage = new ArrayList<Livraison>();
 							NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
-							
 							for(int j=0;j<listeLivraisonsXML.getLength();j++) {
 								Element livraisonElement = (Element) listeLivraisonsXML.item(j);
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
@@ -251,11 +259,10 @@ public class Zone extends Observable {
 										throw new SAXException();
 									}
 								}
-								Livraison livraison = new Livraison(clientID,livraisonID,heureLivraisonPrevue,adresseLivaison);
+								Livraison livraison = new Livraison(clientID,heureLivraisonPrevue,adresseLivaison);
 								
 								listeLivraisonsPlage.add(livraison);
 								listeTousLivraisons.add(livraison);
-								livraisonID++;
 							}
 							PlageHoraire plageHoraire = new PlageHoraire(heureDebut,heureFin,listeLivraisonsPlage);
 							if(!verifierPlage(plageHoraire,listeTousPlagesH)){
@@ -376,8 +383,6 @@ public class Zone extends Observable {
 		TSP tsp = new TSP(grapheChoco);
 		tsp.solve(10000, 10000);
 		int[] suivant = tsp.getNext();
-		for (int i = 0 ; i<suivant.length;i++)
-		System.out.println(suivant[i]);
 		tournee.setChemins(listerChemins(suivant, sources, livraisons));
 
 	}
@@ -504,10 +509,10 @@ public class Zone extends Observable {
 		return tournee;
 	}
 
-
 	public Livraison getEntrepot() {
 		return entrepot;
 	}
+
 	
 	public List<PlageHoraire> getPlageHoraire() {
 		return plages;

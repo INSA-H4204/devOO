@@ -1,6 +1,7 @@
 package Controleur;
 
 
+import java.util.Calendar;
 import java.util.List;
 
 import Modele.Chemin;
@@ -16,7 +17,8 @@ import Modele.Zone;
  */
 public class CdeSupprimerLivraison extends Commande {
 
-	private Noeud noeudSuppression;
+	private Livraison livraisonSuppression;
+	private Livraison livraisonPrecedente;
 	
 	/**
 	 * Constructeur par défaut de CdeSupprimerLivraison
@@ -31,20 +33,19 @@ public class CdeSupprimerLivraison extends Commande {
 	 * 
 	 * @author hgerard
 	 */
-	public CdeSupprimerLivraison(Zone zone, Noeud noeudSelectionne) {
+	public CdeSupprimerLivraison(Zone zone, Livraison livraisonSelectionnee) {
 		super(zone);
-		this.noeudSuppression = noeudSelectionne;
+		this.livraisonSuppression = livraisonSelectionnee;
 	}
 	
 	/**
-	 * Fonction appelée quand on execute la fonction normalement
+	 * Fonction appelée quand on execute la fonction on qu'on la réexecute après une annulation
 	 * 
 	 * @author hgerard
 	 */
 	protected void execute() {
 		
 		Tournee tournee = zone.getTournee();
-		Livraison livraisonSuppression = noeudSuppression.getLivraison();
 		List<Chemin> chemins = tournee.getChemins();
 		
 		for (int i = 0 ; i < chemins.size() ; i++){
@@ -54,6 +55,7 @@ public class CdeSupprimerLivraison extends Commande {
 			if (arrivee.equals(livraisonSuppression)){
 				Chemin cheminSuivant = chemins.get(i+1);
 				Livraison nouveauDepart = cheminPrecedent.getDepart();
+				this.livraisonPrecedente = nouveauDepart;
 				Livraison nouvelleArrivee = cheminSuivant.getArrivee();
 				int idDepart = nouveauDepart.getAdresse().getNoeudID();
 				int idArrivee = nouvelleArrivee.getAdresse().getNoeudID();
@@ -68,25 +70,32 @@ public class CdeSupprimerLivraison extends Commande {
 	/**
 	 * Fonction appelée quand on annule la fonction 
 	 *
+	 *@author hgerard
 	 */
 	protected void undo() {
-		// TODO implement here
+		int idClient = livraisonSuppression.getClientID();
+		Noeud noeudSuppression = livraisonSuppression.getAdresse();
+		Livraison livraisonAjout = new Livraison(idClient,nombreLivraison,Calendar.getInstance(),noeudSuppression);
+		int posCheminSupprimer=-2;
+		List<Chemin> chemins = zone.getTournee().getChemins();
+		Noeud noeudPrecedent = livraisonPrecedente.getAdresse();
+		for(Chemin chemin : chemins){
+			if(posCheminSupprimer != -2){
+				int adressePrecedente= noeudPrecedent.getNoeudID();
+				int adresseAjoute = livraisonAjout.getAdresse().getNoeudID();
+				int adresseSuivante = chemin.getArrivee().getAdresse().getNoeudID();
+				Chemin cheminPrecedent = zone.plusCourtChemin(adressePrecedente,adresseAjoute);
+				Chemin cheminSuivant = zone.plusCourtChemin(adresseAjoute,adresseSuivante);
+				chemins.remove(posCheminSupprimer);
+				chemins.add(posCheminSupprimer,cheminPrecedent);
+				chemins.add(posCheminSupprimer+1,cheminSuivant);
+				return;
+			}
+			else{
+				if(chemin.getArrivee().getAdresse() == noeudPrecedent){
+					posCheminSupprimer = chemins.indexOf(chemin)+1;
+				}
+			}
+		}
 	}
-
-	/**
-	 * Fonction appelée quand on réexecute la fonction 
-	 */
-	protected void redo() {
-		execute();
-	}
-
-	/**
-	 * @param int idClient 
-	 * @param int idNoeud 
-	 * @param int idNoeudPrecedent
-	 */
-	public void SupprimerLivraison(int idClient, int idNoeud, int idNoeudPrecedent) {
-		// TODO implement here
-	}
-
 }
