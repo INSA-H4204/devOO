@@ -18,6 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import Modele.Chemin;
+import Modele.Livraison;
 import Modele.Noeud;
 import Modele.Tournee;
 import Modele.Troncon;
@@ -157,12 +158,12 @@ public class Controleur implements ActionListener {
 					this.noeudPrecedent = noeudClique;
 				} else {
 					this.noeudSelectionne = noeudClique;
+	//				if (noeudSelectionne.getLivraison() == null) {
+	//						// Vue.ActiverBoutonAjouter -> Gabriel
+	//				} else {
+	//					// Vue.ActiverBoutonSupprimer -> Gabriel
+	//				}
 				}
-//				if (noeudSelectionne.getLivraison() == null) {
-//					// Vue.ActiverBoutonAjouter -> Gabriel
-//				} else {
-//					// Vue.ActiverBoutonSupprimer -> Gabriel
-//				}
 			}
 			selectionActive = true;
 		}
@@ -188,7 +189,7 @@ public class Controleur implements ActionListener {
 	 * 
 	 */
 	public void chargerZone(String XMLFilePath) throws NumberFormatException, FileNotFoundException, SAXException {
-		zone = new Zone(XMLFilePath,"Resources/plan.xsd");
+		zone.XMLtoDOMZone(XMLFilePath, "Resources/plan.xsd");
 	}
 	
 	/**
@@ -244,6 +245,7 @@ public class Controleur implements ActionListener {
 	 */
 	public void actionBoutonAjouter(){
 		if (noeudSelectionne != null) {
+			//DesactiverBoutonAjouter
 			ajoutEnCours = true;
 		}
 	}
@@ -254,27 +256,12 @@ public class Controleur implements ActionListener {
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
-		String idClient = ""; /*getIdClientVue() --> GABRIEL*/
+		int idClient = 0; /*getIdClientVue() --> GABRIEL*/
 		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);
 			ajout.execute();
 		}
-		
-	}
-	
-	/*
-	 * kevin
-	 * Annule la dernière commande executé? TODO ?
-	 */
-	public void undoAction() {
-		
-	}
-	/*
-	 * kevin
-	 * Reexecute la dernière commande executé? TODO ?
-	 */
-	public void redoAction() {
 		
 	}
 		
@@ -284,7 +271,10 @@ public class Controleur implements ActionListener {
 	 * @author hgerard
 	 */
 	public void actionBoutonSupprimer(){
-		CdeSupprimerLivraison suppr = new CdeSupprimerLivraison(zone, noeudSelectionne);
+		Livraison livraisonSelectionnee = noeudSelectionne.getLivraison();
+		if (noeudSelectionne.getLivraison() != null) {
+			CdeSupprimerLivraison suppr = new CdeSupprimerLivraison(zone, livraisonSelectionnee);
+		}
 	}
 
 	/**
@@ -326,7 +316,7 @@ public class Controleur implements ActionListener {
 	public void redo() {
 		if (!commandesAnnulees.isEmpty()){
 			Commande commandeReexecution = commandesAnnulees.pop();
-			commandeReexecution.redo();
+			commandeReexecution.execute();
 			commandesExecutees.push(commandeReexecution);
 		}
 	}
