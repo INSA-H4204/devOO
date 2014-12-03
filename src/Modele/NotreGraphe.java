@@ -7,7 +7,7 @@ import tsp.*;
 /**
  * une classe qui implemente classe Graph
  * utilisee pour creer les graphes que on passe a dijkstra et choco
- * @author yukaiwang
+ * @author yukaiwang, fredrik
  *
  */
 public class NotreGraphe implements Graph {
@@ -79,7 +79,6 @@ public class NotreGraphe implements Graph {
 
 	@Override
 	public int[][] getCost() {
-		// TODO Auto-generated method stub
 		return poids;
 	}
 }

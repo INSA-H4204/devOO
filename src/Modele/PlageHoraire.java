@@ -10,22 +10,21 @@ import java.util.*;
  */
 public class PlageHoraire extends Observable {
 
-	public Calendar heureDebut;
-	public Calendar heureFin;
-	private Set<Livraison> livraisons;
-	
+	public Time heureDebut;
+	public Time heureFin;
+	private List<Livraison> livraisons;
 	/**
 	 * Constructeur par defaut de PlageHoraire
 	 */
 	public PlageHoraire() {
-		heureDebut = Calendar.getInstance();
-		heureFin = Calendar.getInstance();
-		livraisons = new HashSet<Livraison>();
+		//heureDebut = Calendar.getInstance();
+		//heureFin = Calendar.getInstance();
+		livraisons = new ArrayList<Livraison>();
 	}
-	public PlageHoraire(Calendar heureDebut,Calendar heureFin,Set<Livraison> livraisons) {
-		this.heureDebut =heureDebut;
-		this.heureFin =heureFin;
-		this.livraisons = livraisons;
+	public PlageHoraire(Time heureDebut,Time heureFin,List<Livraison> listeLivraisonsPlage) {
+		//this.heureDebut =heureDebut;
+		//this.heureFin =heureFin;
+		this.livraisons = listeLivraisonsPlage;
 	}
 	
 //	public List<Livraison> construirePlageAPartirDeDOMXML(Element plageHoraireElement, Zone zone, List<Livraison> listeTousLivraisons) throws SAXException{
@@ -54,13 +53,13 @@ public class PlageHoraire extends Observable {
 	/**
 	 * Retourne le Set des livraisons de la plage horaire
 	 */
-	public Set<Livraison> getLivraisons() {
+	public List<Livraison> getLivraisons() {
 		return livraisons;
 	}
-	 public Calendar getHeureDebut(){
+	 public Time getHeureDebut(){
 		 return heureDebut;
 	 }
-	 public Calendar getHeureFin(){
+	 public Time getHeureFin(){
 		 return heureFin;
 	 }
 	

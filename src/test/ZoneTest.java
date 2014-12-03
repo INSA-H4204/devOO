@@ -1,16 +1,19 @@
 package test;
+import Controleur.Controleur;
 import Modele.*;
 
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
 import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,11 +54,10 @@ public class ZoneTest {
 	private static String LivraisonSansEntrepot = "Resources/LivraisonSansEntrepot.xml";
 	private static String LivraisonSansId = "Resources/LivraisonSansId.xml";
 	private static String LivraisonSansPlageHoraires = "Resources/LivraisonSansPlageHoraires.xml";
-	
+	private static String PlageHoraireChevauchement = "Resources/PlageHoraireChevauchement.xml";
+
 	private static String XsdFile = "Resources/plan.xsd";
 	private static String xsdFilePathLivraison = "Resources/demandeLivraison.xsd";
-	
-	private Document livraisonXML;
 	
 	private static Zone zone;
 	
@@ -63,7 +65,8 @@ public class ZoneTest {
 	 * @author : Kevin
 	 */
 	public static Zone init() throws NumberFormatException, SAXException, ParseException, ParserConfigurationException, IOException {
-		  zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone = new Zone();
+		  zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		  zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
 		  return zone;
 	}
@@ -85,18 +88,23 @@ public class ZoneTest {
 	 
 
 	 @Test
-	 public void XMLConstructor() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+	 public void XMLConstructor() throws NumberFormatException, FileNotFoundException, SAXException  {
+		 zone = new Zone();
+		  zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		 assertNotNull(zone);
 	    }
 	 
 	 
 	 @Test
 	 public void integriteNoeuds() throws Exception {
-		zone = new Zone(ZoneCorrecteStr,XsdFile);
+		zone = new Zone();
+		  zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.getNoeuds().size());
+
 		assertNotNull("Echec - Aucun troncon n'a été chargé",zone.getTroncons().size());
+
 		for(Entry<Integer, Noeud> iter : zone.getNoeuds().entrySet()) {
+
 			assertNotNull("Echec - L'id n'est pas renseigné",iter.getValue().getNoeudID());
 			assertNotNull("Echec - X n'est pas renseigné",iter.getValue().getPosX());
 			assertNotNull("Echec - Y n'est pas renseigné",iter.getValue().getPosY());
@@ -107,95 +115,197 @@ public class ZoneTest {
 		}
 	 }
 	 
-	 @Test//(expected=SAXParseException.class)
-	 public void AbsenceNoeud() throws Exception {
-	       zone = new Zone(AbsenceNoeudStr,XsdFile);
+	 @Test
+	 public void AbsenceNoeud()  {
+	       try {
+			zone = new Zone();
+			zone.XMLtoDOMZone(AbsenceNoeudStr,XsdFile);
+		} catch (NumberFormatException | FileNotFoundException | SAXException e) {
+			assertEquals(e.getClass(),"class org.xml.sax.SAXException");
+		}
 	 }
 	 
 	 @Test
-	 public void noeudSansTroncon() throws Exception {
-		zone = new Zone(NoeudSansTronconStr,XsdFile);
+	 public void noeudSansTroncon() {
+		try {
+			zone = new Zone();
+     		zone.XMLtoDOMZone(NoeudSansTronconStr,XsdFile);			
+			
+		} catch (NumberFormatException | FileNotFoundException | SAXException e) {
+			assertNull(zone.getNoeuds());
+		}
 	 }
 	 
 	 @Test
-	 public void tronconSansNoeud() throws Exception {
-		  zone = new Zone(ZoneCorrecteStr,XsdFile);
-	      assertFalse("Echec - La méthode de vérification du fichier XML aurait du declencher une erreur car il y a un troncon sans noeud d'origine ou de fin",zone.verifierUnfichierXML(TronconSansNoeudStr,XsdFile));
+	 public void tronconSansNoeud() {
+		  try {
+			  zone = new Zone();
+	     		zone.XMLtoDOMZone(TronconSansNoeudStr,XsdFile);	
+			fail();
+		} 
+		catch (NumberFormatException | FileNotFoundException | SAXException e) {
+		}
 	 }
+	 
 	 
 	 //---------------------Chargement d'une livraison-----------------------------------------//
 	 
 	 @Test
 	 public void XMLtoDOMLivraisons() throws Exception {
-		  zone = new Zone(ZoneCorrecteStr,XsdFile);
+		  zone = new Zone();
+		  zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		  zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
+		assertNotNull(zone.getPlageHoraire().size());
+		assertNotNull(zone.getPlageHoraire().get(1).getLivraisons().size());
 	 }
 
 	 
 	 @Test
-	 public void LivraisonLivraisonSansAdresse() throws Exception {
-
-		  zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonLivraisonSansAdresse,xsdFilePathLivraison);	
+	 public void LivraisonLivraisonSansAdresse() {
+		  try {
+			  zone = new Zone();
+			  zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+			  zone.XMLtoDOMLivraisons(LivraisonLivraisonSansAdresse,xsdFilePathLivraison);
+			  fail();
+		} catch (ParseException | ParserConfigurationException | SAXException
+				| IOException e) {
+		}	
+			
 	 }
 	 
 	 @Test
-	 public void LivraisonEntrepotSansAdresse() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonEntrepotSansAdresse,xsdFilePathLivraison);	
+	 public void LivraisonEntrepotSansAdresse()  {
+		 try {
+			 zone = new Zone();
+			 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+			 zone.XMLtoDOMLivraisons(LivraisonEntrepotSansAdresse,xsdFilePathLivraison);
+			 fail();
+		} catch (ParseException | ParserConfigurationException | SAXException
+				| IOException e) {
+		}	
 	 }
 	
 	 @Test
-	 public void LivraisonHeureDebutSupHeureFin() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonHeureDebutSupHeureFin,xsdFilePathLivraison);	
+	 public void LivraisonHeureDebutSupHeureFin()  {
+		try {
+			zone = new Zone();
+			zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+			zone.XMLtoDOMLivraisons(LivraisonHeureDebutSupHeureFin,xsdFilePathLivraison);	
+			fail();
+		}
+		catch (ParseException | ParserConfigurationException | SAXException
+				| IOException e) {
+		}	
 	 }
 	
 	 @Test
-	 public void LivraisonPlageHoraireVide() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonPlageHoraireVide,xsdFilePathLivraison);	
+	 public void LivraisonPlageHoraireVide()  {
+		  try {
+			  zone = new Zone();
+			  zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+			  zone.XMLtoDOMLivraisons(LivraisonPlageHoraireVide,xsdFilePathLivraison);	
+			  fail();
+		  }
+		  catch (ParseException | ParserConfigurationException | SAXException
+					| IOException e) {
+		}	
+	}
+	 
+	 @Test
+	 public void LivraisonPlageSansLivraison() {
+		 try {
+			 zone = new Zone();
+			 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+			 zone.XMLtoDOMLivraisons(LivraisonPlageSansLivraison,xsdFilePathLivraison);	
+			 fail();
+		 }
+		 catch (ParseException | ParserConfigurationException | SAXException
+				| IOException e) {
+		 }	
+	 }	 
+
+	 @Test
+	 public void LivraisonSansClient()  {
+		 try{
+			zone = new Zone();
+			zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+		 	zone.XMLtoDOMLivraisons(LivraisonSansClient,xsdFilePathLivraison);	
+			fail();
+		 }
+		 catch (ParseException | ParserConfigurationException | SAXException
+				| IOException e) {
+		 }	
 	 }
 	 
 	 @Test
-	 public void LivraisonPlageSansLivraison() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonPlageSansLivraison,xsdFilePathLivraison);	
+	 public void LivraisonSansAdresse() {
+		 try {
+			 zone = new Zone();
+			 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+			 zone.XMLtoDOMLivraisons(LivraisonSansAdresse,xsdFilePathLivraison);
+			 fail();
+		 }
+		 catch (ParseException | ParserConfigurationException | SAXException
+				| IOException e) {
+		 }	
 	 }
 	 
 	 @Test
-	 public void LivraisonSansClient() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonSansClient,xsdFilePathLivraison);	
+	 public void LivraisonPlageSansHeure() {
+		 try{
+			zone = new Zone();
+			zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+			 zone.XMLtoDOMLivraisons(LivraisonPlageSansHeure,xsdFilePathLivraison);
+			 fail();
+		 }
+		 catch (ParseException | ParserConfigurationException | SAXException
+				| IOException e) {
+		 }	
 	 }
 	 
 	 @Test
-	 public void LivraisonSansAdresse() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonSansAdresse,xsdFilePathLivraison);	
-	 }
-	 
-	 @Test
-	 public void LivraisonPlageSansHeure() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonPlageSansHeure,xsdFilePathLivraison);	
-	 }
-	 
-	 @Test
-	 public void LivraisonSansEntrepot() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonSansEntrepot,xsdFilePathLivraison);	
+	 public void LivraisonSansEntrepot()  {
+			 try {
+				zone = new Zone();
+				zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+				zone.XMLtoDOMLivraisons(LivraisonSansEntrepot,xsdFilePathLivraison);
+				 assertNull(zone.getPlageHoraire().size());
+			} catch (ParseException | ParserConfigurationException
+					| SAXException | IOException e) {
+			}	
 	 }
 	 
 
 	 @Test
-	 public void LivraisonSansId() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonSansId,xsdFilePathLivraison);	
-	 }
+	 public void LivraisonSansId() {
+		 try {
+				zone = new Zone();
+				zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+				zone.XMLtoDOMLivraisons(LivraisonSansId,xsdFilePathLivraison);	
+				fail();
+		}
+		catch (ParseException | ParserConfigurationException | SAXException
+		| IOException e) {
+			 }	
+		 }
+
 	 @Test
-	 public void LivraisonSansPlageHoraires() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+	 public void LivraisonSansPlageHoraires() {
+			try {
+				 zone = new Zone();
+				 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+				  zone.XMLtoDOMLivraisons(LivraisonSansId,xsdFilePathLivraison);	
+			    	zone.XMLtoDOMLivraisons(LivraisonSansPlageHoraires,xsdFilePathLivraison);
+			} catch (ParseException | ParserConfigurationException
+					| SAXException | IOException e) {
+			}
+
+	 }
+	 
+	 @Test
+	 public void ChevauchementPlageHoraire() throws NumberFormatException, SAXException, ParseException, ParserConfigurationException, IOException {
+		 zone = new Zone();
+		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		  zone.XMLtoDOMLivraisons(LivraisonSansPlageHoraires,xsdFilePathLivraison);	
 	 }
 	 
@@ -205,8 +315,7 @@ public class ZoneTest {
 	 
 	 
 	 @Test
-	 public void rechercherNoeudParPosition() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+	 public void rechercherNoeudParPosition() throws NumberFormatException, FileNotFoundException, SAXException {
 		 Noeud noeudTest = new Noeud(1,800,400);
 		 zone.addNoeud(noeudTest);
 		 assertEquals("Echec - Noeud non trouvé",noeudTest,zone.rechercherNoeudParPosition(800, 400));
@@ -214,24 +323,30 @@ public class ZoneTest {
 	 
 	 
 	 @Test
-	 public void verifierSiZoneSansLivraisonSuccess() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+	 public void verifierSiZoneSansLivraisonSuccess() throws NumberFormatException, FileNotFoundException, SAXException  {
+		 zone = new Zone();
+		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		 assertTrue("Echec - zone sans livraison renvoie false alors qu il n y a pas de livraisons",zone.verifierSiZoneSansLivraison());
 	 }
 	 
 	 @Test
 	 public void verifierSiZoneSansLivraisonFail() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		 zone = new Zone();
+		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		 assertFalse("Echec - zone sans livraison renvoie true alors qu il y a des livraisons",zone.verifierSiZoneSansLivraison());
 	 }
 	 
 	 @Test
 	 public void calculerTournee() throws Exception {
-		 zone = new Zone(ZoneCorrecteStr,XsdFile);
+		 zone = new Zone();
+		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		 zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
 		 zone.calculerTournee();
 		 assertNotNull(zone.getTournee());
 		 assertNotNull(zone.getTournee().getChemins());
 	 }
 
+
+	 
+	 
 }

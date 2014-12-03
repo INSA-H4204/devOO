@@ -42,7 +42,7 @@ public class CdeAjouterLivraisonTest {
 		 Controleur ctrl = new Controleur(ZoneTest.init());
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
-		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, "645") ;
+		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
 		 assertNotNull("Cmd ne doit pas être null",cmd);
 	 }
 	 
@@ -51,7 +51,7 @@ public class CdeAjouterLivraisonTest {
 		 Controleur ctrl = new Controleur(ZoneTest.init());
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
-		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, "645") ;
+		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
 		 //cmd.execute();
 	 }
 	 
@@ -61,8 +61,7 @@ public class CdeAjouterLivraisonTest {
 		 Controleur ctrl = new Controleur(ZoneTest.init());
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
-		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, "645") ;
-		 //cmd.execute();
+		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
 		 cmd.undo();
 	 }
 	 
@@ -72,10 +71,9 @@ public class CdeAjouterLivraisonTest {
 		 Controleur ctrl = new Controleur(ZoneTest.init());
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
-		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, "645") ;
-		 //cmd.execute();
+		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
 		 cmd.undo();
-		 cmd.redo();
+		 cmd.execute();
 	 }
 	  
 

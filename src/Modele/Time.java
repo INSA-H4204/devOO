@@ -5,6 +5,13 @@ public class Time {
 	private int minute;
 	private int seconde;
 	
+	public Time() {
+		this.heure = 0;
+		this.minute = 0;
+		this.seconde = 0;
+	}
+	
+	
 	public Time(String str) {
 		String[] parties = str.split(":");
 		this.heure = Integer.parseInt(parties[1]);
@@ -12,13 +19,20 @@ public class Time {
 		this.seconde = Integer.parseInt(parties[3]);
 	}
 	
-	public Time(Time time, int duree) {
+	public void setTime(Time time, int duree) {
 		int heureAjoutee = duree/3600;
 		int minuteAjoutee = (duree-heureAjoutee*3600)/60;
 		int secondeAjoutee = duree-heureAjoutee*3600-minuteAjoutee*60;
 		this.heure = time.getHeure()+heureAjoutee;
 		this.minute = time.getMinute()+minuteAjoutee;
 		this.seconde = time.getSeconde()+secondeAjoutee;
+	}
+	
+	public void setTime(String str) {
+		String[] parties = str.split(":");
+		this.heure = Integer.parseInt(parties[1]);
+		this.minute = Integer.parseInt(parties[2]);
+		this.seconde = Integer.parseInt(parties[3]);
 	}
 	
 	public boolean isBefore(Time time) {
@@ -35,6 +49,10 @@ public class Time {
 		} else {
 			return false;
 		}
+	}
+	
+	public boolean isAfter(Time time) {
+		return !this.isBefore(time);
 	}
 
 	public int getHeure() {

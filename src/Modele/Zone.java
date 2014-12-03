@@ -3,6 +3,7 @@ package Modele;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -39,7 +40,27 @@ public class Zone extends Observable {
 	private static int ecartTolere = 5;
 	private Tournee tournee;
 
+public Zone(Set<Troncon> troncons,Map<Integer, Noeud> noeuds,List<PlageHoraire> plages,Livraison entrepot,NotreGraphe grapheOriginal,Tournee tournee){
 
+	this.troncons=troncons;
+	this.noeuds=noeuds;
+	this.plages=plages;
+	this.entrepot=entrepot;
+	this.grapheOriginal=grapheOriginal;
+	this.tournee=tournee;
+
+}
+
+/**
+ * Constructeur par défaut de Zone
+ */
+public Zone() {
+	troncons = new HashSet<Troncon>();
+	noeuds = new HashMap<Integer,Noeud>();
+	plages = new ArrayList<PlageHoraire>();
+	observers = new ArrayList<Observer>();
+	grapheOriginal = new NotreGraphe(troncons, noeuds.size());
+}
 
 	
 	/**
@@ -47,7 +68,7 @@ public class Zone extends Observable {
 	 * @param  xsdFilePathPlan  le chemin du fichier xsd Plan pour valider le fichier xml
      * @author Yousra
 	 */
-	public Zone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
+	public void XMLtoDOMZone(String xmlFilePathPlan, String xsdFilePathPlan) throws FileNotFoundException, NumberFormatException, SAXException, org.xml.sax.SAXException {
 		troncons = new HashSet<Troncon>();
 		noeuds = new HashMap<Integer,Noeud>();
 		plages = new ArrayList<PlageHoraire>();
@@ -55,6 +76,8 @@ public class Zone extends Observable {
 		grapheOriginal = new NotreGraphe(troncons, noeuds.size());
 		File xml = new File(xmlFilePathPlan);
 		if (!xml.exists()) {
+			this.troncons = null;
+			this.noeuds = null;
 			throw new FileNotFoundException();
 		}
 		else {
@@ -86,43 +109,48 @@ public class Zone extends Observable {
 	                		   String nomRue= tronconElement.getAttribute("nomRue");
 	                	       int vitesse=(int)Double.parseDouble(tronconElement.getAttribute("vitesse").replaceAll(",", "."));
 	                		   int longueur=(int)Double.parseDouble(tronconElement.getAttribute("longueur").replaceAll(",", "."));
-	                		   //Verifier si le noeud de destination existe
-	                		   if(fin!=null)
-	                			   troncons.add(new Troncon(origine,fin,vitesse,longueur,nomRue));
-	                		   else
-	                			   throw new SAXException();
+
+	                		   //Verifier si le noeud de destination existe avant d'instancier Troncon
+	                		   if(fin!=null){
+		                		   Troncon troncon=new Troncon(origine,fin,vitesse,longueur,nomRue);
+		    	                   List<Troncon> listTronconsNoeud=origine.getTronconsSortants();
+		                		   listTronconsNoeud.add(troncon);
+		    	                   origine.setTronconsSortants(listTronconsNoeud);
+	                			   troncons.add(troncon);
+	                		   }
+	                		   else {
+	                				this.troncons = null;
+	                				this.noeuds = null;
+	                				throw new SAXException();
+	                			}
+	                		   grapheOriginal = new NotreGraphe(troncons,noeuds.size());
 	                	   }               	   
 	                   }
 	                   
 				   }	
 	               else 
 	               {
+	            	   this.troncons = null;
+       				   this.noeuds = null;
 	            	   throw new SAXException();
 	               }
 				}
 			}
 			catch (ParserConfigurationException e)
 			{
+				this.troncons = null;
+				this.noeuds = null;
 				System.out.println(e);
 			}
 			catch (IOException e)
 			{
+				this.troncons = null;
+				this.noeuds = null;
 				e.printStackTrace();
 			}
 		}
 	}
 
-
-	/**
-	 * Constructeur par défaut de Zone
-	 */
-	public Zone() {
-		troncons = new HashSet<Troncon>();
-		noeuds = new HashMap<Integer,Noeud>();
-		plages = new ArrayList<PlageHoraire>();
-		observers = new ArrayList<Observer>();
-		grapheOriginal = new NotreGraphe(troncons, noeuds.size());
-	}
 
 	/**
 	 * Retourne un noeud qui se trouve à peu près à la position cliquée
@@ -181,8 +209,6 @@ public class Zone extends Observable {
         }
         return true;
 	}
-
-
 	/**
 	 * @param xmlFilePathLivraison (le chemin du fichier xml DemandeLivaison)
 	 * @param xsdFilePathLivraison (le chemin du fichier xsd Plan pour valider le fichier xml)
@@ -191,6 +217,8 @@ public class Zone extends Observable {
 	public void XMLtoDOMLivraisons(String xmlFilePathLivraison, String xsdFilePathLivraison) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
 		File xml = new File(xmlFilePathLivraison);
 		if (!xml.exists()) {
+			this.plages = null;
+			this.entrepot = null;
 			throw new FileNotFoundException();
 		}
 		else {
@@ -202,59 +230,63 @@ public class Zone extends Observable {
 					DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 					org.w3c.dom.Document document = dBuilder.parse(xml);           
 					Element racine = document.getDocumentElement();
-
+					
 					if (racine.getNodeName().equals("JourneeType")) {
-						// Partie Entrepot
 						Element entrepotElement = (Element)racine.getElementsByTagName("Entrepot") .item(0);
 						Noeud adresseEntrepot= new Noeud();
 						adresseEntrepot = noeuds.get(Integer.parseInt(entrepotElement.getAttribute("adresse")));
 						Livraison entrepot = new Livraison(adresseEntrepot);
 						this.setEntrepot(entrepot);
-						// Partie Plages Horaires
 						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
 						int livraisonID=1;
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
-							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);						
-							
-					        Calendar heureDebut =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureDebut"));	
-							Calendar heureFin =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureFin"));
-							Set<Livraison> listeLivraisonsPlage = new HashSet<Livraison>();
+							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);
+							// to do
+							Time heureDebut = new Time();
+							Time heureFin = new Time();
+							List<Livraison> listeLivraisonsPlage = new ArrayList<Livraison>();
 							NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
-							
 							for(int j=0;j<listeLivraisonsXML.getLength();j++) {
 								Element livraisonElement = (Element) listeLivraisonsXML.item(j);
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
 								Noeud adresseLivaison= new Noeud();
 								adresseLivaison=this.getNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
-								Calendar heureLivraisonPrevue=null;
+								Time heureLivraisonPrevue=null;
 								for(Livraison l : listeTousLivraisons) {
 									if(l.getAdresse()==adresseLivaison)
+									{
+										this.plages = null;
+										this.entrepot = null;
 										throw new SAXException();
+									}
 								}
-								Livraison livraison = new Livraison(clientID,livraisonID,heureLivraisonPrevue,adresseLivaison);
+								Livraison livraison = new Livraison(clientID, adresseLivaison);
 								
 								listeLivraisonsPlage.add(livraison);
 								listeTousLivraisons.add(livraison);
-								livraisonID++;
 							}
-							List livraisonsOrdonnees = new ArrayList<Livraison>();
 							PlageHoraire plageHoraire = new PlageHoraire(heureDebut,heureFin,listeLivraisonsPlage);
-							
 							if(!verifierPlage(plageHoraire,listeTousPlagesH)){
 								listeTousPlagesH.add(plageHoraire);
 							}
 							else {
+								this.plages = null;
+								this.entrepot = null;
 								throw new SAXException();
 							}
 						}
 
 					}
 					else {
+						this.plages = null;
+						this.entrepot = null;
 						throw new SAXException();
 					}
 					this.setPlages(listeTousPlagesH);
 				}
 				else{
+					this.plages = null;
+					this.entrepot = null;
 				    throw new SAXException();
 				}
 		}
@@ -268,12 +300,12 @@ public class Zone extends Observable {
      * @author Yousra
 	 */
 	private boolean verifierPlage(PlageHoraire plage,List<PlageHoraire> plages) {
-		if(plage.getHeureDebut().before(plage.getHeureFin())){
+		if(plage.getHeureDebut().isBefore(plage.getHeureFin())){
 			for(PlageHoraire p : plages) {
-				if(plage.getHeureDebut().before(p.getHeureFin()) && plage.getHeureFin().after(p.getHeureFin())) {
+				if(plage.getHeureDebut().isBefore(p.getHeureFin()) && plage.getHeureFin().isAfter(p.getHeureFin())) {
 					return true;
 				}
-				else if(plage.getHeureDebut().before(p.getHeureDebut()) && plage.getHeureFin().after(p.getHeureDebut())){
+				else if(plage.getHeureDebut().isBefore(p.getHeureDebut()) && plage.getHeureFin().isAfter(p.getHeureDebut())){
 					return true;
 				}
 			}
@@ -281,13 +313,22 @@ public class Zone extends Observable {
 		return false;
 	}
 	
+	public void test() {
+		Noeud n = new Noeud(1,26,35);
+		Noeud z = new Noeud(2,76,98);
+		noeuds.put(1, n);
+		noeuds.put(z.getNoeudID(), z);
+		this.setChanged();
+		this.notifyObservers();
+		this.clearChanged();
+	}
+	
 	/**
 	 * Creer un objet tournee et appeler sa methode pour calculer la tournee
 	 * @author yukaiwang
 	 */
 	public void calculerTournee() {
-		Tournee tournee = new Tournee();
-
+		tournee = new Tournee();
 		HashMap<Integer, Livraison> livraisons = new HashMap<Integer, Livraison>();
 		livraisons.put(entrepot.getLivraisonID(), entrepot);
 		for (PlageHoraire plage : plages ) {
@@ -296,10 +337,8 @@ public class Zone extends Observable {
 			}
 		}
 		Graph grapheChoco = new NotreGraphe(livraisons.size());
-
 		HashMap<Integer, ResDijkstra> sources = new HashMap<Integer, ResDijkstra>();
 		int depart, arrivee;
-		
 		ResDijkstra resDijkstra = dijkstra(entrepot.getAdresse().getNoeudID());	
 		sources.put(entrepot.getLivraisonID(), resDijkstra);
 		depart = entrepot.getLivraisonID();
@@ -326,6 +365,7 @@ public class Zone extends Observable {
 			}
 		}
 
+
 		for (Livraison livraison : plages.get(plages.size()-1).getLivraisons()) {
 			resDijkstra = dijkstra(livraison.getAdresse().getNoeudID());
 			sources.put(livraison.getLivraisonID(), resDijkstra);
@@ -340,13 +380,15 @@ public class Zone extends Observable {
 			grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(entrepot.getAdresse().getNoeudID()));
 		}
 
+
 		TSP tsp = new TSP(grapheChoco);
-		tsp.solve(10000, 100000);
+		tsp.solve(10000, 10000);
 		int[] suivant = tsp.getNext();
 		for (int i = 0; i < suivant.length; i++) {
 			System.out.println(suivant[i]);
 		}
 		tournee.setChemins(listerChemins(suivant, sources, livraisons));
+
 	}
 	
 	/**
@@ -394,7 +436,6 @@ public class Zone extends Observable {
 
 		return listeChemins;
 	}
-
 	/**
 	 * la methode dijkstra pour calculer tous les plus courts chemins d'un noeud de source
 	 * @param source : le noeud de source des plus courts chemins
@@ -407,12 +448,10 @@ public class Zone extends Observable {
 		boolean[] visited = new boolean[grapheOriginal.getNbVertices()];
 		Arrays.fill(poids, Integer.MAX_VALUE);
 		Arrays.fill(precedent, -1);
-
 		poids[source] = 0;
 		precedent[source] = 0;	
 		int[][] costs = grapheOriginal.getCost();
 		PriorityQueue<DoubleInteger> Q = new PriorityQueue<DoubleInteger>();
-
 		Q.add(new DoubleInteger(source, 0));
 
 		int u;
@@ -474,9 +513,13 @@ public class Zone extends Observable {
 		return tournee;
 	}
 
-
 	public Livraison getEntrepot() {
 		return entrepot;
+	}
+
+	
+	public List<PlageHoraire> getPlageHoraire() {
+		return plages;
 	}
 	
 
