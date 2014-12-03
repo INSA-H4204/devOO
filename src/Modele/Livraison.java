@@ -18,25 +18,19 @@ public class Livraison extends Observable {
 	static int nombreLivraison=0;
 	boolean isPonctuel;
 
-	
-
 
 	/**
-	 * Constructeur par défaut de Livraison
+	 * Constructeur par defaut de Livraison
 	 */
 	public Livraison() {
 		clientID = 0;
-		livraisonID = 0;
+		livraisonID = ++nombreLivraison;
 		heureLivraisonPrevue = Calendar.getInstance();
 		adresse = null;
 		plage = new PlageHoraire();
 		isPonctuel = true;
 	}
 	
-	public Calendar getHeureLivraisonPrevue() {
-		return heureLivraisonPrevue;
-	}
-
 	public Livraison(int clientId,Calendar heureLivraisonPrevue,Noeud adresse) {
 		this.clientID = clientId;
 		this.livraisonID = ++nombreLivraison;
@@ -73,5 +67,13 @@ public class Livraison extends Observable {
 	
 	public void setPlage(PlageHoraire plage) {
 		this.plage = plage;
+	}
+
+	public Calendar getHeureLivraisonPrevue() {
+		return heureLivraisonPrevue;
+	}
+	
+	public void setHeureLivraisonPrevue(Calendar heureLivraisonPrevue) {
+		this.heureLivraisonPrevue = heureLivraisonPrevue;
 	}
 }

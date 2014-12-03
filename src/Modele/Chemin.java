@@ -59,7 +59,19 @@ public class Chemin extends Observable {
 	private void calculerHeureProchaineLivraison() {
 		// TODO implement here
 	}
-
+	/**
+		
+	 */
+	private void calculerHeureLivraisonPrevue() {
+	   heureDeb=depart.getPlage().getHeureDebut();
+	   depart.setHeureLivraisonPrevue(heureDeb);
+	   arrivee.setHeureLivraisonPrevue(depart.getPlage().getHeureDebut());
+	   Calendar heureFin;
+	   heureFin=
+	}
+	
+	
+	
 	/**
 	 * Getter de depart
 	 * 
