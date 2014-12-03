@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 
 import Controleur.Controleur;
 import Modele.Noeud;
+import Modele.Troncon;
 import Modele.Zone;
 
 public class VueApplication extends JFrame implements Observer {
@@ -32,6 +34,7 @@ public class VueApplication extends JFrame implements Observer {
 	/**
 	 * 
 	 * @param ctrl
+	 * @author gabrielcae
 	 */
 	public VueApplication(Controleur ctrl) {
 		this.ctrl = ctrl;
@@ -39,45 +42,47 @@ public class VueApplication extends JFrame implements Observer {
 	}
 
 	/**
-	 * 
+	 * @author frederic, gabrielcae
 	 */
 	@Override
 	public void update(Observable obs, Object obj) {
-		//CHECK IF SENT AN EXTRA PARAMETER
-		//IF SO, ONLY CHANGE SPECIFIC PARAMETER
-		if(obj != null) {
-			switch(obj.toString()) {
-				case "Noeud":
-					//DO STUFF
-					break;
+		System.out.println("il est dedans");
+		if (obj != null) {
+			switch (obj.toString()) {
+			case "Noeud":
+				chargerNoeud((Noeud) obj);
+				break;
+			case "Troncon":
+				chargerTroncon((Troncon) obj);
+				break;
 			}
-		} 
-		
-		//ELSE REDRAW ALL OF THE DATA STORED
-		//IN Zone.
-		else {
-			//READ ALL OF ZONE WHICH IS STORED IN obs.
-			Zone zone = (Zone)obs;
 		}
-		System.out.println("hej");
+		else {
+			System.out.println("ici aussi");
+			Zone zone = (Zone) obs;
+			chargerNoeudsDeZone(zone);
+//			chargerTronconsDeZone(zone);
+
+		}
 	}
 	
+
 	/**
-	 * 
+	 * @author gabrielcae
 	 */
 	public void afficher() {
 		this.setVisible(true);
 	}
 
 	/**
-	 * 
+	 * @author gabrielcae
 	 */
 	public void fermer() {
 		this.setVisible(false);
 	}
 
 	/**
-	 * 
+	 * @author gabrielcae
 	 */
 	public void construireVue() {
 		this.setTitle("Projet DevOO");
@@ -117,7 +122,20 @@ public class VueApplication extends JFrame implements Observer {
 		gbc.ipady = 200;
 		this.getContentPane().add(vueInfo, gbc);
 
-		vuePlageHoraire.btnRecLiv.addActionListener(ctrl);
+		vuePlageHoraire.btnChargPlan.addActionListener(ctrl);
+		vuePlageHoraire.btnChargPlan.setActionCommand("Charger Plan");
+		
+		vuePlageHoraire.btnChargLiv.addActionListener(ctrl);
+		vuePlageHoraire.btnChargLiv.setActionCommand("Charger Livraisons");
+		
+		vuePlageHoraire.btnUndo.addActionListener(ctrl);
+		vuePlageHoraire.btnUndo.setActionCommand("Undo");
+		
+		vuePlageHoraire.btnRedo.addActionListener(ctrl);
+		vuePlageHoraire.btnRedo.setActionCommand("Redo");
+		
+		vuePlageHoraire.btnImpr.addActionListener(ctrl);
+		vuePlageHoraire.btnImpr.setActionCommand("Impression");
 
 	}
 
@@ -137,9 +155,31 @@ public class VueApplication extends JFrame implements Observer {
 	}
 
 	/**
-	 * 
-	 * @param listeX
-	 * @param listeY
+	 * Methode qui recupere les coordonnées des noeuds d'une zone et les passe à chargerNoeuds(listX,listY)
+	 * @param zone
+	 * @author gabrielcae
+	 */
+	private void chargerNoeudsDeZone(Zone zone) {
+		List<Integer> listeX = new ArrayList<Integer>();
+		List<Integer> listeY = new ArrayList<Integer>();
+		for (Entry<Integer, Noeud> iter : zone.getNoeuds().entrySet()) {
+			int x = iter.getValue().getPosX();
+			int y = iter.getValue().getPosY();
+			listeX.add(x);
+			listeY.add(y);
+		}
+		chargerNoeuds(listeX, listeY);
+	}
+	
+	private void chargerTronconsDeZone(Zone zone) {
+		//TODO: a implemanter
+	}
+	
+	/**
+	 * Méthode qui recupère des listes de coordonnées des noeuds, en lètres, les convertis en pixel, crée une liste de VueNoeuds et les envoye a vueZone pour l'affichage
+	 * @param listeX , liste d'entiers en mètres
+	 * @param listeY , liste d'entiers en mètres
+	 * @author gabrielcae
 	 */
 	public void chargerNoeuds(List<Integer> listeX, List<Integer> listeY) {
 
@@ -154,10 +194,35 @@ public class VueApplication extends JFrame implements Observer {
 	}
 
 	/**
+	 * Méthode qui converti les coordonnées d'un noeud, crée une nouvelle VueNoeud et l'envoye pour l'affichage
+	 * @param noeud
+	 */
+	public void chargerNoeud(Noeud noeud) {
+		int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
+		int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
+		VueNoeud vn = new VueNoeud(x, y);
+
+		vueZone.chargerNoeuds(vn);
+	}
+
+	private void chargerTroncon(Troncon troncon) {
+		int xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
+		int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
+		int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
+		int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
+		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome");
+
+		vueZone.chargerTroncon(vt);
+	}
+
+	/**
 	 * 
 	 * @param coordonnee
+	 *            , un entier en mètre
 	 * @param xOuY
-	 * @return
+	 *            , char qui determine si on traite d'une coordonnée x ou y
+	 * @return la coordonnée, en entier, converti de mètre en pixel
+	 * @author gabrielcae
 	 */
 	private int convertiseurMetrePixel(int coordonnee, char xOuY) {
 		switch (xOuY) {
@@ -173,3 +238,4 @@ public class VueApplication extends JFrame implements Observer {
 		}
 	}
 }
+

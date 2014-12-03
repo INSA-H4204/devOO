@@ -83,9 +83,15 @@ public class Zone extends Observable {
 	                		   String nomRue= tronconElement.getAttribute("nomRue");
 	                	       int vitesse=(int)Double.parseDouble(tronconElement.getAttribute("vitesse").replaceAll(",", "."));
 	                		   int longueur=(int)Double.parseDouble(tronconElement.getAttribute("longueur").replaceAll(",", "."));
-	                		   //Verifier si le noeud de destination existe
-	                		   if(fin!=null)
-	                			   troncons.add(new Troncon(origine,fin,vitesse,longueur,nomRue));
+
+	                		   //Verifier si le noeud de destination existe avant d'instancier Troncon
+	                		   if(fin!=null){
+		                		   Troncon troncon=new Troncon(origine,fin,vitesse,longueur,nomRue);
+		    	                   List<Troncon> listTronconsNoeud=origine.getTronconsSortants();
+		                		   listTronconsNoeud.add(troncon);
+		    	                   origine.setTronconsSortants(listTronconsNoeud);
+	                			   troncons.add(troncon);
+	                		   }
 	                		   else
 	                			   throw new SAXException();
 	                	   }               	   
@@ -106,7 +112,11 @@ public class Zone extends Observable {
 			{
 				e.printStackTrace();
 			}
-		}
+		} 
+		System.out.println(noeuds.size());
+		this.setChanged();
+		this.notifyObservers();
+		this.clearChanged();
 	}
 
 
@@ -221,7 +231,7 @@ public class Zone extends Observable {
 								Element livraisonElement = (Element) listeLivraisonsXML.item(j);
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
 								Noeud adresseLivaison= new Noeud();
-								adresseLivaison=this.GetNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
+								adresseLivaison=this.getNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
 								Calendar heureLivraisonPrevue=null;
 								for(Livraison l : listeTousLivraisons) {
 									if(l.getAdresse()==adresseLivaison)
@@ -387,7 +397,7 @@ public class Zone extends Observable {
 		return new Chemin(noeuds.get(source).getLivraison(), noeuds.get(destination).getLivraison(),listerTroncons(destination, precedent));
 	}
 
-	public Map<Integer,Noeud> GetNoeuds(){
+	public Map<Integer,Noeud> getNoeuds(){
 		return noeuds;
 	}
 
