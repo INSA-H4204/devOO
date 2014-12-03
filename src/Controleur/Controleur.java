@@ -79,7 +79,9 @@ public class Controleur implements ActionListener {
 		String action = e.getActionCommand();
 		switch (action) {
 		case "Charger Plan":
-			
+			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);
 			String planXML = choisirXML();
 			if(planXML != null){
 				try {
@@ -89,10 +91,13 @@ public class Controleur implements ActionListener {
 					e1.printStackTrace();
 				}
 			}
-			
+			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
+			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
 			break;
 		case "Charger Livraisons":
-
+			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);
+			
+			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
 			break;
 		case "Undo":
 
@@ -102,12 +107,21 @@ public class Controleur implements ActionListener {
 			break;
 		case "Impression":
 
-			break;	
+			break;
+		case "Calculer Tournee" :
+			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(true);
+			break;
 		case "Ajouter Livraison":
-
+			vueApplication.getVueInfo().ajouter.setEnabled(false);
+			actionBoutonAjouter();
+			
 			break;
 		case "Supprimer Livraison":
-
+			vueApplication.getVueInfo().supprimer.setEnabled(false);
+			break;
+		case "valider Livraison":
+			vueApplication.getVueInfo().valider.setEnabled(false);
 			break;
 
 		default:
@@ -158,11 +172,11 @@ public class Controleur implements ActionListener {
 					this.noeudPrecedent = noeudClique;
 				} else {
 					this.noeudSelectionne = noeudClique;
-	//				if (noeudSelectionne.getLivraison() == null) {
-	//						// Vue.ActiverBoutonAjouter -> Gabriel
-	//				} else {
-	//					// Vue.ActiverBoutonSupprimer -> Gabriel
-	//				}
+				if (noeudSelectionne.getLivraison() == null) {
+						vueApplication.getVueInfo().ajouter.setEnabled(true);
+					} else {
+						vueApplication.getVueInfo().supprimer.setEnabled(true);
+					}
 				}
 			}
 			selectionActive = true;

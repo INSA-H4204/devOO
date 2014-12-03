@@ -21,7 +21,11 @@ public class VueApplication extends JFrame implements Observer {
 
 	protected Controleur ctrl;
 	private VueInfo vueInfo = new VueInfo();
+	
+
 	private VuePlageHoraire vuePlageHoraire = new VuePlageHoraire();
+	
+
 	private VueZone vueZone = new VueZone();
 
 	private final int HAUTEUR_FENETRE = 700;
@@ -38,7 +42,12 @@ public class VueApplication extends JFrame implements Observer {
 		this.ctrl = ctrl;
 		construireVue();
 	}
-
+	public VuePlageHoraire getVuePlageHoraire() {
+		return vuePlageHoraire;
+	}
+	public VueInfo getVueInfo() {
+		return vueInfo;
+	}
 	/**
 	 * @author frederic, gabrielcae
 	 */
@@ -123,17 +132,29 @@ public class VueApplication extends JFrame implements Observer {
 		vuePlageHoraire.btnChargPlan.addActionListener(ctrl);
 		vuePlageHoraire.btnChargPlan.setActionCommand("Charger Plan");
 		
+		vuePlageHoraire.btnCalcTourn.addActionListener(ctrl);
+		vuePlageHoraire.btnCalcTourn.setActionCommand("Calculer Tournee");
+		
 		vuePlageHoraire.btnChargLiv.addActionListener(ctrl);
 		vuePlageHoraire.btnChargLiv.setActionCommand("Charger Livraisons");
 		
-		vuePlageHoraire.btnUndo.addActionListener(ctrl);
-		vuePlageHoraire.btnUndo.setActionCommand("Undo");
+		vueInfo.btnUndo.addActionListener(ctrl);
+		vueInfo.btnUndo.setActionCommand("Undo");
 		
-		vuePlageHoraire.btnRedo.addActionListener(ctrl);
-		vuePlageHoraire.btnRedo.setActionCommand("Redo");
+		vueInfo.btnRedo.addActionListener(ctrl);
+		vueInfo.btnRedo.setActionCommand("Redo");
 		
 		vuePlageHoraire.btnImpr.addActionListener(ctrl);
 		vuePlageHoraire.btnImpr.setActionCommand("Impression");
+		
+		vueInfo.ajouter.addActionListener(ctrl);
+		vueInfo.ajouter.setActionCommand("Ajouter Livraison");
+		
+		vueInfo.supprimer.addActionListener(ctrl);
+		vueInfo.supprimer.setActionCommand("Supprimer Livraison");
+		
+		vueInfo.valider.addActionListener(ctrl);
+		vueInfo.valider.setActionCommand("Valider Livraison");
 
 	}
 
