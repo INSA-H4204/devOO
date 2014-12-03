@@ -95,24 +95,28 @@ public class Controleur implements ActionListener, MouseListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
+				vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 			}
-			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
+			
 			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
 			break;
 			
 		case "Charger Livraisons":
 			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);			
-			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
+			
 
 			String livraisonXML = choisirXML();
-			if(livraisonXML != null){				
+			if(livraisonXML != null){
+				vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
 					try {
 						chargerLivraisons(livraisonXML);
 					} catch (ParseException | ParserConfigurationException| SAXException | IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}				
+			}
+			else{
+				vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 			}
 
 			break;
@@ -194,7 +198,7 @@ public class Controleur implements ActionListener, MouseListener {
 	public void selectionnerNoeud(){
 		
 		verifierSiZoneSansLivraison();
-		if (selectionActive && isZoneSansLivraison) {
+		if (selectionActive/* && isZoneSansLivraison*/) {
 			selectionActive = false;
 			
 			if (noeudPrecedent != null) {
@@ -204,7 +208,7 @@ public class Controleur implements ActionListener, MouseListener {
 			if (noeudSelectionne != null) {
 				vueApplication.deselectionnerNoeud(noeudSelectionne.getPosX(),noeudSelectionne.getPosY());
 			}
-			
+			System.out.println(xSouris+" : "+ySouris);
 			noeudSelectionne = null;
 			noeudPrecedent = null;
 			
