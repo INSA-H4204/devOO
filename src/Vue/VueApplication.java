@@ -159,6 +159,7 @@ public class VueApplication extends JFrame implements Observer {
 		vueInfo.valider.addActionListener(ctrl);
 		vueInfo.valider.setActionCommand("Valider Livraison");
 
+		vueZone.addMouseListener(ctrl);
 	}
 
 	/**

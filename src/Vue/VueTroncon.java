@@ -8,7 +8,10 @@ import javax.swing.JFrame;
 public class VueTroncon {
 
 	private JFrame frame = null;
-	int xInit, yInit, xFin, yFin;
+	private int xInit;
+	private int yInit;
+	private int xFin;
+	private int yFin;
 	String nom;
 	
 	/**

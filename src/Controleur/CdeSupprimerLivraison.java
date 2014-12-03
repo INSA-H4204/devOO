@@ -25,6 +25,7 @@ public class CdeSupprimerLivraison extends Commande {
 	 * @author hgerard
 	 */
 	public CdeSupprimerLivraison() {
+		
 	}
 	
 	/**

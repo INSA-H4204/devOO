@@ -2,6 +2,8 @@ package Controleur;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,11 +31,14 @@ import Vue.VueApplication;
  * 
  * @author hgerard
  */
-public class Controleur implements ActionListener {
+public class Controleur implements ActionListener, MouseListener {
 	
 	public VueApplication vueApplication;
 	private Zone zone;
 	private boolean isZoneSansLivraison;
+	
+	private int xSouris;
+	private int ySouris;
 	
 	// Contient les commandes qui ont été éxécutées et annulées pour pouvoir les annuler ou les rééxecuter
 	private Stack<Commande> commandesExecutees;
@@ -141,6 +146,11 @@ public class Controleur implements ActionListener {
 			vueApplication.getVueInfo().valider.setEnabled(false);
 			break;
 
+		case "Selectionner Noeud":
+			
+			selectionnerNoeud();
+			break;
+			
 		default:
 			break;
 		}
@@ -179,11 +189,11 @@ public class Controleur implements ActionListener {
 	 * @param 	int y 				La coordonnée y du click effectué sur la carte
 	 * @author hgerard thelmer
 	 */
-	public void selectionnerNoeud(int x, int y){
+	public void selectionnerNoeud(){
 		verifierSiZoneSansLivraison();
 		if (selectionActive && isZoneSansLivraison) {
 			selectionActive = false;
-			Noeud noeudClique = zone.rechercherNoeudParPosition(x,y);
+			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
 			if (noeudClique != null) {
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
@@ -360,5 +370,37 @@ public class Controleur implements ActionListener {
 	
 	public Stack<Commande> getCommandesAnnulees () {
 		return commandesAnnulees;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		xSouris = e.getX();
+		ySouris = e.getY();
+		System.out.println(xSouris+" : "+ySouris);
+		selectionnerNoeud();
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}	
 }
