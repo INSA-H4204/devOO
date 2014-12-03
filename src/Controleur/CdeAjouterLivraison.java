@@ -1,9 +1,13 @@
 package Controleur;
 
+import java.util.List;
+
+import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
 import Modele.PlageHoraire;
 import Modele.Tournee;
+import Modele.Troncon;
 import Modele.Zone;
 
 /**
@@ -41,7 +45,7 @@ public class CdeAjouterLivraison extends Commande {
 		this.livraisonPrecedente = livraisonPrecedente;
 		
 		Livraison livraisonAjout = noeudSelectionne.getLivraison();
-		this.livraisonPrecedente = livraisonPrecedente;
+		this.livraisonAjout = livraisonAjout;
 		
 		PlageHoraire plageAjout = livraisonPrecedente.getPlage();
 		this.plageAjout = plageAjout;
@@ -49,8 +53,30 @@ public class CdeAjouterLivraison extends Commande {
 
 	/**
 	 * Fonction appelée quand on execute la fonction normalement
+	 * @author thelmer
 	 */
-	public void execute() {
+
+	protected void execute() {
+		int posCheminSupprimer=-2;
+		List<Chemin> chemins = zone.getTournee().getChemins();
+		for(Chemin chemin:chemins){
+			if(posCheminSupprimer != -2){
+				int adressePrecedente= livraisonPrecedente.getAdresse().getNoeudID();
+				int adresseAjoute = livraisonAjout.getAdresse().getNoeudID();
+				int adresseSuivante = chemin.getArrivee().getAdresse().getNoeudID();
+				Chemin cheminPrecedent = zone.plusCourtChemin(adressePrecedente,adresseAjoute);
+				Chemin cheminSuivant = zone.plusCourtChemin(adresseAjoute,adresseSuivante);
+				zone.getTournee().getChemins().remove(posCheminSupprimer);
+				zone.getTournee().getChemins().add(posCheminSupprimer,cheminPrecedent);
+				zone.getTournee().getChemins().add(posCheminSupprimer+1,cheminSuivant);
+				return;
+			}
+			else{
+				if(chemin.getArrivee() == livraisonPrecedente)
+					posCheminSupprimer = chemins.indexOf(chemin)+1;
+			}
+		}
+
 		
 	}
 
@@ -68,13 +94,6 @@ public class CdeAjouterLivraison extends Commande {
 		// TODO implement here
 	}
 
-	/**
-	 * @param int idClient 
-	 * @param int idNoeud 
-	 * @param int idNoeudPrecedent
-	 */
-	public void AjouterLivraison(int idClient, int idNoeud, int idNoeudPrecedent) {
-		// TODO implement here
-	}
+
 
 }

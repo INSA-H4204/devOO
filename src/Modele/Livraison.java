@@ -39,13 +39,10 @@ public class Livraison extends Observable {
 		return heureLivraisonPrevue;
 	}
 
-	public Livraison(int clientId,int livraisonId,Calendar heureLivraisonPrevue,boolean isZoneVide,Noeud adresse) {
+	public Livraison(int clientId,int livraisonId,Calendar heureLivraisonPrevue,Noeud adresse) {
 		this.clientID = clientId;
 		this.livraisonID = livraisonId;
 		this.heureLivraisonPrevue = heureLivraisonPrevue;
-		this.adresse = adresse;//new Noeud();	
-		this.cheminIn = null;//new Chemin();
-		this.cheminOut = null;//new Chemin();
 		this.adresse = adresse;
 		this.cheminIn = new Chemin();
 		this.cheminOut = new Chemin();
@@ -70,14 +67,15 @@ public class Livraison extends Observable {
 		adresse = adresseEntrepot;
 		
 	}
-	public Livraison(Element livraisonElement,Zone zone,PlageHoraire plage,int livraisonID){
-		this.livraisonID = livraisonID;
-		this.clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
-		Noeud adresseLivraison=zone.GetNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
-		this.adresse = adresseLivraison;
-		this.plage=plage;
-		
-	}
+//	public Livraison(Element livraisonElement,Zone zone,PlageHoraire plage,int livraisonID){
+//		this.livraisonID = livraisonID;
+//		this.clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
+//		Noeud adresseLivaison= new Noeud();
+//		adresseLivaison=zone.GetNoeuds().get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
+//		this.adresse = adresseLivaison;
+//		this.plage=plage;
+//		
+//	}
 
 
 	public Noeud getAdresse() {

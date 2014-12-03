@@ -1,5 +1,10 @@
 package Modele;
 
+/**
+ * une classe pour etre utilisee dans dijkstra
+ * @author fredrik
+ *
+ */
 public class DoubleInteger implements Comparable<Object> {
 	 
     private int x;
