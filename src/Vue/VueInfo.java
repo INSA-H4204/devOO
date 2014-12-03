@@ -6,9 +6,24 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+
+import java.awt.TextField;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+
 
 /**
  * 
@@ -16,7 +31,11 @@ import javax.swing.border.TitledBorder;
 public class VueInfo extends JPanel {
 
 	private ArrayList<Integer> points = new ArrayList<Integer>();
-
+	public JLabel inserIdClient = new JLabel ("Inserer l'ID du client");
+	public Button ajouter = new Button("Ajouter");
+	public Button supprimer = new Button("Supprimer");
+	public Button valider = new Button("Valider");
+	public JTextField idClient = new JTextField("",50);  
 	/**
 	 * 
 	 */
@@ -32,7 +51,38 @@ public class VueInfo extends JPanel {
 		Border border = BorderFactory.createCompoundBorder(raisedLevel,loweredbevel);
 
 		this.setBorder(border);
-		this.setBackground(Color.BLUE);		
+		this.setBackground(Color.BLUE);
+		
+		JPanel jPanel1 = new JPanel();
+		jPanel1.setBackground(Color.BLUE);
+		JPanel jPanel2 = new JPanel();
+		jPanel2.setBackground(Color.BLUE);
+
+		
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		this.add(jPanel1);
+		this.add(jPanel2);
+		
+		
+		jPanel1.setPreferredSize(new Dimension(100, 20));
+		jPanel1.setMaximumSize(new Dimension(200, 200));
+		jPanel1.setMinimumSize(new Dimension(20, 20));
+		jPanel1.add(inserIdClient);
+		jPanel1.add(idClient);
+		idClient.setHorizontalAlignment(JTextField.CENTER);
+		
+		jPanel2.setPreferredSize(new Dimension(150, 80));
+		jPanel2.setMaximumSize(new Dimension(150, 200));
+		jPanel2.setMinimumSize(new Dimension(20, 20));
+
+		jPanel2.add(ajouter);
+
+		jPanel2.add(supprimer);
+		jPanel2.add(valider);
+
+		
+		
+		
 	}
 	
 	public void paintComponent(Graphics g) {
