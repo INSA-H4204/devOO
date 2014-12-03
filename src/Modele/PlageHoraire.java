@@ -18,9 +18,8 @@ import org.xml.sax.SAXException;
  */
 public class PlageHoraire extends Observable {
 
-	public Calendar heureDebut ;
-	public Calendar heureFin ;
-	private List<Livraison> livraisonsOrdonnees;
+	public Calendar heureDebut;
+	public Calendar heureFin;
 	private Set<Livraison> livraisons;
 	
 	/**
@@ -29,14 +28,12 @@ public class PlageHoraire extends Observable {
 	public PlageHoraire() {
 		heureDebut = Calendar.getInstance();
 		heureFin = Calendar.getInstance();
-		livraisonsOrdonnees = new ArrayList<Livraison>();
 		livraisons = new HashSet<Livraison>();
 	}
-	public PlageHoraire(Calendar heureDebut,Calendar heureFin,Set<Livraison> livraisons,List<Livraison> livraisonsOrdonnees) {
+	public PlageHoraire(Calendar heureDebut,Calendar heureFin,Set<Livraison> livraisons) {
 		this.heureDebut =heureDebut;
 		this.heureFin =heureFin;
 		this.livraisons = livraisons;
-		this.livraisonsOrdonnees=livraisonsOrdonnees;
 	}
 	
 //	public List<Livraison> construirePlageAPartirDeDOMXML(Element plageHoraireElement, Zone zone, List<Livraison> listeTousLivraisons) throws SAXException{

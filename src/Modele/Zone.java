@@ -242,7 +242,7 @@ public class Zone extends Observable {
 								livraisonID++;
 							}
 							List livraisonsOrdonnees = new ArrayList<Livraison>();
-							PlageHoraire plageHoraire = new PlageHoraire(heureDebut,heureFin,listeLivraisonsPlage,livraisonsOrdonnees);
+							PlageHoraire plageHoraire = new PlageHoraire(heureDebut,heureFin,listeLivraisonsPlage);
 							
 							if(!verifierPlage(plageHoraire,listeTousPlagesH)){
 								listeTousPlagesH.add(plageHoraire);
