@@ -194,8 +194,8 @@ public class Controleur implements ActionListener {
 	/**
 	 * 
 	 */
-	private void calculerTournee(Tournee tournee) {
-		// TODO implement here
+	public void calculerTournee() {
+		zone.calculerTournee();
 	}
 	
 	/**

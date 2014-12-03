@@ -62,7 +62,7 @@ public class NotreGraphe implements Graph {
 	@Override
 	public int getMaxArcCost() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 10000;
 	}
 
 	@Override

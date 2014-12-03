@@ -212,6 +212,7 @@ public class Zone extends Observable {
 						this.setEntrepot(entrepot);
 						// Partie Plages Horaires
 						NodeList listePlagesHoraireXML = racine.getElementsByTagName("Plage");
+						int livraisonID=1;
 						for(int i=0;i<listePlagesHoraireXML.getLength();i++) {
 							Element plageHoraireElement = (Element) listePlagesHoraireXML.item(i);						
 							
@@ -219,7 +220,7 @@ public class Zone extends Observable {
 							Calendar heureFin =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureFin"));
 							Set<Livraison> listeLivraisonsPlage = new HashSet<Livraison>();
 							NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
-							int livraisonID=1;
+							
 							for(int j=0;j<listeLivraisonsXML.getLength();j++) {
 								Element livraisonElement = (Element) listeLivraisonsXML.item(j);
 								int clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
@@ -304,7 +305,7 @@ public class Zone extends Observable {
 		depart = entrepot.getLivraisonID();
 		for (Livraison livraison : plages.get(0).getLivraisons()) {
 			arrivee = livraison.getLivraisonID();
-			grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(arrivee));
+			grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(livraison.getAdresse().getNoeudID()));
 		}
 
 		for (int i = 0; i < plages.size()-1 ; i++) {
@@ -315,12 +316,12 @@ public class Zone extends Observable {
 				for (Livraison livraisonSuivante : plages.get(i).getLivraisons()) {
 					if (livraison != livraisonSuivante) {
 						arrivee = livraisonSuivante.getLivraisonID();
-						grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(arrivee));
+						grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(livraisonSuivante.getAdresse().getNoeudID()));
 					}
 				}
 				for (Livraison livraisonSuivante : plages.get(i+1).getLivraisons()) {
 						arrivee = livraisonSuivante.getLivraisonID();
-						grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(arrivee));
+						grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(livraisonSuivante.getAdresse().getNoeudID()));
 				}
 			}
 		}
@@ -332,16 +333,19 @@ public class Zone extends Observable {
 			for (Livraison livraisonSuivante : plages.get(plages.size()-1).getLivraisons()) {
 				if (livraison != livraisonSuivante) {
 					arrivee = livraisonSuivante.getLivraisonID();
-					grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(arrivee));
+					grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(livraisonSuivante.getAdresse().getNoeudID()));
 				}
 			}
 			arrivee = entrepot.getLivraisonID();
-			grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(arrivee));
+			grapheChoco.ajouterDansGraphe(depart, arrivee, resDijkstra.getPoids(entrepot.getAdresse().getNoeudID()));
 		}
 
 		TSP tsp = new TSP(grapheChoco);
 		tsp.solve(10000, 100000);
 		int[] suivant = tsp.getNext();
+		for (int i = 0; i < suivant.length; i++) {
+			System.out.println(suivant[i]);
+		}
 		tournee.setChemins(listerChemins(suivant, sources, livraisons));
 	}
 	
