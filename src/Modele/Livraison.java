@@ -17,6 +17,8 @@ public class Livraison extends Observable {
 	private PlageHoraire plage;
 	boolean isPonctuel;
 	
+
+
 	/**
 	 * Constructeur par défaut de Livraison
 	 */
@@ -65,5 +67,9 @@ public class Livraison extends Observable {
 
 	public PlageHoraire getPlage() {
 		return plage;
+	}
+	
+	public void setPlage(PlageHoraire plage) {
+		this.plage = plage;
 	}
 }
