@@ -97,14 +97,15 @@ public class ZoneTest {
 	 public void integriteNoeuds() throws Exception {
 		zone = new Zone();
 		  zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
-		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.GetNoeuds().size());
-		assertNotNull("Echec - Aucun troncon n'a été chargé",zone.GetTroncons().size());
-		for(Entry<Integer, Noeud> iter : zone.GetNoeuds().entrySet()) {
+		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.getNoeuds().size());
+		assertNotNull("Echec - Aucun troncon n'a été chargé",zone.getTroncons().size());
+		for(Entry<Integer, Noeud> iter : zone.getNoeuds().entrySet()) {
+
 			assertNotNull("Echec - L'id n'est pas renseigné",iter.getValue().getNoeudID());
 			assertNotNull("Echec - X n'est pas renseigné",iter.getValue().getPosX());
 			assertNotNull("Echec - Y n'est pas renseigné",iter.getValue().getPosY());
 		}
-		for (Troncon t : zone.GetTroncons() ) {
+		for (Troncon t : zone.getTroncons() ) {
 			assertNotNull("Echec - Troncon sans origine",t.getOrigine());
 			assertNotNull("Echec - Troncon sans fin",t.getFin());
 		}

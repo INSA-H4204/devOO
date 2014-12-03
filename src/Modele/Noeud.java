@@ -2,8 +2,6 @@ package Modele;
 
 import java.util.*;
 
-import org.w3c.dom.Element;
-
 /**
  * Un noeud peut être une Livraison ou une intersection, un carrefour.
  * 
@@ -38,20 +36,6 @@ public class Noeud extends Observable {
 		this.livraison = new Livraison();
 		this.tronconsSortants= new ArrayList <Troncon> ();
 	}
-	
-	
-//	/**
-//	 * Constructor from XML Element
-//	 * @param Element noeud: une balise noeud du fichier xml
-//	 * @author Yousra
-//	 */
-//	public Noeud(Element noeudElement) {
-//		this.noeudID = Integer.parseInt(noeudElement.getAttribute("id"));
-//		this.posX = Integer.parseInt(noeudElement.getAttribute("x"));
-//		this.posY = Integer.parseInt(noeudElement.getAttribute("y"));
-//		tronconsSortants= new ArrayList <Troncon> ();
-//	}
-//	
 
 	public int getPosX() {
 		return posX;
@@ -73,7 +57,6 @@ public class Noeud extends Observable {
 		this.tronconsSortants=tronconsSortants;
 	}
 
-	
 	public List<Troncon> getTronconsSortants() {
 		return tronconsSortants;
 	}

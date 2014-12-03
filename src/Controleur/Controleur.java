@@ -9,24 +9,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.Stack;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import Modele.Livraison;
-import Modele.Noeud;
-import Modele.PlageHoraire;
-import Modele.Tournee;
-import Modele.Zone;
 import Modele.Chemin;
+import Modele.Noeud;
+import Modele.Tournee;
 import Modele.Troncon;
+import Modele.Zone;
 import Vue.VueApplication;
-import Vue.VueNoeud;
-import Vue.VueTroncon;
-import Vue.VueZone;
 
 /**
  * Le contrôleur fait le lien entre la vue et le modèle. Lorsqu'un utilisateur agit sur
@@ -70,11 +66,70 @@ public class Controleur implements ActionListener {
 		selectionActive = true;
 		noeudSelectionne = null;
 		noeudPrecedent = null;
+		
+		zone.addObserver(vueApplication);
 	}
 	
+	/**
+	 * @author gabrielcae
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		this.ctrl.chargerZone(XML);
+		String action = e.getActionCommand();
+		switch (action) {
+		case "Charger Plan":
+			
+			String planXML = choisirXML();
+			if(planXML != null){
+				try {
+					chargerZone(planXML);
+				} catch (NumberFormatException | FileNotFoundException | SAXException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+			break;
+		case "Charger Livraisons":
+
+			break;
+		case "Undo":
+
+			break;
+		case "Redo":
+
+			break;
+		case "Impression":
+
+			break;	
+		case "Ajouter Livraison":
+
+			break;
+		case "Supprimer Livraison":
+
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * 
+	 * @return le fichier xml choisit
+	 * @author gabrielcae
+	 */
+	private String choisirXML() {
+		JFileChooser chooser = new JFileChooser();
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier XML", "xml");
+	    chooser.setFileFilter(filter);
+	    
+	    int returnVal = chooser.showOpenDialog(null);
+	    if(returnVal == JFileChooser.APPROVE_OPTION) {
+	    	File xmlFile = chooser.getSelectedFile();
+	    	return xmlFile.getAbsolutePath();	       
+	    } 
+	    return null;	
 	}
 
 	/**
@@ -158,7 +213,7 @@ public class Controleur implements ActionListener {
              try {
                
                   // 2) �criture de la feuille de route
-                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getTournee().getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getTournee().getEntrepot().getHeureLivraisonPrevue().get(Calendar.HOUR_OF_DAY)));
+                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeureLivraisonPrevue().get(Calendar.HOUR_OF_DAY)));
                   for(Chemin chemin:zone.getTournee().getChemins())  {
                 	  for(Troncon troncon:chemin.getTroncons()) {
                 		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
