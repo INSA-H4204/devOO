@@ -18,8 +18,7 @@ public class VuePlageHoraire extends JPanel {
 	
 	public Button btnChargPlan = new Button("Charger Plan");
 	public Button btnChargLiv = new Button("Charger Livraison");
-	public Button btnUndo = new Button("Undo");
-	public Button btnRedo = new Button("Redo");
+	public Button btnCalcTourn = new Button("Calculer Tournee");
 	public Button btnImpr = new Button("Impression");
 	
 	public VuePlageHoraire(){
@@ -46,20 +45,17 @@ public class VuePlageHoraire extends JPanel {
 		this.add(jPanelBas);
 		
 		jPanelBas.setLayout(new BoxLayout(jPanelBas, BoxLayout.PAGE_AXIS));
-		jPanelBas.setPreferredSize(new Dimension(100, 200));
+		jPanelBas.setPreferredSize(new Dimension(100, 150));
 		jPanelBas.setMaximumSize(new Dimension(200, 200));
 		jPanelBas.setMinimumSize(new Dimension(20, 20));
 		jPanelBas.add(btnChargPlan);
 		jPanelBas.add(btnChargLiv);
-		jPanelBas.add(jPanelUndoRedo);
+		jPanelBas.add(btnCalcTourn);
+		jPanelBas.add(btnImpr);
+		btnChargLiv.setEnabled(false);
+		btnCalcTourn.setEnabled(false);
+		btnImpr.setEnabled(false);
 		
-		jPanelUndoRedo.setLayout(new BoxLayout(jPanelUndoRedo, BoxLayout.LINE_AXIS));	
-		jPanelUndoRedo.add(Box.createHorizontalGlue());
-		jPanelUndoRedo.add(btnUndo);
-		jPanelUndoRedo.add(Box.createHorizontalGlue());
-		jPanelUndoRedo.add(btnImpr);
-		jPanelUndoRedo.add(Box.createHorizontalGlue());
-		jPanelUndoRedo.add(btnRedo); 		
 	}
 
 }
