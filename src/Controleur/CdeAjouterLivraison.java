@@ -6,9 +6,7 @@ import java.util.List;
 import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
-import Modele.PlageHoraire;
 import Modele.Tournee;
-import Modele.Troncon;
 import Modele.Zone;
 
 /**
@@ -21,7 +19,7 @@ public class CdeAjouterLivraison extends Commande {
 	private Zone zone;
 	private Noeud noeudPrecedent;
 	private Noeud noeudSelectionne;
-	private String idClient;
+	private int idClient;
 
 	/**
 	 * Constructeur par défaut de la classe CdeAjouterLivraison
@@ -37,7 +35,7 @@ public class CdeAjouterLivraison extends Commande {
 	 * 
 	 * @author hgerard
 	 */
-	public CdeAjouterLivraison(Zone zone, Noeud noeudPrecedent, Noeud noeudSelectionne, String idClient) {
+	public CdeAjouterLivraison(Zone zone, Noeud noeudPrecedent, Noeud noeudSelectionne, int idClient) {
 		
 		super(zone);
 
@@ -56,7 +54,7 @@ public class CdeAjouterLivraison extends Commande {
 
 	public void execute() {
 		
-		Livraison livraisonAjout = new Livraison(idClient,nombreLivraison,Calendar.getInstance(),noeudSelectionne);
+		Livraison livraisonAjout = new Livraison(idClient,Calendar.getInstance(),noeudSelectionne);
 		int posCheminSupprimer=-2;
 		List<Chemin> chemins = zone.getTournee().getChemins();
 		for(Chemin chemin : chemins){
