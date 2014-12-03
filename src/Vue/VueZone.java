@@ -25,7 +25,9 @@ public class VueZone extends JPanel {
 	 */
 	public VueZone() {
 		listeVueNoeud = new ArrayList<VueNoeud>();
-		listeVueTroncon =  new ArrayList<VueTroncon>();
+
+		listeVueTroncon = new ArrayList<VueTroncon>();
+
 		chargerVueZone();
 	}
 
