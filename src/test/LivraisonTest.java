@@ -21,7 +21,7 @@ public class LivraisonTest {
 	public void setUp() throws Exception {
 		Noeud adresse = new Noeud(1,200,200);
 		
-		livraison = new Livraison(1,1,Calendar.getInstance(),true,adresse);
+		livraison = new Livraison(1,1,Calendar.getInstance(),adresse);
 	}
 
 	@After
@@ -31,6 +31,4 @@ public class LivraisonTest {
 	@Test public void testConstructor() {
 		assertNotNull(livraison);
 	}
- 
-
 }
