@@ -91,21 +91,27 @@ public class Controleur implements ActionListener {
 			}
 			
 			break;
+			
 		case "Charger Livraisons":
 
 			break;
+			
 		case "Undo":
-
+zone.test();
 			break;
+			
 		case "Redo":
 
 			break;
+			
 		case "Impression":
 
 			break;	
+			
 		case "Ajouter Livraison":
 
 			break;
+			
 		case "Supprimer Livraison":
 
 			break;

@@ -61,7 +61,6 @@ public Zone() {
 	observers = new ArrayList<Observer>();
 	grapheOriginal = new NotreGraphe(troncons, noeuds.size());
 }
-
 	
 	/**
 	 * @param  xmlFilePath      le chemin du fichier xml Plan
@@ -74,6 +73,7 @@ public Zone() {
 		plages = new ArrayList<PlageHoraire>();
 		observers = new ArrayList<Observer>();
 		grapheOriginal = new NotreGraphe(troncons, noeuds.size());
+		
 		File xml = new File(xmlFilePathPlan);
 		if (!xml.exists()) {
 			this.troncons = null;
@@ -126,6 +126,9 @@ public Zone() {
 	                		   grapheOriginal = new NotreGraphe(troncons,noeuds.size());
 	                	   }               	   
 	                   }
+	                   	this.setChanged();
+	           			this.notifyObservers();
+	           			this.clearChanged();
 	                   
 				   }	
 	               else 
@@ -318,6 +321,8 @@ public Zone() {
 		Noeud z = new Noeud(2,76,98);
 		noeuds.put(1, n);
 		noeuds.put(z.getNoeudID(), z);
+		Troncon t = new Troncon(n, z, 12, 12, "yousra");
+		troncons.add(t);
 		this.setChanged();
 		this.notifyObservers();
 		this.clearChanged();
