@@ -94,29 +94,36 @@ public class Controleur implements ActionListener {
 			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
 			break;
+			
 		case "Charger Livraisons":
 			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);
 			
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
 			break;
+			
 		case "Undo":
-
+zone.test();
 			break;
+			
 		case "Redo":
 
 			break;
+			
 		case "Impression":
+
 
 			break;
 		case "Calculer Tournee" :
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
 			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(true);
 			break;
+
 		case "Ajouter Livraison":
 			vueApplication.getVueInfo().ajouter.setEnabled(false);
 			actionBoutonAjouter();
 			
 			break;
+			
 		case "Supprimer Livraison":
 			vueApplication.getVueInfo().supprimer.setEnabled(false);
 			break;
@@ -209,8 +216,8 @@ public class Controleur implements ActionListener {
 	/**
 	 * 
 	 */
-	private void calculerTournee(Tournee tournee) {
-		// TODO implement here
+	public void calculerTournee() {
+		zone.calculerTournee();
 	}
 	
 	/**
@@ -228,13 +235,13 @@ public class Controleur implements ActionListener {
              try {
                
                   // 2) �criture de la feuille de route
-                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeureLivraisonPrevue().get(Calendar.HOUR_OF_DAY)));
+                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure()));
                   for(Chemin chemin:zone.getTournee().getChemins())  {
                 	  for(Troncon troncon:chemin.getTroncons()) {
                 		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
                 	  }
                 	  if(chemin.getArrivee().getLivraisonID()!=0)
-                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apr�s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().get(Calendar.HOUR_OF_DAY)));
+                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apr�s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure()));
                 	  else
                 		  out.write("Vous etes de retour a l'entrepot");
                   }

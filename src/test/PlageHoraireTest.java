@@ -44,4 +44,12 @@ public class PlageHoraireTest {
 		org.w3c.dom.Document document = dBuilder.parse(xml);     
 		PlageHoraire plageHoraire = new PlageHoraire();
 	}
+	
+	
+	 @Test
+	 public void calculerHeurePrevu() throws Exception {
+		 
+	 }
+	 
+	 
 }

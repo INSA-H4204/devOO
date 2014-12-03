@@ -75,7 +75,7 @@ public class CdeSupprimerLivraison extends Commande {
 	protected void undo() {
 		int idClient = livraisonSuppression.getClientID();
 		Noeud noeudSuppression = livraisonSuppression.getAdresse();
-		Livraison livraisonAjout = new Livraison(idClient,Calendar.getInstance(),noeudSuppression);
+		Livraison livraisonAjout = new Livraison(idClient, noeudSuppression);
 		int posCheminSupprimer=-2;
 		List<Chemin> chemins = zone.getTournee().getChemins();
 		Noeud noeudPrecedent = livraisonPrecedente.getAdresse();

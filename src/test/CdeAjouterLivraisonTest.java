@@ -62,7 +62,6 @@ public class CdeAjouterLivraisonTest {
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
 		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
-		 //cmd.execute();
 		 cmd.undo();
 	 }
 	 
@@ -73,7 +72,6 @@ public class CdeAjouterLivraisonTest {
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
 		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
-		 //cmd.execute();
 		 cmd.undo();
 		 cmd.execute();
 	 }

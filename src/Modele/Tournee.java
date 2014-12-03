@@ -15,7 +15,7 @@ public class Tournee extends Observable {
 	private List<Chemin> chemins;
 
 	/**
-	 * Constructeur par défaut de Tournée
+	 * Constructeur par defaut de Tournee
 	 */
 	public Tournee() {
 		chemins = new ArrayList<Chemin>();
@@ -28,5 +28,12 @@ public class Tournee extends Observable {
 	public void setChemins(List<Chemin> chemins) {
 		this.chemins = chemins;
 	}
+	
+//	public void calculerHeure(){
+//		for(Chemin c: chemins){
+//			c.calculerHeureChemin();
+//		}
+//	}
+
 
 }

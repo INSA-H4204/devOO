@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -63,16 +64,14 @@ public class VueApplication extends JFrame implements Observer {
 				chargerTroncon((Troncon) obj);
 				break;
 			}
-		}
-		else {
+		} else {
 			System.out.println("ici aussi");
 			Zone zone = (Zone) obs;
 			chargerNoeudsDeZone(zone);
-//			chargerTronconsDeZone(zone);
+			chargerTronconsDeZone(zone);
 
 		}
 	}
-	
 
 	/**
 	 * @author gabrielcae
@@ -131,6 +130,7 @@ public class VueApplication extends JFrame implements Observer {
 
 		vuePlageHoraire.btnChargPlan.addActionListener(ctrl);
 		vuePlageHoraire.btnChargPlan.setActionCommand("Charger Plan");
+
 		
 		vuePlageHoraire.btnCalcTourn.addActionListener(ctrl);
 		vuePlageHoraire.btnCalcTourn.setActionCommand("Calculer Tournee");
@@ -144,6 +144,7 @@ public class VueApplication extends JFrame implements Observer {
 		vueInfo.btnRedo.addActionListener(ctrl);
 		vueInfo.btnRedo.setActionCommand("Redo");
 		
+
 		vuePlageHoraire.btnImpr.addActionListener(ctrl);
 		vuePlageHoraire.btnImpr.setActionCommand("Impression");
 		
@@ -174,46 +175,32 @@ public class VueApplication extends JFrame implements Observer {
 	}
 
 	/**
-	 * Methode qui recupere les coordonnées des noeuds d'une zone et les passe à chargerNoeuds(listX,listY)
+	 * Methode qui recupere les coordonnées des noeuds d'une zone et les passe à
+	 * chargerNoeuds(listX,listY)
+	 * 
 	 * @param zone
 	 * @author gabrielcae
 	 */
 	private void chargerNoeudsDeZone(Zone zone) {
-		List<Integer> listeX = new ArrayList<Integer>();
-		List<Integer> listeY = new ArrayList<Integer>();
-		for (Entry<Integer, Noeud> iter : zone.getNoeuds().entrySet()) {
-			int x = iter.getValue().getPosX();
-			int y = iter.getValue().getPosY();
-			listeX.add(x);
-			listeY.add(y);
-		}
-		chargerNoeuds(listeX, listeY);
-	}
-	
-	private void chargerTronconsDeZone(Zone zone) {
-		//TODO: a implemanter
-	}
-	
-	/**
-	 * Méthode qui recupère des listes de coordonnées des noeuds, en lètres, les convertis en pixel, crée une liste de VueNoeuds et les envoye a vueZone pour l'affichage
-	 * @param listeX , liste d'entiers en mètres
-	 * @param listeY , liste d'entiers en mètres
-	 * @author gabrielcae
-	 */
-	public void chargerNoeuds(List<Integer> listeX, List<Integer> listeY) {
-
 		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
-		for (int i = 0; i < listeX.size(); i++) {
-			int x = convertiseurMetrePixel(listeX.get(i), 'x');
-			int y = convertiseurMetrePixel(listeY.get(i), 'y');
+		Map<Integer, Noeud> mapNoeuds = zone.getNoeuds();
+		int i=0;
+		for (Integer iter : mapNoeuds.keySet()) {
+			Noeud noeud = mapNoeuds.get(iter);
+			int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
+			int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
 			VueNoeud vn = new VueNoeud(x, y);
 			listeVueNoeud.add(vn);
+			i++;
 		}
+		System.out.println(listeVueNoeud.size());
 		vueZone.chargerNoeuds(listeVueNoeud);
 	}
 
 	/**
-	 * Méthode qui converti les coordonnées d'un noeud, crée une nouvelle VueNoeud et l'envoye pour l'affichage
+	 * Méthode qui converti les coordonnées d'un noeud, crée une nouvelle
+	 * VueNoeud et l'envoye pour l'affichage
+	 * 
 	 * @param noeud
 	 */
 	public void chargerNoeud(Noeud noeud) {
@@ -223,6 +210,19 @@ public class VueApplication extends JFrame implements Observer {
 
 		vueZone.chargerNoeuds(vn);
 	}
+	
+	private void chargerTronconsDeZone(Zone zone) {
+		List<VueTroncon> listeVueTroncons = new ArrayList<VueTroncon>();
+		for (Troncon t : zone.getTroncons()) {
+			int xInit = convertiseurMetrePixel(t.getOrigine().getPosX(), 'x');
+			int yInit = convertiseurMetrePixel(t.getOrigine().getPosY(), 'y');
+			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
+			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
+			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, t.getNomRue());
+			listeVueTroncons.add(vt);
+		}
+		vueZone.chargerTroncons(listeVueTroncons);
+	}
 
 	private void chargerTroncon(Troncon troncon) {
 		int xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
@@ -231,7 +231,7 @@ public class VueApplication extends JFrame implements Observer {
 		int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
 		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome");
 
-		vueZone.chargerTroncon(vt);
+		vueZone.chargerTroncons(vt);
 	}
 
 	/**
@@ -257,4 +257,3 @@ public class VueApplication extends JFrame implements Observer {
 		}
 	}
 }
-
