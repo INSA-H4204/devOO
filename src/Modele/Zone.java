@@ -104,7 +104,7 @@ public Zone() {
 	                	   for (int j=0; j<listeTronconsNoeudXML.getLength();j++) 
 	                	   {
 	                		   Element tronconElement = (Element) listeTronconsNoeudXML.item(j);
-	                		   Noeud origine = noeuds.get(i);
+	                		   Noeud origine = noeuds.get(Integer.parseInt((String) ((Element) noeudElement).getAttribute("id"))); 
 	                		   Noeud fin = noeuds.get(Integer.parseInt(tronconElement.getAttribute("idNoeudDestination")));
 	                		   String nomRue= tronconElement.getAttribute("nomRue");
 	                	       int vitesse=(int)Double.parseDouble(tronconElement.getAttribute("vitesse").replaceAll(",", "."));

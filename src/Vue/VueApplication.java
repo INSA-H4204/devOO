@@ -134,6 +134,7 @@ public class VueApplication extends JFrame implements Observer {
 		vuePlageHoraire.btnImpr.addActionListener(ctrl);
 		vuePlageHoraire.btnImpr.setActionCommand("Impression");
 
+		vueZone.addMouseListener(ctrl);
 	}
 
 	// TODO: pour le test d'affichage des noeuds
@@ -194,7 +195,7 @@ public class VueApplication extends JFrame implements Observer {
 			int xInit = convertiseurMetrePixel(t.getOrigine().getPosX(), 'x');
 			int yInit = convertiseurMetrePixel(t.getOrigine().getPosY(), 'y');
 			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
-			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'x');
+			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
 			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, t.getNomRue());
 			listeVueTroncons.add(vt);
 		}

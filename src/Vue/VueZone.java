@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -22,9 +24,10 @@ import Controleur.Controleur;
 import Modele.Troncon;
 
 public class VueZone extends JPanel {
+	
 	private static List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
 	private static List<VueTroncon> listeVueTroncon = new ArrayList<VueTroncon>();
-
+	
 	/**
 	 * 
 	 */
@@ -68,6 +71,7 @@ public class VueZone extends JPanel {
 
 	public void chargerNoeuds(List<VueNoeud> listeVueNoeud) {
 		this.listeVueNoeud = listeVueNoeud;
+		
 		this.repaint();
 	}
 
