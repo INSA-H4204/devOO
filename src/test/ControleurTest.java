@@ -39,6 +39,7 @@ public class ControleurTest {
 			zone.addNoeud(noeudCherche);
 			zone.addNoeud(new Noeud(4,230,120));
 		ctrl = new Controleur(zone);
+		
 		ctrl.selectionnerNoeud(230,530);
 		Field noeudSelectionneField = Controleur.class.getDeclaredField("noeudSelectionne");
 		noeudSelectionneField.setAccessible(true);

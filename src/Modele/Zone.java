@@ -402,7 +402,8 @@ public Zone() {
 			System.out.println(suivant[i]);
 		}
 		tournee.setChemins(listerChemins(suivant, sources, livraisons));
-
+		tournee.setEtatTroncons();
+		tournee.verifierPonctualite();
 	}
 	
 	/**
