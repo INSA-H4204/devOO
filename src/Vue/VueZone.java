@@ -97,7 +97,7 @@ public class VueZone extends JPanel {
 			for (int i = 0; i < listeLivraisons.size(); i++) {
 				VueNoeud vn = listeLivraisons.get(i);
 				g.setColor(Color.MAGENTA);
-				g.fillRect(entrepot.recupererX(), entrepot.recupererY(), 10, 10);
+				g.fillRect(vn.recupererX(), vn.recupererY(), 10, 10);
 			}
 		}		
 		if (entrepot!=null){
