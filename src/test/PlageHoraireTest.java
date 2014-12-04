@@ -43,10 +43,6 @@ public class PlageHoraireTest {
 	}
 	
 	
-	 @Test
-	 public void calculerHeurePrevu() throws Exception {
-		 
-	 }
-	 
+	
 	 
 }

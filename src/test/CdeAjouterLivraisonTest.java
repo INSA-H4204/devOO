@@ -50,7 +50,7 @@ public class CdeAjouterLivraisonTest {
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
 		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
-		 //cmd.execute();
+		 cmd.execute();
 	 }
 	 
 	 @Test
@@ -60,19 +60,7 @@ public class CdeAjouterLivraisonTest {
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
 		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
-		 cmd.undo();
-	 }
-	 
-	 @Test
-	 public void testRedo() throws NumberFormatException, SAXException, ParseException, ParserConfigurationException, IOException {
-		 
-		 Controleur ctrl = new Controleur(ZoneTest.init());
-		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
-		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
-		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
-		 cmd.undo();
 		 cmd.execute();
+		 cmd.undo();
 	 }
-	  
-
 }
