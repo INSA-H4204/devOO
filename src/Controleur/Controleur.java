@@ -105,6 +105,7 @@ public class Controleur implements ActionListener, MouseListener {
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
 
 			String livraisonXML = choisirXML();
+
 			if(livraisonXML != null){				
 					try {
 						chargerLivraisons(livraisonXML);
@@ -113,6 +114,7 @@ public class Controleur implements ActionListener, MouseListener {
 						e1.printStackTrace();
 					}				
 			}
+
 			break;
 			
 		case "Undo":
