@@ -43,7 +43,7 @@ public class CdeSupprimerLivraison extends Commande {
 	 * 
 	 * @author hgerard
 	 */
-	protected void execute() {
+	public void execute() {
 		
 		Tournee tournee = zone.getTournee();
 		List<Chemin> chemins = tournee.getChemins();
@@ -72,7 +72,7 @@ public class CdeSupprimerLivraison extends Commande {
 	 *
 	 *@author hgerard
 	 */
-	protected void undo() {
+	public void undo() {
 		int idClient = livraisonSuppression.getClientID();
 		Noeud noeudSuppression = livraisonSuppression.getAdresse();
 		Livraison livraisonAjout = new Livraison(idClient, noeudSuppression);

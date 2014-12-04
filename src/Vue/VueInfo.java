@@ -44,17 +44,17 @@ public class VueInfo extends JPanel {
 		Border border = BorderFactory.createCompoundBorder(raisedLevel,loweredbevel);
 
 		this.setBorder(border);
-		this.setBackground(new Color(137, 212, 126));
+		this.setBackground(new Color(163, 209, 156));
 		
 		JPanel jPanel1 = new JPanel();
 		jPanel1.setSize(200, 30);
-		jPanel1.setBackground(new Color(137, 212, 126));
+		jPanel1.setBackground(new Color(163, 209, 156));
 		JPanel jPanel2 = new JPanel();
 		jPanel2.setSize(200, 60);
-		jPanel2.setBackground(new Color(137, 212, 126));
+		jPanel2.setBackground(new Color(163, 209, 156));
 		JPanel jPanelInstru = new JPanel();
 		jPanel2.setSize(200, 100);
-		jPanelInstru.setBackground(new Color(137, 212, 126));
+		jPanelInstru.setBackground(new Color(163, 209, 156));
 		int taillehor=200;
 		int taillever=200;	
 		//jPanel1.setPreferredSize(new Dimension(taillehor, taillever));

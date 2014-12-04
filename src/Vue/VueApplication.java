@@ -321,6 +321,7 @@ private void chargerLivraisons(Zone zone){
 	}
 
 	public void dessinerTournee(Zone zone) {
+		Color c=Color.BLUE;
 		List<VueTroncon> listeVueTronconsChemin = new ArrayList<VueTroncon>();
 		for(Chemin chemin:zone.getTournee().getChemins())  {
 	      	  for(Troncon troncon:chemin.getTroncons()) {
@@ -330,6 +331,7 @@ private void chargerLivraisons(Zone zone){
 				int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
 				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
 						troncon.getNomRue(), Color.BLUE);
+
 				listeVueTronconsChemin.add(vt);
 	      	  }
 			
