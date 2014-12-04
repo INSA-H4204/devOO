@@ -80,11 +80,19 @@ public class VueZone extends JPanel {
 			}
 		}
 		if (listeVueTronconsChemin.size() > 0) {
+			HashSet<Integer> used = new HashSet<Integer>();
 			for (int i = 0; i < listeVueTronconsChemin.size(); i++) {
 				VueTroncon vt = listeVueTronconsChemin.get(i);
 				g.setColor(vt.getCouleur());
-				dessinerTronconChemin(g, vt.getXInit() + 4, vt.getYInit() + 4,
-						vt.getXFin() + 4, vt.getYFin() + 4);
+				int current = vt.getId();
+				if(!used.contains(current)) {
+					dessinerTroncon(g, vt.getXInit() + 4, vt.getYInit() + 4,
+							vt.getXFin() + 4, vt.getYFin() + 4);
+					} else {
+						dessinerTronconChemin(g, vt.getXInit() + 8, vt.getYInit() + 8,
+								vt.getXFin() + 8, vt.getYFin() + 8);
+					}
+					used.add(current);
 			}
 		}
 		if (noeudSelectionne != null) {
