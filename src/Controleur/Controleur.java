@@ -350,6 +350,7 @@ public class Controleur implements ActionListener, MouseListener {
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);
 			ajout.execute();
+			this.vueApplication.getVueInfo().idClient.setText("");
 		}
 		ajoutEnCours = false;
 	}
