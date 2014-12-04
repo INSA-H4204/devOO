@@ -309,17 +309,15 @@ public class Zone extends Observable {
 							}
 						}
 						PlageHoraire plageHoraire = new PlageHoraire(
-								heureDebut, heureFin, listeLivraisonsPlage);
-						if (!verifierPlage(plageHoraire, listeTousPlagesH)) {
-							listeTousPlagesH.add(plageHoraire);
+								heureDebut, heureFin, listeLivraisonsPlage);						
+						if (!verifierPlage(plageHoraire, listeTousPlagesH)) {	
+							plages.add(plageHoraire);
 						}
 					}
 					this.setChanged();
 					this.notifyObservers("Livraisons");
 					this.clearChanged();
-
 				}
-				this.setPlages(listeTousPlagesH);
 			}
 		}
 	}

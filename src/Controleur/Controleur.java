@@ -1,5 +1,6 @@
 package Controleur;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -37,8 +38,8 @@ public class Controleur implements ActionListener, MouseListener {
 	private Zone zone;
 	private boolean isZoneSansLivraison;
 	
-	private int xSouris;
-	private int ySouris;
+	private float xSouris;
+	private float ySouris;
 	
 	// Contient les commandes qui ont été éxécutées et annulées pour pouvoir les annuler ou les rééxecuter
 	private Stack<Commande> commandesExecutees;
@@ -66,7 +67,7 @@ public class Controleur implements ActionListener, MouseListener {
 		this.zone = zone;
 		vueApplication = new VueApplication(this);
 		isZoneSansLivraison = true;
-		ajoutEnCours = true;
+		ajoutEnCours = false;
 		selectionActive = true;
 		noeudSelectionne = null;
 		noeudPrecedent = null;
@@ -102,17 +103,21 @@ public class Controleur implements ActionListener, MouseListener {
 			
 		case "Charger Livraisons":
 			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);			
-			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
+			
 
 			String livraisonXML = choisirXML();
 
-			if(livraisonXML != null){				
+			if(livraisonXML != null){
+				vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
 					try {
 						chargerLivraisons(livraisonXML);
 					} catch (ParseException | ParserConfigurationException| SAXException | IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}				
+			}
+			else{
+				vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 			}
 
 			break;
@@ -126,24 +131,28 @@ public class Controleur implements ActionListener, MouseListener {
 			break;
 			
 		case "Impression":
-
+			imprimerFeuilleDeRoute();
 
 			break;
 		case "Calculer Tournee" :
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
+			calculerTournee();
+			vueApplication.dessinerTournee(zone);
 			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(true);
 			break;
 
 		case "Ajouter Livraison":
 			vueApplication.getVueInfo().ajouter.setEnabled(false);
 			actionBoutonAjouter();
-			
 			break;
 			
 		case "Supprimer Livraison":
+			actionBoutonSupprimer();
 			vueApplication.getVueInfo().supprimer.setEnabled(false);
 			break;
-		case "valider Livraison":
+			
+		case "Valider Livraison":
+			actionBoutonValider();
 			vueApplication.getVueInfo().valider.setEnabled(false);
 			break;
 
@@ -194,13 +203,28 @@ public class Controleur implements ActionListener, MouseListener {
 		verifierSiZoneSansLivraison();
 		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
+			
+			if (noeudPrecedent != null) {
+				vueApplication.deselectionnerNoeud(noeudPrecedent.getPosX(), noeudPrecedent.getPosY());
+			}
+			
+			if (noeudSelectionne != null) {
+				vueApplication.deselectionnerNoeud(noeudSelectionne.getPosX(), noeudSelectionne.getPosY());
+			}
+			
 			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
+			
+			vueApplication.getVueInfo().ajouter.setEnabled(false);
+			vueApplication.getVueInfo().supprimer.setEnabled(false);
+			
 			if (noeudClique != null) {
+				vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
+					vueApplication.getVueInfo().valider.setEnabled(true);
 				} else {
 					this.noeudSelectionne = noeudClique;
-				if (noeudSelectionne.getLivraison() == null) {
+					if (noeudSelectionne.getLivraison() == null) {
 						vueApplication.getVueInfo().ajouter.setEnabled(true);
 					} else {
 						vueApplication.getVueInfo().supprimer.setEnabled(true);
@@ -247,19 +271,19 @@ public class Controleur implements ActionListener, MouseListener {
 	public void imprimerFeuilleDeRoute() {
 
 	     try {
-             
+             File file= new File("feuille_de_route_zone.txt");
              // 1) Creation de la feuille de route
-             BufferedWriter out = new BufferedWriter(new FileWriter(new File("Resources/feuille_de_route_zone.txt")));
+             BufferedWriter out = new BufferedWriter(new FileWriter(file));
              try {
                
                   // 2) �criture de la feuille de route
-                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure()));
+                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure())+" heure ");
                   for(Chemin chemin:zone.getTournee().getChemins())  {
                 	  for(Troncon troncon:chemin.getTroncons()) {
-                		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
+                		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur())+" ");
                 	  }
                 	  if(chemin.getArrivee().getLivraisonID()!=0)
-                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apr�s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure()));
+                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apres "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure())+ " heure ");
                 	  else
                 		  out.write("Vous etes de retour a l'entrepot");
                   }
@@ -267,7 +291,15 @@ public class Controleur implements ActionListener, MouseListener {
                
                   // 3) Lib�ration de la ressource exploit�e par l'objet
                   out.close();
-               
+                  Desktop desktop = Desktop.getDesktop();
+                  desktop.open(file);
+                   if (Desktop.isDesktopSupported()) {
+                       try {
+                           File myFile = new File( "path/to/file");
+                           Desktop.getDesktop().open(myFile);
+                       } catch (IOException ex) {
+                       }
+                   } 
              }
         
            
@@ -284,7 +316,6 @@ public class Controleur implements ActionListener, MouseListener {
 	 */
 	public void actionBoutonAjouter(){
 		if (noeudSelectionne != null) {
-			//DesactiverBoutonAjouter
 			ajoutEnCours = true;
 		}
 	}
@@ -301,7 +332,7 @@ public class Controleur implements ActionListener, MouseListener {
 			commandesExecutees.push(ajout);
 			ajout.execute();
 		}
-		
+		ajoutEnCours = false;
 	}
 		
 	/**
@@ -374,9 +405,8 @@ public class Controleur implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		xSouris = e.getX();
-		ySouris = e.getY();
-		System.out.println(xSouris+" : "+ySouris);
+		xSouris = (e.getX() / vueApplication.COEF_METRE_PX_X)-20;
+		ySouris = (e.getY() / vueApplication.COEF_METRE_PX_Y)-20;
 		selectionnerNoeud();
 	}
 
