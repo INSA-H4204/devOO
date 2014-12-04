@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 import Controleur.Controleur;
@@ -27,7 +27,7 @@ public class VueApplication extends JFrame implements Observer {
 	private VueZone vueZone = new VueZone();
 
 	private final int HAUTEUR_FENETRE = 700;
-	private final int LARGEUR_FENETRE = 1200;
+	private final int LARGEUR_FENETRE = 1000;
 	private final float COEF_METRE_PX_X = (float) (5.9 / 8.0);
 	private final float COEF_METRE_PX_Y = (float) (6.3 / 8.0);
 
@@ -99,7 +99,7 @@ public class VueApplication extends JFrame implements Observer {
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		GridBagLayout layout = new GridBagLayout();
 		this.getContentPane().setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -113,6 +113,7 @@ public class VueApplication extends JFrame implements Observer {
 		gbc.gridy = 0;
 		gbc.ipadx = 600;
 		gbc.ipady = 600;
+		gbc.weighty = 10;
 		this.getContentPane().add(vueZone, gbc);
 
 		gbc.gridwidth = 2;
@@ -121,6 +122,7 @@ public class VueApplication extends JFrame implements Observer {
 		gbc.gridy = 0;
 		gbc.ipadx = 200;
 		gbc.ipady = 400;
+		gbc.weightx = 10;
 		this.getContentPane().add(vuePlageHoraire, gbc);
 
 		gbc.gridwidth = 2;
@@ -129,6 +131,8 @@ public class VueApplication extends JFrame implements Observer {
 		gbc.gridy = 2;
 		gbc.ipadx = 200;
 		gbc.ipady = 200;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 10;
 		this.getContentPane().add(vueInfo, gbc);
 
 		vuePlageHoraire.btnChargPlan.addActionListener(ctrl);
