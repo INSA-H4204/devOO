@@ -276,7 +276,7 @@ public class VueApplication extends JFrame implements Observer {
 		vueZone.chargerEntrepot(entrepot);
 	}
 
-	private void chargerLivraisons(Zone zone) {
+	public void chargerLivraisons(Zone zone) {
 		List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
 		List<PlageHoraire> lPH = zone.getPlageHoraire();
 		for (PlageHoraire pH : zone.getPlageHoraire()) {
