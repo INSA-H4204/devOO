@@ -28,6 +28,7 @@ public class VueZone extends JPanel {
 	private List<VueTroncon> listeVueTronconsChemin;
 	private List<VueNoeud> listeVueNoeud;
 	private List<VueNoeud> listeLivraisons;
+	private List<VueNoeud> listeLivraisonsEnRetard;
 	private VueNoeud noeudSelectionne;
 	private VueNoeud entrepot;
 
@@ -39,8 +40,9 @@ public class VueZone extends JPanel {
 	public VueZone() {
 		listeVueNoeud = new ArrayList<VueNoeud>();
 		listeLivraisons = new ArrayList<VueNoeud>();
+		listeLivraisonsEnRetard = new ArrayList<VueNoeud>();
 		listeVueTroncon = new ArrayList<VueTroncon>();
-		listeVueTronconsChemin = new ArrayList<VueTroncon>();
+		listeVueTronconsChemin = new ArrayList<VueTroncon>();		
 		noeudSelectionne = new VueNoeud();
 		entrepot = new VueNoeud();
 
@@ -114,6 +116,18 @@ public class VueZone extends JPanel {
 				g.fillPolygon(xpoints, ypoints, npoints);
 			}
 		}
+		if (listeLivraisonsEnRetard.size() > 0) {
+			for (int i = 0; i < listeLivraisonsEnRetard.size(); i++) {
+				VueNoeud vn = listeLivraisonsEnRetard.get(i);
+				g.setColor(Color.RED);
+				int x = vn.recupererX();
+				int y = vn.recupererY();
+				int xpoints[] = { x - 2, x + 5, x + 12, x + 12, x - 2 };
+				int ypoints[] = { y - 2, y - 7, y - 2, y + 12, y + 12 };
+				int npoints = 5;
+				g.fillPolygon(xpoints, ypoints, npoints);
+			}
+		}
 		if (entrepot != null) {
 			g.setColor(Color.BLUE);
 			g.fillRect(entrepot.recupererX() - 2, entrepot.recupererY() - 2, 12, 12);
@@ -121,8 +135,9 @@ public class VueZone extends JPanel {
 
 	}
 
-	public void chargerLivraisons(List<VueNoeud> listeLivraisons) {
+	public void chargerLivraisons(List<VueNoeud> listeLivraisons, List<VueNoeud> listeLivraisonsEnRetard) {
 		this.listeLivraisons = listeLivraisons;
+		this.listeLivraisonsEnRetard = listeLivraisonsEnRetard;
 		this.repaint();
 	}
 
@@ -241,6 +256,7 @@ public class VueZone extends JPanel {
 		this.listeVueNoeud.clear();
 		this.listeVueTronconsChemin.clear();
 		this.listeVueTroncon.clear();
+		this.listeLivraisonsEnRetard.clear();
 		this.entrepot = null;
 		this.noeudSelectionne =null;
 		this.repaint();
