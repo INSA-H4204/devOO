@@ -387,8 +387,8 @@ public class Controleur implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		xSouris = (e.getX() / vueApplication.COEF_METRE_PX_X) -20;
-		ySouris = (e.getY() / vueApplication.COEF_METRE_PX_Y) -20;
+		xSouris = (e.getX() / vueApplication.COEF_METRE_PX_X)-20;
+		ySouris = (e.getY() / vueApplication.COEF_METRE_PX_Y)-20;
 		selectionnerNoeud();
 	}
 
