@@ -235,7 +235,11 @@ public class Controleur implements ActionListener, MouseListener {
 				vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
-					vueApplication.getVueInfo().valider.setEnabled(true);
+					if(noeudPrecedent.getLivraison() != null)
+						vueApplication.getVueInfo().valider.setEnabled(true);
+					else{
+						//message erreur "vous n'avez pas selectionne une livraison"
+					}
 				} else {
 					this.noeudSelectionne = noeudClique;
 					if (noeudSelectionne.getLivraison() == null) {
