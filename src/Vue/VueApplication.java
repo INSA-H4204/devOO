@@ -278,14 +278,10 @@ private void chargerEntrepot(Zone zone){
 //}
 
 private void chargerLivraisons(Zone zone){
-	System.out.println("1");
 	List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
 	List<PlageHoraire> lPH = zone.getPlageHoraire();
-	System.out.println(lPH.size());
 	for (PlageHoraire pH : zone.getPlageHoraire()) {
-		System.out.println("2");
 		for(Livraison livraison: pH.getLivraisons()){
-			System.out.println("yo");
 			Noeud noeud = livraison.getAdresse();
 			int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
 			int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
@@ -293,7 +289,6 @@ private void chargerLivraisons(Zone zone){
 			listeLivraisons.add(vn);
 		}	
 	}
-	System.out.println(listeLivraisons.size());
 	vueZone.chargerLivraisons(listeLivraisons);	
 }
 
