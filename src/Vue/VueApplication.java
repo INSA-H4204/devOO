@@ -1,5 +1,6 @@
 package Vue;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -8,12 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 import Controleur.Controleur;
+import Modele.Livraison;
 import Modele.Noeud;
+import Modele.PlageHoraire;
 import Modele.Troncon;
 import Modele.Zone;
 
@@ -27,6 +30,7 @@ public class VueApplication extends JFrame implements Observer {
 	private VueZone vueZone = new VueZone();
 
 	private final int HAUTEUR_FENETRE = 700;
+
 	private final int LARGEUR_FENETRE = 1200;
 	public final float COEF_METRE_PX_X = (float) (5.9 / 8.0);
 	public final float COEF_METRE_PX_Y = (float) (6.3 / 8.0);
@@ -67,10 +71,13 @@ public class VueApplication extends JFrame implements Observer {
 				chargerNoeudsDeZone(zone);
 				chargerTronconsDeZone(zone);
 				break;
-			case "Livraison":
-				// chargerEntrepot(zone);
-				// chargerPlageHoraires(zone);
-				// chargerLivraisons(zone);
+			case "Livraisons":				
+				 chargerEntrepot(zone);
+//				 chargerPlageHoraires(zone);
+				 chargerLivraisons(zone);
+				break;
+			case "Tournee":
+//				chargerTournee(zone);
 				break;
 			}
 		}
@@ -99,7 +106,7 @@ public class VueApplication extends JFrame implements Observer {
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		GridBagLayout layout = new GridBagLayout();
 		this.getContentPane().setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -113,6 +120,7 @@ public class VueApplication extends JFrame implements Observer {
 		gbc.gridy = 0;
 		gbc.ipadx = 600;
 		gbc.ipady = 600;
+		gbc.weighty = 10;
 		this.getContentPane().add(vueZone, gbc);
 
 		gbc.gridwidth = 2;
@@ -121,6 +129,7 @@ public class VueApplication extends JFrame implements Observer {
 		gbc.gridy = 0;
 		gbc.ipadx = 200;
 		gbc.ipady = 400;
+		gbc.weightx = 10;
 		this.getContentPane().add(vuePlageHoraire, gbc);
 
 		gbc.gridwidth = 2;
@@ -129,6 +138,8 @@ public class VueApplication extends JFrame implements Observer {
 		gbc.gridy = 2;
 		gbc.ipadx = 200;
 		gbc.ipady = 200;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 10;
 		this.getContentPane().add(vueInfo, gbc);
 
 		vuePlageHoraire.btnChargPlan.addActionListener(ctrl);
@@ -161,6 +172,12 @@ public class VueApplication extends JFrame implements Observer {
 		vueZone.addMouseListener(ctrl);
 	}
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @author gabrielcae
+	 */
 	public void selectionnerNoeud(int x, int y) {
 		x = convertiseurMetrePixel(x, 'x');
 		y = convertiseurMetrePixel(y, 'y');
@@ -168,6 +185,12 @@ public class VueApplication extends JFrame implements Observer {
 		vueZone.selectionnerNoeud(noeudSelectionne);
 	}
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @author gabrielcae
+	 */
 	public void deselectionnerNoeud(int x, int y) {
 		x = convertiseurMetrePixel(x, 'x');
 		y = convertiseurMetrePixel(y, 'y');
@@ -177,24 +200,20 @@ public class VueApplication extends JFrame implements Observer {
 
 	/**
 	 * Methode qui recupere les coordonnées des noeuds d'une zone et les passe à
-	 * chargerNoeuds(listX,listY)
-	 * 
+	 * chargerNoeuds(listX,listY)	 * 
 	 * @param zone
 	 * @author gabrielcae
 	 */
 	private void chargerNoeudsDeZone(Zone zone) {
 		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
 		Map<Integer, Noeud> mapNoeuds = zone.getNoeuds();
-		int i = 0;
 		for (Integer iter : mapNoeuds.keySet()) {
 			Noeud noeud = mapNoeuds.get(iter);
 			int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
 			int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
 			VueNoeud vn = new VueNoeud(x, y);
 			listeVueNoeud.add(vn);
-			i++;
 		}
-		System.out.println(listeVueNoeud.size());
 		vueZone.chargerNoeuds(listeVueNoeud);
 	}
 
@@ -219,29 +238,66 @@ public class VueApplication extends JFrame implements Observer {
 			int yInit = convertiseurMetrePixel(t.getOrigine().getPosY(), 'y');
 			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
 			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
-			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
-					t.getNomRue());
+			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,t.getNomRue(), Color.BLACK);
 			listeVueTroncons.add(vt);
 		}
 		vueZone.chargerTroncons(listeVueTroncons);
 	}
 
+	/**
+	 * 
+	 * @param troncon
+	 * @author gabrielcae
+	 */
 	private void chargerTroncon(Troncon troncon) {
 		int xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
 		int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
 		int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 		int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
-		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome");
+		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome", Color.BLACK);
 
 		vueZone.chargerTroncons(vt);
 	}
+	
+private void chargerEntrepot(Zone zone){
+	Noeud adresseEntrepot = zone.getEntrepot().getAdresse();
+	int x = adresseEntrepot.getPosX();
+	int y = adresseEntrepot.getPosY();
+	x = convertiseurMetrePixel(x, 'x');
+	y = convertiseurMetrePixel(y, 'y');
+	VueNoeud entrepot = new VueNoeud(x, y);
+	vueZone.chargerEntrepot(entrepot);
+}
+	
+//private void chargerPlageHoraires(Zone zone){
+//	
+//}
+
+private void chargerLivraisons(Zone zone){
+	System.out.println("1");
+	List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
+	List<PlageHoraire> lPH = zone.getPlageHoraire();
+	System.out.println(lPH.size());
+	for (PlageHoraire pH : zone.getPlageHoraire()) {
+		System.out.println("2");
+		for(Livraison livraison: pH.getLivraisons()){
+			System.out.println("yo");
+			Noeud noeud = livraison.getAdresse();
+			int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
+			int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
+			VueNoeud vn = new VueNoeud(x, y);
+			listeLivraisons.add(vn);
+		}	
+	}
+	System.out.println(listeLivraisons.size());
+	vueZone.chargerLivraisons(listeLivraisons);	
+}
+
 
 	/**
 	 * 
-	 * @param coordonnee
-	 *            , un entier en mètre
-	 * @param xOuY
-	 *            , char qui determine si on traite d'une coordonnée x ou y
+	 * @param coordonnee un entier en mètre
+	 * @param xOuY char qui determine si on traite d'une coordonnée x ou y
 	 * @return la coordonnée, en entier, converti de mètre en pixel
 	 * @author gabrielcae
 	 */
@@ -257,6 +313,6 @@ public class VueApplication extends JFrame implements Observer {
 			return 0;
 
 		}
-	}
-
+	}	
+	
 }

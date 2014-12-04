@@ -27,14 +27,14 @@ public class VuePlageHoraire extends JPanel {
 		Border border = BorderFactory.createCompoundBorder(raisedLevel,loweredbevel);
 
 		this.setBorder(border);
-		this.setBackground(Color.LIGHT_GRAY);
+		this.setBackground(new Color(216, 222, 132));
 		
 		JPanel jPanelHaut = new JPanel();
 		JPanel jPanelBas = new JPanel();
 		JPanel jPanelUndoRedo = new JPanel();
-		jPanelHaut.setBackground(Color.LIGHT_GRAY);
-		jPanelBas.setBackground(Color.LIGHT_GRAY);
-		jPanelUndoRedo.setBackground(Color.LIGHT_GRAY);
+		jPanelHaut.setBackground(new Color(216, 222, 132));
+		jPanelBas.setBackground(new Color(216, 222, 132));
+		jPanelUndoRedo.setBackground(new Color(216, 222, 132));
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.add(jPanelHaut);
