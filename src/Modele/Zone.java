@@ -44,7 +44,7 @@ public class Zone extends Observable {
 	private List<PlageHoraire> plages;
 	private Livraison entrepot;
 	private NotreGraphe grapheOriginal;
-	private static int ecartTolere = 5;
+	private static int ecartTolere = 10;
 	private Tournee tournee;
 
 public Zone(Set<Troncon> troncons,Map<Integer, Noeud> noeuds,List<PlageHoraire> plages,Livraison entrepot,NotreGraphe grapheOriginal,Tournee tournee){
@@ -169,7 +169,7 @@ public Zone() {
 	 * @param int y 
 	 * @return Noeud resultat
 	 */
-	public Noeud rechercherNoeudParPosition(int x, int y) {
+	public Noeud rechercherNoeudParPosition(float x, float y) {
 		
 		for(Entry<Integer, Noeud> iter : noeuds.entrySet()) {
 			
