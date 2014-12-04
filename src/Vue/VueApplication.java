@@ -242,7 +242,7 @@ public class VueApplication extends JFrame implements Observer {
 			int yInit = convertiseurMetrePixel(t.getOrigine().getPosY(), 'y');
 			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
 			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
-			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,t.getNomRue());
+			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,t.getNomRue(),Color.BLACK);
 			listeVueTroncons.add(vt);
 		}
 		vueZone.chargerTroncons(listeVueTroncons);
@@ -258,7 +258,7 @@ public class VueApplication extends JFrame implements Observer {
 		int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
 		int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 		int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
-		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome");
+		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome",Color.BLACK);
 
 		vueZone.chargerTroncons(vt);
 	}
@@ -272,20 +272,12 @@ private void chargerEntrepot(Zone zone){
 	VueNoeud entrepot = new VueNoeud(x, y);
 	vueZone.chargerEntrepot(entrepot);
 }
-	
-//private void chargerPlageHoraires(Zone zone){
-//	
-//}
 
 private void chargerLivraisons(Zone zone){
-	System.out.println("1");
 	List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
 	List<PlageHoraire> lPH = zone.getPlageHoraire();
-	System.out.println(lPH.size());
 	for (PlageHoraire pH : zone.getPlageHoraire()) {
-		System.out.println("2");
 		for(Livraison livraison: pH.getLivraisons()){
-			System.out.println("yo");
 			Noeud noeud = livraison.getAdresse();
 			int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
 			int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
@@ -293,7 +285,6 @@ private void chargerLivraisons(Zone zone){
 			listeLivraisons.add(vn);
 		}	
 	}
-	System.out.println(listeLivraisons.size());
 	vueZone.chargerLivraisons(listeLivraisons);	
 }
 
@@ -321,15 +312,39 @@ private void chargerLivraisons(Zone zone){
 	}
 
 	public void dessinerTournee(Zone zone) {
+		int choixCoul=0;
+		Color c=Color.BLUE;
+		PlageHoraire tampon = new PlageHoraire();
+		int xInit=convertiseurMetrePixel(zone.getEntrepot().getAdresse().getPosX(),'x');
+		int yInit=convertiseurMetrePixel(zone.getEntrepot().getAdresse().getPosY(),'y');
 		List<VueTroncon> listeVueTronconsChemin = new ArrayList<VueTroncon>();
 		for(Chemin chemin:zone.getTournee().getChemins())  {
 	      	  for(Troncon troncon:chemin.getTroncons()) {
-	      		int xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
-				int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
+	      		if(choixCoul!=0){
+	      			xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
+	      			yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
+	      		}
 				int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 				int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
+				if(tampon != chemin.getArrivee().getPlage()){
+					tampon = chemin.getArrivee().getPlage();
+					choixCoul++;
+				}
+
+				if(choixCoul==1)
+					c=Color.CYAN;
+				else if(choixCoul==2)
+					c=Color.YELLOW;
+				else if(choixCoul==3)
+					c=Color.ORANGE;
+				else if(choixCoul==4)
+					c=Color.RED;
+				else if(choixCoul==5)
+					c=Color.PINK;
+				
 				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
-						troncon.getNomRue());
+						troncon.getNomRue(), c);
+
 				listeVueTronconsChemin.add(vt);
 	      	  }
 			
@@ -337,6 +352,8 @@ private void chargerLivraisons(Zone zone){
 		// TODO Auto-generated method stub
 		vueZone.chargerTronconsChemin(listeVueTronconsChemin);
 	}
+
+
 
 
 		

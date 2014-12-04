@@ -1,10 +1,13 @@
 package Vue;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -12,10 +15,14 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import Modele.Chemin;
+import Modele.Noeud;
 import Modele.Tournee;
 import Modele.Troncon;
 
@@ -23,12 +30,14 @@ public class VueZone extends JPanel {
 
 	private List<VueTroncon> listeVueTroncon;
 	private List<VueTroncon> listeVueTronconsChemin;
-	private List<VueNoeud> listeVueNoeud;	
+	private List<VueNoeud> listeVueNoeud;
 	private List<VueNoeud> listeLivraisons;
 
 	private VueNoeud noeudSelectionne;
 	private VueNoeud entrepot;
 
+	public JLabel infoNoeudSelect = new JLabel("");
+	
 	/**
 	 * 
 	 */
@@ -43,25 +52,26 @@ public class VueZone extends JPanel {
 		chargerVueZone();
 	}
 
-//	public VueZone(List<VueNoeud> listeVueNoeud) {
-//		chargerVueZone();
-//		this.listeVueNoeud = listeVueNoeud;
-//		this.repaint();
-//	}
+	// public VueZone(List<VueNoeud> listeVueNoeud) {
+	// chargerVueZone();
+	// this.listeVueNoeud = listeVueNoeud;
+	// this.repaint();
+	// }
 
 	public void chargerVueZone() {
 		Border raisedLevel = BorderFactory.createRaisedBevelBorder();
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 		Border border = BorderFactory.createCompoundBorder(raisedLevel,
 				loweredbevel);
-
+		
 		this.setBorder(border);
 		this.setBackground(new Color(154, 189, 183));
-
 		entrepot = null;
 		noeudSelectionne = null;
 	}
-
+	public VueNoeud getEntrepot() {
+		return entrepot;
+	}
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (listeVueNoeud.size() > 0) {
@@ -81,8 +91,8 @@ public class VueZone extends JPanel {
 		if (listeVueTronconsChemin.size() > 0) {
 			for (int i = 0; i < listeVueTronconsChemin.size(); i++) {
 				VueTroncon vt = listeVueTronconsChemin.get(i);
-				g.setColor(Color.BLUE);
-				dessinerTroncon(g, vt.getXInit() + 4, vt.getYInit() + 4,
+				g.setColor(vt.getCouleur());
+				dessinerTronconChemin(g, vt.getXInit() + 4, vt.getYInit() + 4,
 						vt.getXFin() + 4, vt.getYFin() + 4);
 			}
 		}
@@ -96,8 +106,14 @@ public class VueZone extends JPanel {
 		if(listeLivraisons.size( )> 0){
 			for (int i = 0; i < listeLivraisons.size(); i++) {
 				VueNoeud vn = listeLivraisons.get(i);
-				g.setColor(Color.MAGENTA);
-				g.fillRect(entrepot.recupererX(), entrepot.recupererY(), 10, 10);
+				g.setColor(Color.GREEN);
+					int x= vn.recupererX();
+					int y = vn.recupererY();
+				 int xpoints[] = {x, x+5, x+10, x+10, x};
+				 int ypoints[] = {y, y-5, y, y+10, y+10};
+				 int npoints = 5;
+				 g.fillPolygon(xpoints, ypoints, npoints);
+//				g.fillRect(vn.recupererX(), vn.recupererY(), 10, 10);
 			}
 		}		
 		if (entrepot!=null){
@@ -106,10 +122,10 @@ public class VueZone extends JPanel {
 		}
 		
 	}
-	
-	public void chargerLivraisons(List<VueNoeud> listeLivraisons){
+
+	public void chargerLivraisons(List<VueNoeud> listeLivraisons) {
 		this.listeLivraisons = listeLivraisons;
-		this.repaint();		
+		this.repaint();
 	}
 
 	public void chargerEntrepot(VueNoeud entrepot) {
@@ -140,6 +156,11 @@ public class VueZone extends JPanel {
 
 	public void selectionnerNoeud(VueNoeud noeudSelectionne) {
 		this.noeudSelectionne = noeudSelectionne;
+		this.infoNoeudSelect.setText("<html>Noeud ("+noeudSelectionne.recupererX()+","+noeudSelectionne.recupererY()+") </html>");
+		this.infoNoeudSelect.setVisible(true);
+		this.infoNoeudSelect.setSize(200, 30);
+		this.infoNoeudSelect.setBackground(new Color(163, 209, 156));
+		this.add(infoNoeudSelect);
 		this.repaint();
 	}
 
@@ -161,11 +182,31 @@ public class VueZone extends JPanel {
 		// g.drawLine(xMoyen, yMoyen, xMoyen, yMoyen + (-signY)*15);
 		// g.drawLine(xMoyen, yMoyen, xMoyen + (-signX)*15, yMoyen);
 	}
+	private void dessinerTronconChemin(Graphics g, int xInit, int yInit, int xFin,
+			int yFin) {
+		int deltaX, deltaY, xMoyen, yMoyen, signX, signY;
+		double arco =Math.acos((xFin - xInit)*(xFin - xInit)+(yFin - yInit)*(yFin - yInit));
+		
+		deltaX = (xFin - xInit) / 2;
+		deltaY = (yFin - yInit) / 2;
+		xMoyen = xInit + deltaX;
+		yMoyen = yInit + deltaY;
+		signX = (int) Math.signum(deltaX);
+		signY = (int) Math.signum(deltaY);
+		double tailleFleche=50;
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setStroke(new BasicStroke(5));
+		g.drawLine(xInit, yInit, xFin, yFin);
+		g2.setStroke(new BasicStroke(2));
+		//g.drawLine(xFin, yFin,xFin+ (int)(tailleFleche*Math.cos(30 +arco)),yFin+(int)( tailleFleche*Math.sin(30 +arco)));
+		//g.drawLine(xFin, yFin,xFin+(int)(tailleFleche*Math.cos(30 -arco)), yFin+(int)(tailleFleche*Math.sin(30 -arco)));
+	}
 
 	public void chargerTronconsChemin(List<VueTroncon> listeVueTronconsChemin) {
 		this.listeVueTronconsChemin = listeVueTronconsChemin;
 		this.repaint();
-		
 	}
+
+
 
 }
