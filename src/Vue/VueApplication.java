@@ -272,10 +272,6 @@ private void chargerEntrepot(Zone zone){
 	VueNoeud entrepot = new VueNoeud(x, y);
 	vueZone.chargerEntrepot(entrepot);
 }
-	
-//private void chargerPlageHoraires(Zone zone){
-//	
-//}
 
 private void chargerLivraisons(Zone zone){
 	List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
