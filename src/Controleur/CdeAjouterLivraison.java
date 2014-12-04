@@ -15,7 +15,6 @@ import Modele.Zone;
  */
 public class CdeAjouterLivraison extends Commande {
 	
-	private Zone zone;
 	private Noeud noeudPrecedent;
 	private Noeud noeudSelectionne;
 	private int idClient;
@@ -52,7 +51,6 @@ public class CdeAjouterLivraison extends Commande {
 
 	public void execute() {
 
-		
 		Livraison livraisonAjout = new Livraison(idClient,noeudSelectionne);
 		int posCheminSupprimer=-2;
 		List<Chemin> chemins = zone.getTournee().getChemins();
