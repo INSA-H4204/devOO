@@ -267,19 +267,8 @@ public class VueApplication extends JFrame implements Observer {
 		vueZone.chargerTroncons(vt);
 	}
 
-<<<<<<< HEAD
-public void chargerLivraisons(Zone zone){
-	List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
-	List<PlageHoraire> lPH = zone.getPlageHoraire();
-	for (PlageHoraire pH : zone.getPlageHoraire()) {
-		for(Livraison livraison: pH.getLivraisons()){
-			Noeud noeud = livraison.getAdresse();
-			int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
-			int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
-			VueNoeud vn = new VueNoeud(x, y);
-			listeLivraisons.add(vn);
-		}	
-=======
+
+
 	private void chargerEntrepot(Zone zone) {
 		Noeud adresseEntrepot = zone.getEntrepot().getAdresse();
 		int x = adresseEntrepot.getPosX();
@@ -288,10 +277,10 @@ public void chargerLivraisons(Zone zone){
 		y = convertiseurMetrePixel(y, 'y');
 		VueNoeud entrepot = new VueNoeud(x, y);
 		vueZone.chargerEntrepot(entrepot);
->>>>>>> 023609b3646ce8c18720c25e0b81f56ac799a843
+
 	}
 
-	private void chargerLivraisons(Zone zone) {
+	public void chargerLivraisons(Zone zone) {
 		List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
 		List<PlageHoraire> lPH = zone.getPlageHoraire();
 		for (PlageHoraire pH : zone.getPlageHoraire()) {
