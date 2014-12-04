@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.util.Stack;
 
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -73,6 +74,8 @@ public class Controleur implements ActionListener, MouseListener {
 		noeudPrecedent = null;
 		
 		zone.addObserver(vueApplication);
+		commandesExecutees = new Stack<Commande>();
+		commandesAnnulees = new Stack<Commande>();
 	}
 	
 	/**
@@ -89,6 +92,7 @@ public class Controleur implements ActionListener, MouseListener {
 
 			String planXML = choisirXML();
 			if(planXML != null){
+				vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 				try {
 					chargerZone(planXML);
 				} catch (NumberFormatException | FileNotFoundException | SAXException e1) {
@@ -97,8 +101,10 @@ public class Controleur implements ActionListener, MouseListener {
 				}
 
 			}
-			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
+			
 			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
+			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(false);
 			break;
 			
 		case "Charger Livraisons":
@@ -123,15 +129,20 @@ public class Controleur implements ActionListener, MouseListener {
 			break;
 			
 		case "Undo":
-			
+			undo();
+			vueApplication.chargerLivraisons(zone);
+			vueApplication.dessinerTournee(zone);
 			break;
 			
 		case "Redo":
-
+			redo();
+			vueApplication.chargerLivraisons(zone);
+			vueApplication.dessinerTournee(zone);
 			break;
 			
 		case "Impression":
 			imprimerFeuilleDeRoute();
+
 
 			break;
 		case "Calculer Tournee" :
@@ -153,6 +164,8 @@ public class Controleur implements ActionListener, MouseListener {
 			
 		case "Valider Livraison":
 			actionBoutonValider();
+			vueApplication.dessinerTournee(zone);
+			vueApplication.chargerLivraisons(zone);
 			vueApplication.getVueInfo().valider.setEnabled(false);
 			break;
 
@@ -200,7 +213,9 @@ public class Controleur implements ActionListener, MouseListener {
 	 * @author hgerard thelmer
 	 */
 	public void selectionnerNoeud(){
+		
 		verifierSiZoneSansLivraison();
+		
 		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
 			
@@ -218,10 +233,23 @@ public class Controleur implements ActionListener, MouseListener {
 			vueApplication.getVueInfo().supprimer.setEnabled(false);
 			
 			if (noeudClique != null) {
-				vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
+
+				
+				if ( (noeudClique.getLivraison()!=null) && (noeudClique.getLivraison().getHeurePrevue().getHeure() != 0) )
+				{
+					vueApplication.selectionnerNoeudAvecLivraison(noeudClique.getPosX(), noeudClique.getPosY(),noeudClique.getLivraison().getClientID(),noeudClique.getLivraison().getHeurePrevue().getHeure(),noeudClique.getLivraison().getHeurePrevue().getMinute());
+				}
+				else
+				{
+					vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
+				}
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
-					vueApplication.getVueInfo().valider.setEnabled(true);
+					if(noeudPrecedent.getLivraison() != null)
+						vueApplication.getVueInfo().valider.setEnabled(true);
+					else{
+						//message erreur "vous n'avez pas selectionne une livraison"
+					}
 				} else {
 					this.noeudSelectionne = noeudClique;
 					if (noeudSelectionne.getLivraison() == null) {
@@ -326,7 +354,7 @@ public class Controleur implements ActionListener, MouseListener {
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
-		int idClient = 0; /*getIdClientVue() --> GABRIEL*/
+		int idClient =getIdClientVue(this.vueApplication.getVueInfo().idClient);
 		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);
@@ -335,6 +363,10 @@ public class Controleur implements ActionListener, MouseListener {
 		ajoutEnCours = false;
 	}
 		
+	
+	public int getIdClientVue(JTextField idClient){
+		return  Integer.parseInt(idClient.getText());
+	}
 	/**
 	 * Appelée par le bouton Supprimer
 	 * 

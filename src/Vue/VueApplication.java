@@ -10,17 +10,15 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import Controleur.Controleur;
-
 import Modele.Chemin;
-
 import Modele.Livraison;
-
 import Modele.Noeud;
 import Modele.PlageHoraire;
+import Modele.Time;
 import Modele.Troncon;
 import Modele.Zone;
 
@@ -75,13 +73,13 @@ public class VueApplication extends JFrame implements Observer {
 				chargerNoeudsDeZone(zone);
 				chargerTronconsDeZone(zone);
 				break;
-			case "Livraisons":				
-				 chargerEntrepot(zone);
-//				 chargerPlageHoraires(zone);
-				 chargerLivraisons(zone);
+			case "Livraisons":
+				chargerEntrepot(zone);
+				// chargerPlageHoraires(zone);
+				chargerLivraisons(zone);
 				break;
 			case "Tournee":
-//				chargerTournee(zone);
+				// chargerTournee(zone);
 				break;
 			}
 		}
@@ -110,7 +108,7 @@ public class VueApplication extends JFrame implements Observer {
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		GridBagLayout layout = new GridBagLayout();
 		this.getContentPane().setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -176,6 +174,10 @@ public class VueApplication extends JFrame implements Observer {
 		vueZone.addMouseListener(ctrl);
 	}
 
+	public void afficherErreur(String err) {
+	     JOptionPane.showMessageDialog(null, err, "Erreur", JOptionPane.ERROR_MESSAGE);
+	}
+	
 	/**
 	 * 
 	 * @param x
@@ -188,6 +190,23 @@ public class VueApplication extends JFrame implements Observer {
 		VueNoeud noeudSelectionne = new VueNoeud(x, y);
 		vueZone.selectionnerNoeud(noeudSelectionne);
 	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param client
+	 * @heurePrevue 
+	 * @author kevin
+	 */
+	public void selectionnerNoeudAvecLivraison(int x, int y,int client, int heure,int minute) {
+		x = convertiseurMetrePixel(x, 'x');
+		y = convertiseurMetrePixel(y, 'y');
+		VueNoeud noeudSelectionne = new VueNoeud(x, y,client,heure,minute);
+		vueZone.selectionnerNoeud(noeudSelectionne);
+	}
+	
+
 
 	/**
 	 * 
@@ -204,7 +223,8 @@ public class VueApplication extends JFrame implements Observer {
 
 	/**
 	 * Methode qui recupere les coordonnées des noeuds d'une zone et les passe à
-	 * chargerNoeuds(listX,listY)	 * 
+	 * chargerNoeuds(listX,listY) *
+	 * 
 	 * @param zone
 	 * @author gabrielcae
 	 */
@@ -242,7 +262,8 @@ public class VueApplication extends JFrame implements Observer {
 			int yInit = convertiseurMetrePixel(t.getOrigine().getPosY(), 'y');
 			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
 			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
-			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,t.getNomRue(),Color.BLACK);
+			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
+					t.getNomRue(), Color.black);
 			listeVueTroncons.add(vt);
 		}
 		vueZone.chargerTroncons(listeVueTroncons);
@@ -258,41 +279,46 @@ public class VueApplication extends JFrame implements Observer {
 		int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
 		int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 		int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
-		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome",Color.BLACK);
+		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome",
+				Color.black);
 
 		vueZone.chargerTroncons(vt);
 	}
-	
-private void chargerEntrepot(Zone zone){
-	Noeud adresseEntrepot = zone.getEntrepot().getAdresse();
-	int x = adresseEntrepot.getPosX();
-	int y = adresseEntrepot.getPosY();
-	x = convertiseurMetrePixel(x, 'x');
-	y = convertiseurMetrePixel(y, 'y');
-	VueNoeud entrepot = new VueNoeud(x, y);
-	vueZone.chargerEntrepot(entrepot);
-}
 
-private void chargerLivraisons(Zone zone){
-	List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
-	List<PlageHoraire> lPH = zone.getPlageHoraire();
-	for (PlageHoraire pH : zone.getPlageHoraire()) {
-		for(Livraison livraison: pH.getLivraisons()){
-			Noeud noeud = livraison.getAdresse();
-			int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
-			int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
-			VueNoeud vn = new VueNoeud(x, y);
-			listeLivraisons.add(vn);
-		}	
+
+	public void chargerEntrepot(Zone zone) {
+
+		Noeud adresseEntrepot = zone.getEntrepot().getAdresse();
+		int x = adresseEntrepot.getPosX();
+		int y = adresseEntrepot.getPosY();
+		x = convertiseurMetrePixel(x, 'x');
+		y = convertiseurMetrePixel(y, 'y');
+		VueNoeud entrepot = new VueNoeud(x, y);
+		vueZone.chargerEntrepot(entrepot);
+
 	}
-	vueZone.chargerLivraisons(listeLivraisons);	
-}
 
+	public void chargerLivraisons(Zone zone) {
+		List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
+		List<PlageHoraire> lPH = zone.getPlageHoraire();
+		for (PlageHoraire pH : zone.getPlageHoraire()) {
+			for (Livraison livraison : pH.getLivraisons()) {
+				Noeud noeud = livraison.getAdresse();
+				int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
+				int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
+				VueNoeud vn = new VueNoeud(x, y);
+				listeLivraisons.add(vn);
+			}
+		}
+		vueZone.chargerLivraisons(listeLivraisons);
+	}
 
 	/**
 	 * 
-	 * @param coordonnee un entier en mètre
-	 * @param xOuY char qui determine si on traite d'une coordonnée x ou y
+	 * @param coordonnee
+	 *            un entier en mètre
+	 * @param xOuY
+	 *            char qui determine si on traite d'une coordonnée x ou y
 	 * @return la coordonnée, en entier, converti de mètre en pixel
 	 * @author gabrielcae
 	 */
@@ -312,50 +338,51 @@ private void chargerLivraisons(Zone zone){
 	}
 
 	public void dessinerTournee(Zone zone) {
-		int choixCoul=0;
-		Color c=Color.BLUE;
+
+		int choixCoul = 0;
+		Color c = Color.BLUE;
 		PlageHoraire tampon = new PlageHoraire();
-		int xInit=convertiseurMetrePixel(zone.getEntrepot().getAdresse().getPosX(),'x');
-		int yInit=convertiseurMetrePixel(zone.getEntrepot().getAdresse().getPosY(),'y');
+		int xInit = convertiseurMetrePixel(zone.getEntrepot().getAdresse()
+				.getPosX(), 'x');
+		int yInit = convertiseurMetrePixel(zone.getEntrepot().getAdresse()
+				.getPosY(), 'y');
 		List<VueTroncon> listeVueTronconsChemin = new ArrayList<VueTroncon>();
-		for(Chemin chemin:zone.getTournee().getChemins())  {
-	      	  for(Troncon troncon:chemin.getTroncons()) {
-	      		if(choixCoul!=0){
-	      			xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
-	      			yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
-	      		}
-				int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
-				int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
-				if(tampon != chemin.getArrivee().getPlage()){
+		for (Chemin chemin : zone.getTournee().getChemins()) {
+			for (Troncon troncon : chemin.getTroncons()) {
+				if (choixCoul != 0) {
+					xInit = convertiseurMetrePixel(troncon.getOrigine()
+							.getPosX(), 'x');
+					yInit = convertiseurMetrePixel(troncon.getOrigine()
+							.getPosY(), 'y');
+				}
+				int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(),
+						'x');
+				int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(),
+						'y');
+				if (tampon != chemin.getArrivee().getPlage()) {
 					tampon = chemin.getArrivee().getPlage();
 					choixCoul++;
 				}
 
-				if(choixCoul==1)
-					c=Color.CYAN;
-				else if(choixCoul==2)
-					c=Color.YELLOW;
-				else if(choixCoul==3)
-					c=Color.ORANGE;
-				else if(choixCoul==4)
-					c=Color.RED;
-				else if(choixCoul==5)
-					c=Color.PINK;
-				
+				if (choixCoul == 1)
+					c = Color.CYAN;
+				else if (choixCoul == 2)
+					c = Color.YELLOW;
+				else if (choixCoul == 3)
+					c = Color.ORANGE;
+				else if (choixCoul == 4)
+					c = Color.RED;
+				else if (choixCoul == 5)
+					c = Color.PINK;
+
 				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
 						troncon.getNomRue(), c);
 
 				listeVueTronconsChemin.add(vt);
-	      	  }
-			
 			}
+
+		}
 		// TODO Auto-generated method stub
 		vueZone.chargerTronconsChemin(listeVueTronconsChemin);
 	}
-
-
-
-
-		
-
 }

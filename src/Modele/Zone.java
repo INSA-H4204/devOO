@@ -360,7 +360,6 @@ public class Zone extends Observable {
 		for (PlageHoraire plage : plages) {
 			for (Livraison livraison : plage.getLivraisons()) {
 				livraisons.put(livraison.getLivraisonID(), livraison);
-				System.out.println(livraison.getLivraisonID());
 			}
 		}
 
@@ -398,8 +397,6 @@ public class Zone extends Observable {
 		
 
 		for (Livraison livraison : plages.get(plages.size()-1).getLivraisons()) {
-
-
 			resDijkstra = dijkstra(livraison.getAdresse().getNoeudID());
 			sources.put(livraison.getLivraisonID(), resDijkstra);
 			depart = livraison.getLivraisonID();
@@ -420,9 +417,6 @@ public class Zone extends Observable {
 		TSP tsp = new TSP(grapheChoco);
 		tsp.solve(10000, 10000);
 		int[] suivant = tsp.getNext();
-		for (int i = 0; i < suivant.length; i++) {
-			System.out.println(suivant[i]);
-		}
 		tournee.setChemins(listerChemins(suivant, sources, livraisons));
 		tournee.setEtatTroncons();
 		tournee.verifierPonctualite();
