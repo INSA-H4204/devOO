@@ -15,10 +15,14 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import Modele.Chemin;
+import Modele.Noeud;
 import Modele.Tournee;
 import Modele.Troncon;
 
@@ -31,8 +35,8 @@ public class VueZone extends JPanel {
 	private VueNoeud noeudSelectionne;
 	private VueNoeud entrepot;
 
+	public JLabel infoNoeudSelect = new JLabel("");
 	
-
 	/**
 	 * 
 	 */
@@ -52,10 +56,9 @@ public class VueZone extends JPanel {
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 		Border border = BorderFactory.createCompoundBorder(raisedLevel,
 				loweredbevel);
-
+		
 		this.setBorder(border);
 		this.setBackground(new Color(154, 189, 183));
-
 		entrepot = null;
 		noeudSelectionne = null;
 	}
@@ -155,6 +158,15 @@ public class VueZone extends JPanel {
 
 	public void selectionnerNoeud(VueNoeud noeudSelectionne) {
 		this.noeudSelectionne = noeudSelectionne;
+		this.infoNoeudSelect.setText("<html>Noeud ("+noeudSelectionne.recupererX()+","+noeudSelectionne.recupererY()+") </html>");
+		if (noeudSelectionne.getClient()!=0){
+			this.infoNoeudSelect.setText("<html>Noeud ("+noeudSelectionne.recupererX()+","+noeudSelectionne.recupererY()+") "
+					+  "\n Livraison au client "+noeudSelectionne.getClient()+" à "+noeudSelectionne.getHeure()+"h"+noeudSelectionne.getMinute()+"</html>");
+		}
+		this.infoNoeudSelect.setVisible(true);
+		this.infoNoeudSelect.setSize(200, 30);
+		this.infoNoeudSelect.setBackground(new Color(163, 209, 156));
+		this.add(infoNoeudSelect);
 		this.repaint();
 	}
 
@@ -245,5 +257,7 @@ public class VueZone extends JPanel {
 		this.noeudSelectionne =null;
 		this.repaint();
 	}
+
+
 
 }
