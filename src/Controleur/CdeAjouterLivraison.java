@@ -107,6 +107,7 @@ public class CdeAjouterLivraison extends Commande {
 				chemins.remove(cheminPrecedent);
 				Chemin nouveauChemin = zone.plusCourtChemin(idDepart, idArrivee);
 				chemins.add(i,nouveauChemin);
+				plage.getLivraisons().remove(livraisonSuppression);
 			}
 		}
 	}
