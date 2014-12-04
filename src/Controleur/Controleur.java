@@ -131,7 +131,6 @@ public class Controleur implements ActionListener, MouseListener {
 			
 		case "Impression":
 
-
 			break;
 		case "Calculer Tournee" :
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
