@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.util.Stack;
 
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -102,6 +103,8 @@ public class Controleur implements ActionListener, MouseListener {
 			}
 			
 			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
+			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(false);
 			break;
 			
 		case "Charger Livraisons":
@@ -233,7 +236,11 @@ public class Controleur implements ActionListener, MouseListener {
 				vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
-					vueApplication.getVueInfo().valider.setEnabled(true);
+					if(noeudPrecedent.getLivraison() != null)
+						vueApplication.getVueInfo().valider.setEnabled(true);
+					else{
+						//message erreur "vous n'avez pas selectionne une livraison"
+					}
 				} else {
 					this.noeudSelectionne = noeudClique;
 					if (noeudSelectionne.getLivraison() == null) {
@@ -338,15 +345,25 @@ public class Controleur implements ActionListener, MouseListener {
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
-		int idClient = 0; /*getIdClientVue() --> GABRIEL*/
-		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
+		int idClient =getIdClientVue(this.vueApplication.getVueInfo().idClient);
+		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) && (idClient != -1)){
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);
 			ajout.execute();
+			this.vueApplication.getVueInfo().idClient.setText("");
 		}
 		ajoutEnCours = false;
 	}
 		
+	
+	public int getIdClientVue(JTextField idClient){
+		String strIdClient=idClient.getText();
+		if(strIdClient.length()==0){
+			this.vueApplication.afficherErreur("Id Client manquant");
+			return -1;
+		}
+		return  Integer.parseInt(strIdClient);
+	}
 	/**
 	 * Appelée par le bouton Supprimer
 	 * 

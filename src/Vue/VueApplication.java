@@ -268,8 +268,8 @@ public class VueApplication extends JFrame implements Observer {
 	}
 
 
+	public void chargerEntrepot(Zone zone) {
 
-	private void chargerEntrepot(Zone zone) {
 		Noeud adresseEntrepot = zone.getEntrepot().getAdresse();
 		int x = adresseEntrepot.getPosX();
 		int y = adresseEntrepot.getPosY();

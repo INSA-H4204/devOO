@@ -5,6 +5,7 @@ import java.util.List;
 import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
+import Modele.PlageHoraire;
 import Modele.Tournee;
 import Modele.Zone;
 
@@ -18,6 +19,7 @@ public class CdeAjouterLivraison extends Commande {
 	private Noeud noeudPrecedent;
 	private Noeud noeudSelectionne;
 	private int idClient;
+	private PlageHoraire plage;
 
 	/**
 	 * Constructeur par défaut de la classe CdeAjouterLivraison
@@ -40,12 +42,15 @@ public class CdeAjouterLivraison extends Commande {
 		this.idClient = idClient;
 		this.noeudSelectionne = noeudSelectionne;
 		this.noeudPrecedent = noeudPrecedent;
+		this.plage = null;
 		
 		
 	}
 
 	/**
 	 * Fonction appelée quand on execute la fonction normalement
+	 * Elle ajoute une livraison dans la zone, l'insère dans une tournée et recalcule les chemins 
+	 * à recalculer
 	 * @author thelmer
 	 */
 
@@ -64,12 +69,16 @@ public class CdeAjouterLivraison extends Commande {
 				chemins.remove(posCheminSupprimer);
 				chemins.add(posCheminSupprimer,cheminPrecedent);
 				chemins.add(posCheminSupprimer+1,cheminSuivant);
+				if (plage != null) {
+					plage.getLivraisons().add(livraisonAjout);
+				}
 				return;
 			}
 			else{
 				if(chemin.getArrivee().getAdresse() == noeudPrecedent){
 					posCheminSupprimer = chemins.indexOf(chemin)+1;
-					livraisonAjout.setPlage(chemin.getArrivee().getPlage());
+					plage = chemin.getArrivee().getPlage();
+					livraisonAjout.setPlage(plage);
 				}
 			}
 		}
@@ -98,6 +107,7 @@ public class CdeAjouterLivraison extends Commande {
 				chemins.remove(cheminPrecedent);
 				Chemin nouveauChemin = zone.plusCourtChemin(idDepart, idArrivee);
 				chemins.add(i,nouveauChemin);
+				plage.getLivraisons().remove(livraisonSuppression);
 			}
 		}
 	}
