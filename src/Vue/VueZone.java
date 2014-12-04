@@ -80,11 +80,19 @@ public class VueZone extends JPanel {
 			}
 		}
 		if (listeVueTronconsChemin.size() > 0) {
+			HashSet<Integer> used = new HashSet<Integer>();
 			for (int i = 0; i < listeVueTronconsChemin.size(); i++) {
 				VueTroncon vt = listeVueTronconsChemin.get(i);
 				g.setColor(vt.getCouleur());
-				dessinerTronconChemin(g, vt.getXInit() + 4, vt.getYInit() + 4,
-						vt.getXFin() + 4, vt.getYFin() + 4);
+				int current = vt.getId();
+				if(!used.contains(current)) {
+					dessinerTroncon(g, vt.getXInit() + 4, vt.getYInit() + 4,
+							vt.getXFin() + 4, vt.getYFin() + 4);
+					} else {
+						dessinerTronconChemin(g, vt.getXInit() + 8, vt.getYInit() + 8,
+								vt.getXFin() + 8, vt.getYFin() + 8);
+					}
+					used.add(current);
 			}
 		}
 		if (noeudSelectionne != null) {
@@ -157,36 +165,70 @@ public class VueZone extends JPanel {
 
 	private void dessinerTroncon(Graphics g, int xInit, int yInit, int xFin,
 			int yFin) {
-		int deltaX, deltaY, xMoyen, yMoyen, signX, signY;
+		int deltaX, deltaY, xMoyen, yMoyen;
 		deltaX = (xFin - xInit) / 2;
 		deltaY = (yFin - yInit) / 2;
 		xMoyen = xInit + deltaX;
 		yMoyen = yInit + deltaY;
-		signX = (int) Math.signum(deltaX);
-		signY = (int) Math.signum(deltaY);
+		int distance = (int) Math.sqrt((xFin-xInit)*(xFin-xInit) + (yFin-yInit)*(yFin-yInit));
 		g.drawLine(xInit, yInit, xFin, yFin);
-		// g.drawLine(xMoyen, yMoyen, xMoyen, yMoyen + (-signY)*15);
-		// g.drawLine(xMoyen, yMoyen, xMoyen + (-signX)*15, yMoyen);
-	}
+		
+		int a, b, c=5;
+		a = (c*(yMoyen-yInit)/2) / (distance/2);
+		b = (c*(xInit-xMoyen)/2) / (distance/2);
 
-	private void dessinerTronconChemin(Graphics g, int xInit, int yInit,
-			int xFin, int yFin) {
-		int deltaX, deltaY, xMoyen, yMoyen, signX, signY;
+		int xBegin1 = xMoyen + a;
+		int yBegin1 = yMoyen + b;
+		int xBegin2 = xMoyen - a;
+		int yBegin2 = yMoyen - b;
+
+		int a2, b2, c2=10;
+		a2 = (c2*(yMoyen-yInit)/2) / (distance/2);
+		b2 = (c2*(xMoyen-xInit)/2) / (distance/2);
+
+		int xEnd = xMoyen + b2;
+		int yEnd = yMoyen + a2;
+
+		//g.drawLine(xBegin1, yBegin1, xEnd, yEnd);
+		//g.drawLine(xBegin2, yBegin2, xEnd, yEnd);
+	}
+	
+	private void dessinerTronconChemin(Graphics g, int xInit, int yInit, int xFin,
+			int yFin) {
+		int deltaX, deltaY, xMoyen, yMoyen;
 		double arco =Math.acos((xFin - xInit)*(xFin - xInit)+(yFin - yInit)*(yFin - yInit));
 		
 		deltaX = (xFin - xInit) / 2;
 		deltaY = (yFin - yInit) / 2;
 		xMoyen = xInit + deltaX;
 		yMoyen = yInit + deltaY;
-		signX = (int) Math.signum(deltaX);
-		signY = (int) Math.signum(deltaY);
-		double tailleFleche=50;
+		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(new BasicStroke(5));
 		g.drawLine(xInit, yInit, xFin, yFin);
 		g2.setStroke(new BasicStroke(2));
-//		g.drawLine(xFin, yFin,xFin+ (int)(tailleFleche*Math.cos(30 +arco)),yFin+(int)( tailleFleche*Math.sin(30 +arco)));
-//		g.drawLine(xFin, yFin,xFin+(int)(tailleFleche*Math.cos(30 -arco)), yFin+(int)(tailleFleche*Math.sin(30 -arco)));
+		
+		int distance = (int) Math.sqrt((xFin-xInit)*(xFin-xInit) + (yFin-yInit)*(yFin-yInit));
+		int a, b, c=12;
+		a = (c*(yMoyen-yInit)/2) / (distance/2);
+		b = (c*(xInit-xMoyen)/2) / (distance/2);
+
+		int xBegin1 = xMoyen + a;
+		int yBegin1 = yMoyen + b;
+		int xBegin2 = xMoyen - a;
+		int yBegin2 = yMoyen - b;
+
+		int a2, b2, c2=25;
+		a2 = (c2*(yMoyen-yInit)/2) / (distance/2);
+		b2 = (c2*(xMoyen-xInit)/2) / (distance/2);
+
+		int xEnd = xMoyen + b2;
+		int yEnd = yMoyen + a2;
+
+		g.drawLine(xBegin1, yBegin1, xEnd, yEnd);
+		g.drawLine(xBegin2, yBegin2, xEnd, yEnd);
+		//g.drawLine(xFin, yFin,xFin+ (int)(tailleFleche*Math.cos(30 +arco)),yFin+(int)( tailleFleche*Math.sin(30 +arco)));
+		//g.drawLine(xFin, yFin,xFin+(int)(tailleFleche*Math.cos(30 -arco)), yFin+(int)(tailleFleche*Math.sin(30 -arco)));
 	}
 
 	public void chargerTronconsChemin(List<VueTroncon> listeVueTronconsChemin) {

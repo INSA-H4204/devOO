@@ -346,17 +346,23 @@ public class Controleur implements ActionListener, MouseListener {
 	 */
 	public void actionBoutonValider(){
 		int idClient =getIdClientVue(this.vueApplication.getVueInfo().idClient);
-		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
+		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) && (idClient != -1)){
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);
 			ajout.execute();
+			this.vueApplication.getVueInfo().idClient.setText("");
 		}
 		ajoutEnCours = false;
 	}
 		
 	
 	public int getIdClientVue(JTextField idClient){
-		return  Integer.parseInt(idClient.getText());
+		String strIdClient=idClient.getText();
+		if(strIdClient.length()==0){
+			this.vueApplication.afficherErreur("Id Client manquant");
+			return -1;
+		}
+		return  Integer.parseInt(strIdClient);
 	}
 	/**
 	 * Appelée par le bouton Supprimer

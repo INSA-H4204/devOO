@@ -9,6 +9,7 @@ import javax.swing.JFrame;
  */
 public class VueTroncon {
 
+	private int id;
 	private JFrame frame = null;
 	private int xInit;
 	private int yInit;
@@ -35,13 +36,18 @@ public class VueTroncon {
 	 * 
 	 */
 	public VueTroncon(int xInit, int yInit, int xFin, int yFin, String nom,
-			Color couleur) {
+			Color couleur, int id) {
 		this.xInit = xInit;
 		this.yInit = yInit;
 		this.xFin = xFin;
 		this.yFin = yFin;
 		this.nom = nom;
 		this.couleur = couleur;
+		this.id = id;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public Color getCouleur() {
