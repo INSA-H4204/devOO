@@ -353,8 +353,8 @@ public class Controleur implements ActionListener, MouseListener {
 			commandesExecutees.push(ajout);
 			ajout.execute();
 			this.vueApplication.getVueInfo().idClient.setText("");
+			ajoutEnCours = false;
 		}
-		ajoutEnCours = false;
 	}
 		
 	
