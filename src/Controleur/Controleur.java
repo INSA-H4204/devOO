@@ -140,6 +140,7 @@ public class Controleur implements ActionListener, MouseListener {
 		case "Impression":
 			imprimerFeuilleDeRoute();
 
+
 			break;
 		case "Calculer Tournee" :
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
@@ -209,7 +210,9 @@ public class Controleur implements ActionListener, MouseListener {
 	 * @author hgerard thelmer
 	 */
 	public void selectionnerNoeud(){
+		
 		verifierSiZoneSansLivraison();
+		
 		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
 			
