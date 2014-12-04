@@ -102,17 +102,21 @@ public class Controleur implements ActionListener, MouseListener {
 			
 		case "Charger Livraisons":
 			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);			
-			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
+			
 
 			String livraisonXML = choisirXML();
 
-			if(livraisonXML != null){				
+			if(livraisonXML != null){
+				vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
 					try {
 						chargerLivraisons(livraisonXML);
 					} catch (ParseException | ParserConfigurationException| SAXException | IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}				
+			}
+			else{
+				vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 			}
 
 			break;
