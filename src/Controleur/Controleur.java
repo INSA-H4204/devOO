@@ -159,6 +159,8 @@ public class Controleur implements ActionListener, MouseListener {
 			
 		case "Supprimer Livraison":
 			actionBoutonSupprimer();
+			vueApplication.dessinerTournee(zone);
+			vueApplication.chargerLivraisons(zone);
 			vueApplication.getVueInfo().supprimer.setEnabled(false);
 			break;
 			
@@ -363,6 +365,8 @@ public class Controleur implements ActionListener, MouseListener {
 		Livraison livraisonSelectionnee = noeudSelectionne.getLivraison();
 		if (noeudSelectionne.getLivraison() != null) {
 			CdeSupprimerLivraison suppr = new CdeSupprimerLivraison(zone, livraisonSelectionnee);
+			commandesExecutees.push(suppr);
+			suppr.execute();
 		}
 	}
 
