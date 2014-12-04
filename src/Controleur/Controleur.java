@@ -1,5 +1,6 @@
 package Controleur;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -264,9 +265,9 @@ public class Controleur implements ActionListener, MouseListener {
 	public void imprimerFeuilleDeRoute() {
 
 	     try {
-             
+             File file= new File("Resources/feuille_de_route_zone.txt");
              // 1) Creation de la feuille de route
-             BufferedWriter out = new BufferedWriter(new FileWriter(new File("Resources/feuille_de_route_zone.txt")));
+             BufferedWriter out = new BufferedWriter(new FileWriter(file));
              try {
                
                   // 2) �criture de la feuille de route
@@ -284,7 +285,15 @@ public class Controleur implements ActionListener, MouseListener {
                
                   // 3) Lib�ration de la ressource exploit�e par l'objet
                   out.close();
-               
+                  Desktop desktop = Desktop.getDesktop();
+                  desktop.open(file);
+                   if (Desktop.isDesktopSupported()) {
+                       try {
+                           File myFile = new File( "path/to/file");
+                           Desktop.getDesktop().open(myFile);
+                       } catch (IOException ex) {
+                       }
+                   } 
              }
         
            
