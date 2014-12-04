@@ -73,6 +73,8 @@ public class Controleur implements ActionListener, MouseListener {
 		noeudPrecedent = null;
 		
 		zone.addObserver(vueApplication);
+		commandesExecutees = new Stack<Commande>();
+		commandesAnnulees = new Stack<Commande>();
 	}
 	
 	/**
@@ -89,6 +91,7 @@ public class Controleur implements ActionListener, MouseListener {
 
 			String planXML = choisirXML();
 			if(planXML != null){
+				vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 				try {
 					chargerZone(planXML);
 				} catch (NumberFormatException | FileNotFoundException | SAXException e1) {
@@ -97,7 +100,7 @@ public class Controleur implements ActionListener, MouseListener {
 				}
 
 			}
-			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
+			
 			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
 			break;
 			
@@ -123,11 +126,15 @@ public class Controleur implements ActionListener, MouseListener {
 			break;
 			
 		case "Undo":
-			
+			undo();
+			vueApplication.chargerLivraisons(zone);
+			vueApplication.dessinerTournee(zone);
 			break;
 			
 		case "Redo":
-
+			redo();
+			vueApplication.chargerLivraisons(zone);
+			vueApplication.dessinerTournee(zone);
 			break;
 			
 		case "Impression":
@@ -153,6 +160,8 @@ public class Controleur implements ActionListener, MouseListener {
 			
 		case "Valider Livraison":
 			actionBoutonValider();
+			vueApplication.dessinerTournee(zone);
+			vueApplication.chargerLivraisons(zone);
 			vueApplication.getVueInfo().valider.setEnabled(false);
 			break;
 
