@@ -18,6 +18,7 @@ import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
 import Modele.PlageHoraire;
+import Modele.Time;
 import Modele.Troncon;
 import Modele.Zone;
 
@@ -189,6 +190,23 @@ public class VueApplication extends JFrame implements Observer {
 		VueNoeud noeudSelectionne = new VueNoeud(x, y);
 		vueZone.selectionnerNoeud(noeudSelectionne);
 	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param client
+	 * @heurePrevue 
+	 * @author kevin
+	 */
+	public void selectionnerNoeudAvecLivraison(int x, int y,int client, int heure,int minute) {
+		x = convertiseurMetrePixel(x, 'x');
+		y = convertiseurMetrePixel(y, 'y');
+		VueNoeud noeudSelectionne = new VueNoeud(x, y,client,heure,minute);
+		vueZone.selectionnerNoeud(noeudSelectionne);
+	}
+	
+
 
 	/**
 	 * 
@@ -367,5 +385,4 @@ public class VueApplication extends JFrame implements Observer {
 		// TODO Auto-generated method stub
 		vueZone.chargerTronconsChemin(listeVueTronconsChemin);
 	}
-
 }

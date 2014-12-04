@@ -6,6 +6,7 @@ import java.util.List;
 import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
+import Modele.PlageHoraire;
 import Modele.Tournee;
 import Modele.Zone;
 
@@ -18,6 +19,7 @@ public class CdeSupprimerLivraison extends Commande {
 
 	private Livraison livraisonSuppression;
 	private Livraison livraisonPrecedente;
+	private PlageHoraire plage;
 	
 	/**
 	 * Constructeur par défaut de CdeSupprimerLivraison
@@ -36,6 +38,7 @@ public class CdeSupprimerLivraison extends Commande {
 	public CdeSupprimerLivraison(Zone zone, Livraison livraisonSelectionnee) {
 		super(zone);
 		this.livraisonSuppression = livraisonSelectionnee;
+		this.plage = livraisonSelectionnee.getPlage();
 	}
 	
 	/**
@@ -63,6 +66,7 @@ public class CdeSupprimerLivraison extends Commande {
 				chemins.remove(cheminPrecedent);
 				Chemin nouveauChemin = zone.plusCourtChemin(idDepart, idArrivee);
 				chemins.add(i,nouveauChemin);
+				plage.getLivraisons().remove(livraisonSuppression);
 			}
 		}
 	}
@@ -89,6 +93,8 @@ public class CdeSupprimerLivraison extends Commande {
 				chemins.remove(posCheminSupprimer);
 				chemins.add(posCheminSupprimer,cheminPrecedent);
 				chemins.add(posCheminSupprimer+1,cheminSuivant);
+				plage.getLivraisons().add(livraisonSuppression);
+				System.out.println("test");
 				return;
 			}
 			else{
