@@ -1,10 +1,13 @@
 package Vue;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -82,7 +85,7 @@ public class VueZone extends JPanel {
 			for (int i = 0; i < listeVueTronconsChemin.size(); i++) {
 				VueTroncon vt = listeVueTronconsChemin.get(i);
 				g.setColor(Color.BLUE);
-				dessinerTroncon(g, vt.getXInit() + 4, vt.getYInit() + 4,
+				dessinerTronconChemin(g, vt.getXInit() + 4, vt.getYInit() + 4,
 						vt.getXFin() + 4, vt.getYFin() + 4);
 			}
 		}
@@ -158,6 +161,22 @@ public class VueZone extends JPanel {
 		signX = (int) Math.signum(deltaX);
 		signY = (int) Math.signum(deltaY);
 		g.drawLine(xInit, yInit, xFin, yFin);
+		// g.drawLine(xMoyen, yMoyen, xMoyen, yMoyen + (-signY)*15);
+		// g.drawLine(xMoyen, yMoyen, xMoyen + (-signX)*15, yMoyen);
+	}
+	private void dessinerTronconChemin(Graphics g, int xInit, int yInit, int xFin,
+			int yFin) {
+		int deltaX, deltaY, xMoyen, yMoyen, signX, signY;
+		deltaX = (xFin - xInit) / 2;
+		deltaY = (yFin - yInit) / 2;
+		xMoyen = xInit + deltaX;
+		yMoyen = yInit + deltaY;
+		signX = (int) Math.signum(deltaX);
+		signY = (int) Math.signum(deltaY);
+		g.drawLine(xInit, yInit, xFin, yFin);
+		Graphics2D g2 = (Graphics2D)g;
+		Stroke s =  g2.getStroke();
+		g2.setStroke(new BasicStroke(5));
 		// g.drawLine(xMoyen, yMoyen, xMoyen, yMoyen + (-signY)*15);
 		// g.drawLine(xMoyen, yMoyen, xMoyen + (-signX)*15, yMoyen);
 	}
