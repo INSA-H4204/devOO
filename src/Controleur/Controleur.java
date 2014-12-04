@@ -200,7 +200,9 @@ public class Controleur implements ActionListener, MouseListener {
 	 * @author hgerard thelmer
 	 */
 	public void selectionnerNoeud(){
+		
 		verifierSiZoneSansLivraison();
+		
 		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
 			

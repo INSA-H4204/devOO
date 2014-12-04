@@ -10,15 +10,12 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import Controleur.Controleur;
-
 import Modele.Chemin;
-
 import Modele.Livraison;
-
 import Modele.Noeud;
 import Modele.PlageHoraire;
 import Modele.Troncon;
@@ -176,6 +173,10 @@ public class VueApplication extends JFrame implements Observer {
 		vueZone.addMouseListener(ctrl);
 	}
 
+	public void afficherErreur(String err) {
+	     JOptionPane.showMessageDialog(null, err, "Erreur", JOptionPane.ERROR_MESSAGE);
+	}
+	
 	/**
 	 * 
 	 * @param x
