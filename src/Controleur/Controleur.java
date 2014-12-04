@@ -149,6 +149,8 @@ public class Controleur implements ActionListener, MouseListener {
 			
 		case "Supprimer Livraison":
 			actionBoutonSupprimer();
+			vueApplication.dessinerTournee(zone);
+			vueApplication.chargerLivraisons(zone);
 			vueApplication.getVueInfo().supprimer.setEnabled(false);
 			break;
 			
@@ -221,7 +223,16 @@ public class Controleur implements ActionListener, MouseListener {
 			vueApplication.getVueInfo().supprimer.setEnabled(false);
 			
 			if (noeudClique != null) {
-				vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
+
+				
+				if ( (noeudClique.getLivraison()!=null) && (noeudClique.getLivraison().getHeurePrevue().getHeure() != 0) )
+				{
+					vueApplication.selectionnerNoeudAvecLivraison(noeudClique.getPosX(), noeudClique.getPosY(),noeudClique.getLivraison().getClientID(),noeudClique.getLivraison().getHeurePrevue().getHeure(),noeudClique.getLivraison().getHeurePrevue().getMinute());
+				}
+				else
+				{
+					vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
+				}
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
 					vueApplication.getVueInfo().valider.setEnabled(true);
@@ -280,19 +291,19 @@ public class Controleur implements ActionListener, MouseListener {
              try {
                
                   // 2) �criture de la feuille de route
-                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure())+" heure ");
+                  out.write("\n Partez de l'entrepot situé à l'adresse "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure())+"h"+String.valueOf(zone.getEntrepot().getHeurePrevue().getMinute())+"m"+String.valueOf(zone.getEntrepot().getHeurePrevue().getSeconde())+"s");
                   for(Chemin chemin:zone.getTournee().getChemins())  {
                 	  for(Troncon troncon:chemin.getTroncons()) {
-                		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur())+" ");
+                		  out.write("\n Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
                 	  }
                 	  if(chemin.getArrivee().getLivraisonID()!=0)
-                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apres "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure())+ " heure ");
+                		  out.write("\n Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apres "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure())+ "h"+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getMinute()));
                 	  else
-                		  out.write("Vous etes de retour a l'entrepot");
+                		  out.write("\n Vous etes de retour a l'entrepot");
                   }
              } finally {
                
-                  // 3) Lib�ration de la ressource exploit�e par l'objet
+                  // 3) Libération de la ressource exploitée par l'objet
                   out.close();
                   Desktop desktop = Desktop.getDesktop();
                   desktop.open(file);
@@ -334,8 +345,9 @@ public class Controleur implements ActionListener, MouseListener {
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);
 			ajout.execute();
+			this.vueApplication.getVueInfo().idClient.setText("");
+			ajoutEnCours = false;
 		}
-		ajoutEnCours = false;
 	}
 		
 	/**
@@ -347,6 +359,8 @@ public class Controleur implements ActionListener, MouseListener {
 		Livraison livraisonSelectionnee = noeudSelectionne.getLivraison();
 		if (noeudSelectionne.getLivraison() != null) {
 			CdeSupprimerLivraison suppr = new CdeSupprimerLivraison(zone, livraisonSelectionnee);
+			commandesExecutees.push(suppr);
+			suppr.execute();
 		}
 	}
 
@@ -415,8 +429,6 @@ public class Controleur implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
