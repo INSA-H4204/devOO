@@ -148,7 +148,6 @@ public class Controleur implements ActionListener, MouseListener {
 		case "Calculer Tournee" :
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
 			calculerTournee();
-			vueApplication.dessinerTournee(zone);
 			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(true);
 			break;
 

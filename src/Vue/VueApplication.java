@@ -78,7 +78,7 @@ public class VueApplication extends JFrame implements Observer {
 				chargerLivraisons(zone);
 				break;
 			case "Tournee":
-				// chargerTournee(zone);
+				dessinerTournee(zone);
 				break;
 			}
 		}
