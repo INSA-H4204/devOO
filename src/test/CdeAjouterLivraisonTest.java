@@ -17,13 +17,17 @@ import org.xml.sax.SAXException;
 import Controleur.CdeAjouterLivraison;
 import Controleur.Controleur;
 import Modele.Noeud;
+import Modele.Zone;
 /*
  * @author : Kevin
  */
 public class CdeAjouterLivraisonTest {
-	
+	private Controleur ctrl;
 	@Before
 	public void setUp() throws Exception {
+		Zone zone = ZoneTest.init();
+		zone.calculerTournee();
+		ctrl = new Controleur(zone);
 	}
 
 	@After
@@ -37,7 +41,6 @@ public class CdeAjouterLivraisonTest {
 	 
 	 @Test
 	public void  CdeAjouterLivraison() throws Exception{
-		 Controleur ctrl = new Controleur(ZoneTest.init());
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
 		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
@@ -46,7 +49,6 @@ public class CdeAjouterLivraisonTest {
 	 
 	 @Test
 	public void  execute() throws Exception{
-		 Controleur ctrl = new Controleur(ZoneTest.init());
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
 		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
@@ -55,8 +57,6 @@ public class CdeAjouterLivraisonTest {
 	 
 	 @Test
 	 public void testUndo() throws NumberFormatException, SAXException, ParseException, ParserConfigurationException, IOException {
-		 
-		 Controleur ctrl = new Controleur(ZoneTest.init());
 		 Noeud noeudSelectionne = ctrl.getZone().rechercherNoeudParPosition(23, 116);//id 2
 		 Noeud noeudPrecedent = ctrl.getZone().rechercherNoeudParPosition(43, 675);// id 17
 		 CdeAjouterLivraison cmd = new CdeAjouterLivraison(ctrl.getZone(), noeudPrecedent,  noeudSelectionne, 645) ;
