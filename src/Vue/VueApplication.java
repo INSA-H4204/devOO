@@ -258,7 +258,7 @@ public class VueApplication extends JFrame implements Observer {
 		int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
 		int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 		int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
-		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome");
+		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome",Color.BLACK);
 
 		vueZone.chargerTroncons(vt);
 	}
@@ -321,6 +321,7 @@ private void chargerLivraisons(Zone zone){
 	}
 
 	public void dessinerTournee(Zone zone) {
+		Color c=Color.BLUE;
 		List<VueTroncon> listeVueTronconsChemin = new ArrayList<VueTroncon>();
 		for(Chemin chemin:zone.getTournee().getChemins())  {
 	      	  for(Troncon troncon:chemin.getTroncons()) {
@@ -328,8 +329,8 @@ private void chargerLivraisons(Zone zone){
 				int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
 				int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 				int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
-				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
-						troncon.getNomRue());
+				//if (chemin.getDepart().getPlage() ==
+				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,troncon.getNomRue(),c);
 				listeVueTronconsChemin.add(vt);
 	      	  }
 			
