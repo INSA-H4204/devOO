@@ -324,8 +324,9 @@ private void chargerLivraisons(Zone zone){
 				int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
 				int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 				int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
-				//if (chemin.getDepart().getPlage() ==
-				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,troncon.getNomRue(),c);
+				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
+						troncon.getNomRue(), Color.BLUE);
+
 				listeVueTronconsChemin.add(vt);
 	      	  }
 			
