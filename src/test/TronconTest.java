@@ -1,13 +1,18 @@
 package test;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import Modele.Troncon;
-import Modele.Noeud;
 
+import Modele.Noeud;
+import Modele.Troncon;
+
+/*
+ * @author : Kevin
+ */
 public class TronconTest {
 	private Troncon troncon;
 	private Noeud origine;
@@ -25,15 +30,19 @@ public class TronconTest {
 	}
 
 	@Test
-	public void getOrigine() {
-		assertEquals("Echec - le troncon n'a pas d'origine",troncon.getOrigine(),origine);
+	public void longueurNegative() {
+		origine = new Noeud(1,340,345);
+		fin = new Noeud(2,400,400);
+		troncon = new Troncon(origine,fin,70,-600,"nomRue");
+		assertTrue("Longueur négative",troncon.getLongueur()>0);
 	}
 
-
-	@Test
-	public void getFin() {
-		assertEquals("Echec - le troncon n'a pas de fin",troncon.getFin(),fin);
-	}
 	
-
+	@Test
+	public void vitesseNegative() {
+		origine = new Noeud(1,340,345);
+		fin = new Noeud(2,400,400);
+		troncon = new Troncon(origine,fin,-70,600,"nomRue");
+		assertTrue("Vitesse négative",troncon.getVitesse()>0);
+	}
 }

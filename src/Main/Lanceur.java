@@ -11,11 +11,15 @@ import Modele.Zone;
  */
 public class Lanceur {
 
+	/**
+	 * Fonction appelée au démarrage du programme
+	 * 
+	 * @param args
+	 * @author hgerard
+	 */
 	public static void main(String[] args) {
 		Zone zone = new Zone();
 		Controleur ctrl = new Controleur(zone);
-		ctrl.displayViews();
-		
-		//ctrl.imprimerFeuilleDeRoute();
+		ctrl.afficherVue();
 	}
 }

@@ -1,6 +1,8 @@
 package Modele;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 /**
  * Représente un ensemble de tronçons liant deux point de livraisons
@@ -9,12 +11,10 @@ import java.util.*;
  */
 public class Chemin extends Observable {
 
-
-	// Chemin should prbably not contain Livraison. Especially since Livraison contains Chemin.
-
 	private Livraison arrivee;
 	private Livraison depart;
 	private List<Troncon> troncons;
+	private final int dureeArret=10*60;//10 min
 	
 	/**
 	 * Constructeur par défaut de chemin
@@ -25,23 +25,59 @@ public class Chemin extends Observable {
 		troncons = new ArrayList<Troncon>();
 	}
 
+	/**
+	 * Constructeur de Chemin
+	 * 
+	 * @param depart
+	 * @param arrivee
+	 * @param troncons
+	 */
 	public Chemin(Livraison depart, Livraison arrivee, List<Troncon> troncons) {
 		this.arrivee = arrivee;
 		this.depart = depart;
 		this.troncons = troncons;
 	}
+	
+	/**
+	 * Getter de troncons
+	 * 
+	 * @return	troncons
+	 */
 	public List<Troncon> getTroncons() {
 		return troncons;
 	}
+	
+	/**
+	 * Getter de arrivee
+	 * 
+	 * @return	arrivee
+	 */
 	public Livraison getArrivee() {
 		return arrivee;
 	}
 
 	/**
-	 * 
+	 * Cette méthode doit assigner une heure prevue aux livraisons et assigner le booléen isPonctuel dans Livraison
 	 */
 	private void calculerHeureProchaineLivraison() {
 		// TODO implement here
+	}	
+	
+	/**
+	 * Getter de depart
+	 * 
+	 * @return depart
+	 */
+	public Livraison getDepart() {
+		return depart;
+	}
+	
+	public int getPoidsChemin() {
+		int poids = 0;
+		for (Troncon troncon : troncons) {
+			poids += troncon.getLongueur()/troncon.getVitesse();
+		}
+		return poids;
 	}
 
 }

@@ -1,12 +1,9 @@
 package Modele;
 
-import java.util.*;
-
-import javax.xml.bind.DatatypeConverter;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Observable;
 
 /**
  * Une plage horaire est une portion de temps (par ex : 8h-12h) dans laquelle 
@@ -16,59 +13,39 @@ import org.xml.sax.SAXException;
  */
 public class PlageHoraire extends Observable {
 
-	public Calendar heureDebut ;
-
-
-	public Calendar heureFin ;
-	private List<Livraison> livraisonsOrdonnees;
-	private Set<Livraison> livraisons;
-	
+	public Time heureDebut;
+	public Time heureFin;
+	private List<Livraison> livraisons;
 	/**
-	 * Constructeur par défaut de PlageHoraire
+	 * Constructeur par defaut de PlageHoraire
 	 */
 	public PlageHoraire() {
-		heureDebut = Calendar.getInstance();
-		heureFin = Calendar.getInstance();
-		livraisonsOrdonnees = new ArrayList<Livraison>();
-		livraisons = new HashSet<Livraison>();
+		heureDebut = new Time();
+		heureFin = new Time();
+		livraisons = new ArrayList<Livraison>();
+	}
+	public PlageHoraire(Time heureDebut,Time heureFin,List<Livraison> listeLivraisonsPlage) {
+		this.heureDebut =heureDebut;
+		this.heureFin =heureFin;
+		this.livraisons = listeLivraisonsPlage;
+		ListIterator<Livraison> iterLivraison =listeLivraisonsPlage.listIterator();
+		while (iterLivraison.hasNext())
+		{
+			iterLivraison.next().setPlage(this);
+		}
 	}
 	
-	public List<Livraison> construirePlageAPartirDeDOMXML(Element plageHoraireElement, Zone zone, List<Livraison> listeTousLivraisons) throws SAXException{
-		heureDebut =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureDebut"));	
-		heureFin =  DatatypeConverter.parseDateTime(plageHoraireElement.getAttribute("heureFin"));
-
-		Set<Livraison> listeLivraisons = new HashSet<Livraison>();
-		NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
-		for(int i=0;i<listeLivraisonsXML.getLength();i++) {
-			Element livraisonElement = (Element) listeLivraisonsXML.item(i);
-			Livraison livraison = new Livraison(livraisonElement,zone,this);
-			for(Livraison p : listeTousLivraisons) {
-				if(livraison.getAdresse()==p.getAdresse())
-					throw new SAXException();
-			}
-			listeLivraisons.add(livraison);
-			listeTousLivraisons.add(livraison);
-		}
-		this.livraisons = listeLivraisons;
-		return listeTousLivraisons;
-	}
-	/**
-	 * 
-	 */
-	private void verifierPonctualite() {
-		// TODO implement here
-	}
 
 	/**
 	 * Retourne le Set des livraisons de la plage horaire
 	 */
-	public Set<Livraison> getLivraisons() {
+	public List<Livraison> getLivraisons() {
 		return livraisons;
 	}
-	 public Calendar getHeureDebut(){
+	 public Time getHeureDebut(){
 		 return heureDebut;
 	 }
-	 public Calendar getHeureFin(){
+	 public Time getHeureFin(){
 		 return heureFin;
 	 }
 	

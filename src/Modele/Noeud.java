@@ -1,8 +1,8 @@
 package Modele;
 
-import java.util.*;
-
-import org.w3c.dom.Element;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 /**
  * Un noeud peut être une Livraison ou une intersection, un carrefour.
@@ -10,11 +10,12 @@ import org.w3c.dom.Element;
  * @author hgerard
  */
 public class Noeud extends Observable {
-
+	
 	private int noeudID;
 	private int posX;
 	private int posY;
 	private Livraison livraison;
+	private List<Troncon> tronconsSortants;
 	
 	/**
 	 * Constructeur par defaut de Noeud
@@ -23,39 +24,27 @@ public class Noeud extends Observable {
 		noeudID = 0;
 		posX = 0;
 		posY = 0;
-		livraison = new Livraison();
-
+		livraison = null;
+		tronconsSortants = new ArrayList <Troncon>();
 	}
 	
 	/**
 	 * Constructeur de Noeud
 	 */
-	public Noeud(int id,int x,int y) {
-		noeudID = id;
-		posX = x;
-		posY = y;
-		livraison = new Livraison();
+	public Noeud(int noeudID,int posX,int posY) {
+		this.noeudID = noeudID;
+		this.posX = posX;
+		this.posY = posY;
+		this.livraison = null;
+		this.tronconsSortants= new ArrayList <Troncon> ();
 	}
-	
-	
-	/**
-	 * Constructor from XML Element
-	 * @param Element noeud: une balise noeud du fichier xml
-	 * @author Yousra
-	 */
-	public Noeud(Element noeudElement) {
-		this.noeudID = Integer.parseInt(noeudElement.getAttribute("id"));
-		this.posX = Integer.parseInt(noeudElement.getAttribute("x"));
-		this.posY = Integer.parseInt(noeudElement.getAttribute("y"));	
-	}
-
 
 	public int getPosX() {
 		return posX;
 	}
 	
 	public int getPosY() {
-		return posX;
+		return posY;
 	}
 	
 	public int getNoeudID() {
@@ -66,4 +55,23 @@ public class Noeud extends Observable {
 		return livraison;
 	}
 
+	public void setTronconsSortants(List<Troncon> tronconsSortants) {
+		this.tronconsSortants=tronconsSortants;
+	}
+
+	public List<Troncon> getTronconsSortants() {
+		return tronconsSortants;
+	}
+	
+	/**
+	 * @return retourne le nom de la classe pour de l'indintification
+	 * @author gabrielcae
+	 */
+	public String toString(){
+		return "Noeud";
+	}
+
+	public void setLivraison(Livraison livraison) {
+		this.livraison = livraison; 
+	}
 }

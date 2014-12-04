@@ -1,10 +1,6 @@
 package Modele;
 
-import java.util.*;
-
-import org.w3c.dom.Element;
-
-
+import java.util.Observable;
 
 /**
  * Une livraison est un lieu de livraison associé à une plage horaire 
@@ -14,44 +10,34 @@ import org.w3c.dom.Element;
  */
 public class Livraison extends Observable {
 
-	private int clientID ;
-	private int livraisonID ;
-	private Calendar heureLivraisonPrevue ;
-	private boolean isZoneVide ;
-	private Chemin cheminIn;
-	private Chemin cheminOut;
+	private int clientID;
+	private int livraisonID;
+	private Time heurePrevue;
 	private Noeud  adresse;
 	private PlageHoraire plage;
-	
+	static int nombreLivraison=0;
+	private boolean isPonctuel;
+
+
 	/**
-	 * Constructeur par défaut de Livraison
+	 * Constructeur par defaut de Livraison
 	 */
 	public Livraison() {
 		clientID = 0;
 		livraisonID = 0;
-		heureLivraisonPrevue = Calendar.getInstance();
-		isZoneVide = true;
-		cheminIn = new Chemin();
-		cheminOut = new Chemin();
-		adresse = new Noeud();
+		heurePrevue = new Time();
+		adresse = null;
 		plage = new PlageHoraire();
-	}
-	
-	public Calendar getHeureLivraisonPrevue() {
-		return heureLivraisonPrevue;
+		isPonctuel = true;
 	}
 
-	public Livraison(int clientId,int livraisonId,Calendar heureLivraisonPrevue,boolean isZoneVide,Noeud adresse) {
+	public Livraison(int clientId, Noeud adresse) {
 		this.clientID = clientId;
-		this.livraisonID = livraisonId;
-		this.heureLivraisonPrevue = heureLivraisonPrevue;
-		this.isZoneVide = isZoneVide;
-		this.adresse = adresse;//new Noeud();	
-		this.cheminIn = null;//new Chemin();
-		this.cheminOut = null;//new Chemin();
+		this.livraisonID = ++nombreLivraison;
+		this.heurePrevue = new Time();
 		this.adresse = adresse;
-		this.cheminIn = new Chemin();
-		this.cheminOut = new Chemin();
+		isPonctuel = true;
+		adresse.setLivraison(this);
 	}
 
 
@@ -67,44 +53,43 @@ public class Livraison extends Observable {
 	public Livraison(Noeud adresseEntrepot){
 		clientID = 0;
 		livraisonID = 0;
-		heureLivraisonPrevue = Calendar.getInstance();
-		isZoneVide = true;
-		cheminIn = null;
-		cheminOut = null;
+		heurePrevue = new Time();
 		adresse = adresseEntrepot;
-		
-	}
-	public Livraison(Element livraisonElement,Zone zone,PlageHoraire plage){
-		this.livraisonID = Integer.parseInt(livraisonElement.getAttribute("id"));
-		this.clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
-		Noeud adresseLivaison= new Noeud();
-		adresseLivaison=zone.rechercherNoeudParId(Integer.parseInt(livraisonElement.getAttribute("adresse")));
-		this.adresse = adresseLivaison;
-		this.plage=plage;
-		
+		isPonctuel = true;
 	}
 
-	/**
-	 * @return
-	 */
-	private boolean verifierSiZoneVide() {
-		// TODO implement here
-		return false;
-	}
-	
 	public Noeud getAdresse() {
 		return adresse;
-	}
-	
-	public void setCheminOut(Chemin cheminOut) {
-		this.cheminOut = cheminOut;
-	}
-	
-	public void setCheminIn(Chemin cheminIn) {
-		this.cheminIn = cheminIn;
 	}
 
 	public PlageHoraire getPlage() {
 		return plage;
+	}
+	
+	public void setPlage(PlageHoraire plage) {
+		this.plage = plage;
+	}
+
+	public static void resetLivraisonId() {
+		nombreLivraison = 0;
+	}
+	public boolean isPonctuel() {
+		return isPonctuel;
+	}
+
+	public void setPonctuel(boolean isPonctuel) {
+		this.isPonctuel = isPonctuel;
+	}
+	
+	public Time getHeurePrevue(){
+		return this.heurePrevue;
+	}
+	
+	public void setHeurePrevue(Time heurePrevue){
+		this.heurePrevue.setTime(heurePrevue);;
+	}
+
+	public void setHeurePrevue(Time heurePrevue, int duree){
+		this.heurePrevue.setTime(heurePrevue, duree);
 	}
 }

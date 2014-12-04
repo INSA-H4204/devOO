@@ -1,23 +1,30 @@
 package Controleur;
 
+import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Iterator;
+import java.text.ParseException;
 import java.util.Stack;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
-import Modele.PlageHoraire;
-import Modele.Tournee;
-import Modele.Zone;
-import Modele.Chemin;
 import Modele.Troncon;
-import Vue.VueNoeud;
-import Vue.VueTroncon;
-import Vue.VueZone;
+import Modele.Zone;
+import Vue.VueApplication;
 
 /**
  * Le contrôleur fait le lien entre la vue et le modèle. Lorsqu'un utilisateur agit sur
@@ -25,12 +32,14 @@ import Vue.VueZone;
  * 
  * @author hgerard
  */
-public class Controleur {
+public class Controleur implements ActionListener, MouseListener {
 	
-	public VueZone vueNoeud;
-	public VueZone vueTroncon;
+	public VueApplication vueApplication;
 	private Zone zone;
 	private boolean isZoneSansLivraison;
+	
+	private float xSouris;
+	private float ySouris;
 	
 	// Contient les commandes qui ont été éxécutées et annulées pour pouvoir les annuler ou les rééxecuter
 	private Stack<Commande> commandesExecutees;
@@ -55,20 +64,133 @@ public class Controleur {
 	 * @author hgerard
 	 */
 	public Controleur(Zone zone) {
-		
 		this.zone = zone;
-		vueNoeud = new VueNoeud(this);
-		vueTroncon = new VueTroncon(this);
-
+		vueApplication = new VueApplication(this);
 		isZoneSansLivraison = true;
-		ajoutEnCours = true;
+		ajoutEnCours = false;
 		selectionActive = true;
 		noeudSelectionne = null;
 		noeudPrecedent = null;
+		
+		zone.addObserver(vueApplication);
+	}
+	
+	/**
+	 * @author gabrielcae
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String action = e.getActionCommand();
+		switch (action) {
+		case "Charger Plan":
+			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);
+
+			String planXML = choisirXML();
+			if(planXML != null){
+				try {
+					chargerZone(planXML);
+				} catch (NumberFormatException | FileNotFoundException | SAXException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
+			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
+			break;
+			
+		case "Charger Livraisons":
+			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(false);			
+			
+
+			String livraisonXML = choisirXML();
+
+			if(livraisonXML != null){
+				vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
+					try {
+						chargerLivraisons(livraisonXML);
+					} catch (ParseException | ParserConfigurationException| SAXException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}				
+			}
+			else{
+				vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
+			}
+
+			break;
+			
+		case "Undo":
+			
+			break;
+			
+		case "Redo":
+
+			break;
+			
+		case "Impression":
+			imprimerFeuilleDeRoute();
+
+
+			break;
+		case "Calculer Tournee" :
+			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
+			calculerTournee();
+			vueApplication.dessinerTournee(zone);
+			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(true);
+			break;
+
+		case "Ajouter Livraison":
+			vueApplication.getVueInfo().ajouter.setEnabled(false);
+			actionBoutonAjouter();
+			break;
+			
+		case "Supprimer Livraison":
+			actionBoutonSupprimer();
+			vueApplication.dessinerTournee(zone);
+			vueApplication.chargerLivraisons(zone);
+			vueApplication.getVueInfo().supprimer.setEnabled(false);
+			break;
+			
+		case "Valider Livraison":
+			actionBoutonValider();
+			vueApplication.getVueInfo().valider.setEnabled(false);
+			break;
+
+		case "Selectionner Noeud":
+			
+			selectionnerNoeud();
+			break;
+			
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * 
+	 * @return le fichier xml choisit
+	 * @author gabrielcae
+	 */
+	private String choisirXML() {
+		JFileChooser chooser = new JFileChooser();
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier XML", "xml");
+	    chooser.setFileFilter(filter);
+	    
+	    int returnVal = chooser.showOpenDialog(null);
+	    if(returnVal == JFileChooser.APPROVE_OPTION) {
+	    	File xmlFile = chooser.getSelectedFile();
+	    	return xmlFile.getAbsolutePath();	       
+	    } 
+	    return null;	
 	}
 
 	/**
 	 * Vérifie si la zone chargée contient des livraisons
+	 * 
+	 * @author hgerard
 	 */
 	public void verifierSiZoneSansLivraison() {
 		isZoneSansLivraison = zone.verifierSiZoneSansLivraison();
@@ -76,25 +198,52 @@ public class Controleur {
 	
 	/**
 	 * Sélectionne un noeud
-	 * @param 	int x 				La coordonée x du click effectué sur la carte
-	 * @param 	int y 				La coordonée y du click effectué sur la carte
+	 * @param 	int x 				La coordonnée x du click effectué sur la carte
+	 * @param 	int y 				La coordonnée y du click effectué sur la carte
+	 * @author hgerard thelmer
 	 */
-	public void selectionnerNoeud(int x, int y){
+	public void selectionnerNoeud(){
 		
-		if (selectionActive) {
+		verifierSiZoneSansLivraison();
+		
+		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
-			Noeud noeudClique = zone.rechercherNoeudParPosition(x,y);
+			
+			if (noeudPrecedent != null) {
+				vueApplication.deselectionnerNoeud(noeudPrecedent.getPosX(), noeudPrecedent.getPosY());
+			}
+			
+			if (noeudSelectionne != null) {
+				vueApplication.deselectionnerNoeud(noeudSelectionne.getPosX(), noeudSelectionne.getPosY());
+			}
+			
+			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
+			
+			vueApplication.getVueInfo().ajouter.setEnabled(false);
+			vueApplication.getVueInfo().supprimer.setEnabled(false);
+			
 			if (noeudClique != null) {
+
+				
+				if ( (noeudClique.getLivraison()!=null) && (noeudClique.getLivraison().getHeurePrevue().getHeure() != 0) )
+				{
+					vueApplication.selectionnerNoeudAvecLivraison(noeudClique.getPosX(), noeudClique.getPosY(),noeudClique.getLivraison().getClientID(),noeudClique.getLivraison().getHeurePrevue().getHeure(),noeudClique.getLivraison().getHeurePrevue().getMinute());
+				}
+				else
+				{
+					vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
+				}
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
+					vueApplication.getVueInfo().valider.setEnabled(true);
 				} else {
 					this.noeudSelectionne = noeudClique;
+					if (noeudSelectionne.getLivraison() == null) {
+						vueApplication.getVueInfo().ajouter.setEnabled(true);
+					} else {
+						vueApplication.getVueInfo().supprimer.setEnabled(true);
+					}
 				}
-//				if (noeudSelectionne.getLivraison() == null) {
-//					// Vue.ActiverBoutonAjouter -> Gabriel
-//				} else {
-//					// Vue.ActiverBoutonSupprimer -> Gabriel
-//				}
 			}
 			selectionActive = true;
 		}
@@ -102,57 +251,69 @@ public class Controleur {
 
 	/**
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la tournée
-	 * 
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
+	 * @throws ParseException 	 * 
 	 */
-	public void chargerLivraisons(File XMLFilePath) {
-		// TODO implement here
+	public void chargerLivraisons(String XMLFilePath) throws ParseException, ParserConfigurationException, SAXException, IOException {
+		zone.XMLtoDOMLivraisons(XMLFilePath,"Resources/demandeLivraison.xsd" );
 	}
 	
 	/**
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
-	 * 
+	 * @throws SAXException 
+	 * @throws FileNotFoundException 
+	 * @throws NumberFormatException 	 * 
 	 */
-	public void chargerZone(File XMLFilePath) {
-		// TODO implement here
+	public void chargerZone(String XMLFilePath) throws NumberFormatException, FileNotFoundException, SAXException {
+		zone.XMLtoDOMZone(XMLFilePath, "Resources/plan.xsd");
 	}
 	
 	/**
 	 * 
 	 */
-	private void calculerTournee(Tournee tournee) {
-		// TODO implement here
+	public void calculerTournee() {
+		zone.calculerTournee();
 	}
 	
 	/**
 	* Appelee par le bouton "Valider feuille de route" pour creer le fichier texte de la feuille de route
-	 * 
-	 * @author thelmer
-	 */
+	* 
+	* @author thelmer
+	*/
 	public void imprimerFeuilleDeRoute() {
 
 	     try {
-             
+             File file= new File("feuille_de_route_zone.txt");
              // 1) Creation de la feuille de route
-             BufferedWriter out = new BufferedWriter(new FileWriter(new File("feuille_de_route_zone.txt")));
-           
+             BufferedWriter out = new BufferedWriter(new FileWriter(file));
              try {
                
-                  // 2) �criture de la feuille de route
-                  out.write("Partez de l'entrep�t situ� "+String.valueOf(zone.getTournee().getEntrepot().getAdresse().getNoeudID())+" � "+String.valueOf(zone.getTournee().getEntrepot().getHeureLivraisonPrevue().get(Calendar.HOUR_OF_DAY)));
+                  // 2) �criture de la feuille de route
+                  out.write("\n Partez de l'entrepot situé à l'adresse "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure())+"h"+String.valueOf(zone.getEntrepot().getHeurePrevue().getMinute())+"m"+String.valueOf(zone.getEntrepot().getHeurePrevue().getSeconde())+"s");
                   for(Chemin chemin:zone.getTournee().getChemins())  {
                 	  for(Troncon troncon:chemin.getTroncons()) {
-                		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
+                		  out.write("\n Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
                 	  }
                 	  if(chemin.getArrivee().getLivraisonID()!=0)
-                		  out.write("Livrez la commande num�ro "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client num�ro "+String.valueOf(chemin.getArrivee().getClientID())+" � l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apr�s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().get(Calendar.HOUR_OF_DAY)));
+                		  out.write("\n Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apres "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure())+ "h"+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getMinute()));
                 	  else
-                		  out.write("Vous �tes de retour � l'entrepot");
+                		  out.write("\n Vous etes de retour a l'entrepot");
                   }
              } finally {
                
-                  // 3) Lib�ration de la ressource exploit�e par l'objet
+                  // 3) Libération de la ressource exploitée par l'objet
                   out.close();
-               
+                  Desktop desktop = Desktop.getDesktop();
+                  desktop.open(file);
+                   if (Desktop.isDesktopSupported()) {
+                       try {
+                           File myFile = new File( "path/to/file");
+                           Desktop.getDesktop().open(myFile);
+                       } catch (IOException ex) {
+                       }
+                   } 
              }
         
            
@@ -179,37 +340,113 @@ public class Controleur {
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
-		String idClient = ""; /*getIdClientVue() --> GABRIEL*/
-		if ((noeudPrecedent != null) /*&& (idClient != "")*/){
-			CdeAjouterLivraison ajout1 = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
-			commandesExecutees.push(ajout1);
-			ajout1.execute();
+		int idClient = 0; /*getIdClientVue() --> GABRIEL*/
+		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
+			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
+			commandesExecutees.push(ajout);
+			ajout.execute();
+			this.vueApplication.getVueInfo().idClient.setText("");
+			ajoutEnCours = false;
 		}
-		
 	}
-	
+		
 	/**
+	 * Appelée par le bouton Supprimer
 	 * 
+	 * @author hgerard
 	 */
-	public void supprimerLivraison(){
-		// TODO implement here
+	public void actionBoutonSupprimer(){
+		Livraison livraisonSelectionnee = noeudSelectionne.getLivraison();
+		if (noeudSelectionne.getLivraison() != null) {
+			CdeSupprimerLivraison suppr = new CdeSupprimerLivraison(zone, livraisonSelectionnee);
+			commandesExecutees.push(suppr);
+			suppr.execute();
+		}
 	}
 
 	/**
 	 * Affiche les vues 
+	 * 
+	 * @author hgerard
 	 */
-	public void displayViews() {
-		vueNoeud.display();
-		vueTroncon.display();
+	public void afficherVue() {
+		vueApplication.afficher();
 	}
 	
 	/**
 	 * Ferme les vues 
+	 * 
+	 * @author hgerard
 	 */
-	public void closeViews() {
-		vueNoeud.close();
-		vueTroncon.close();
+	public void fermerVue() {
+		vueApplication.fermer();
 	}
+	
+	/**
+	 * Annule la dernière commande utilisée 
+	 * 
+	 * @author hgerard
+	 */
+	public void undo() {
+		if (!commandesExecutees.isEmpty()){
+			Commande commandeAnnulation = commandesExecutees.pop();
+			commandeAnnulation.undo();
+			commandesAnnulees.push(commandeAnnulation);
+		}
+	}
+	
+	/**
+	 * Réexecute la dernière commande annulée
+	 * 
+	 * @author hgerard
+	 */
+	public void redo() {
+		if (!commandesAnnulees.isEmpty()){
+			Commande commandeReexecution = commandesAnnulees.pop();
+			commandeReexecution.execute();
+			commandesExecutees.push(commandeReexecution);
+		}
+	}
+
+	public Zone getZone() {
+		return zone;
+	}
+
+	public Stack<Commande> getCommandesExecutees () {
+		return commandesExecutees;
+	}
+	
+	public Stack<Commande> getCommandesAnnulees () {
+		return commandesAnnulees;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		xSouris = (e.getX() / vueApplication.COEF_METRE_PX_X)-20;
+		ySouris = (e.getY() / vueApplication.COEF_METRE_PX_Y)-20;
+		selectionnerNoeud();
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}	
 	
 	
 }
