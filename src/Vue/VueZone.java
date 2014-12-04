@@ -26,7 +26,7 @@ public class VueZone extends JPanel {
 
 	private List<VueTroncon> listeVueTroncon;
 	private List<VueTroncon> listeVueTronconsChemin;
-	private List<VueNoeud> listeVueNoeud;	
+	private List<VueNoeud> listeVueNoeud;
 	private List<VueNoeud> listeLivraisons;
 
 	private VueNoeud noeudSelectionne;
@@ -46,11 +46,11 @@ public class VueZone extends JPanel {
 		chargerVueZone();
 	}
 
-//	public VueZone(List<VueNoeud> listeVueNoeud) {
-//		chargerVueZone();
-//		this.listeVueNoeud = listeVueNoeud;
-//		this.repaint();
-//	}
+	// public VueZone(List<VueNoeud> listeVueNoeud) {
+	// chargerVueZone();
+	// this.listeVueNoeud = listeVueNoeud;
+	// this.repaint();
+	// }
 
 	public void chargerVueZone() {
 		Border raisedLevel = BorderFactory.createRaisedBevelBorder();
@@ -99,8 +99,14 @@ public class VueZone extends JPanel {
 		if(listeLivraisons.size( )> 0){
 			for (int i = 0; i < listeLivraisons.size(); i++) {
 				VueNoeud vn = listeLivraisons.get(i);
-				g.setColor(Color.MAGENTA);
-				g.fillRect(vn.recupererX(), vn.recupererY(), 10, 10);
+				g.setColor(Color.GREEN);
+					int x= vn.recupererX();
+					int y = vn.recupererY();
+				 int xpoints[] = {x, x+5, x+10, x+10, x};
+				 int ypoints[] = {y, y-5, y, y+10, y+10};
+				 int npoints = 5;
+				 g.fillPolygon(xpoints, ypoints, npoints);
+//				g.fillRect(vn.recupererX(), vn.recupererY(), 10, 10);
 			}
 		}		
 		if (entrepot!=null){
@@ -109,10 +115,10 @@ public class VueZone extends JPanel {
 		}
 		
 	}
-	
-	public void chargerLivraisons(List<VueNoeud> listeLivraisons){
+
+	public void chargerLivraisons(List<VueNoeud> listeLivraisons) {
 		this.listeLivraisons = listeLivraisons;
-		this.repaint();		
+		this.repaint();
 	}
 
 	public void chargerEntrepot(VueNoeud entrepot) {
@@ -184,7 +190,7 @@ public class VueZone extends JPanel {
 	public void chargerTronconsChemin(List<VueTroncon> listeVueTronconsChemin) {
 		this.listeVueTronconsChemin = listeVueTronconsChemin;
 		this.repaint();
-		
+
 	}
 
 }
