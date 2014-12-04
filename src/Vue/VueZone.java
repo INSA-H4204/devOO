@@ -28,9 +28,10 @@ public class VueZone extends JPanel {
 	private List<VueTroncon> listeVueTronconsChemin;
 	private List<VueNoeud> listeVueNoeud;
 	private List<VueNoeud> listeLivraisons;
-
 	private VueNoeud noeudSelectionne;
 	private VueNoeud entrepot;
+
+	
 
 	/**
 	 * 
@@ -46,12 +47,6 @@ public class VueZone extends JPanel {
 		chargerVueZone();
 	}
 
-	// public VueZone(List<VueNoeud> listeVueNoeud) {
-	// chargerVueZone();
-	// this.listeVueNoeud = listeVueNoeud;
-	// this.repaint();
-	// }
-
 	public void chargerVueZone() {
 		Border raisedLevel = BorderFactory.createRaisedBevelBorder();
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
@@ -64,7 +59,9 @@ public class VueZone extends JPanel {
 		entrepot = null;
 		noeudSelectionne = null;
 	}
-
+	public VueNoeud getEntrepot() {
+		return entrepot;
+	}
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (listeVueNoeud.size() > 0) {
@@ -78,13 +75,14 @@ public class VueZone extends JPanel {
 			for (int i = 0; i < listeVueTroncon.size(); i++) {
 				VueTroncon vt = listeVueTroncon.get(i);
 				g.setColor(Color.BLACK);
-				dessinerTroncon(g, vt.getXInit() + 4, vt.getYInit() + 4, vt.getXFin() + 4, vt.getYFin() + 4);
+				dessinerTroncon(g, vt.getXInit() + 4, vt.getYInit() + 4,
+						vt.getXFin() + 4, vt.getYFin() + 4);
 			}
 		}
 		if (listeVueTronconsChemin.size() > 0) {
 			for (int i = 0; i < listeVueTronconsChemin.size(); i++) {
 				VueTroncon vt = listeVueTronconsChemin.get(i);
-				g.setColor(Color.BLUE);
+				g.setColor(vt.getCouleur());
 				dessinerTronconChemin(g, vt.getXInit() + 4, vt.getYInit() + 4,
 						vt.getXFin() + 4, vt.getYFin() + 4);
 			}
@@ -92,28 +90,27 @@ public class VueZone extends JPanel {
 		if (noeudSelectionne != null) {
 			g.setColor(Color.BLACK);
 
-			g.fillOval(noeudSelectionne.recupererX()-2,
-					noeudSelectionne.recupererY()-2, 12, 12);
+			g.fillOval(noeudSelectionne.recupererX() - 2,
+					noeudSelectionne.recupererY() - 2, 12, 12);
 
 		}
-		if(listeLivraisons.size( )> 0){
+		if (listeLivraisons.size() > 0) {
 			for (int i = 0; i < listeLivraisons.size(); i++) {
 				VueNoeud vn = listeLivraisons.get(i);
-				g.setColor(Color.GREEN);
-					int x= vn.recupererX();
-					int y = vn.recupererY();
-				 int xpoints[] = {x, x+5, x+10, x+10, x};
-				 int ypoints[] = {y, y-5, y, y+10, y+10};
-				 int npoints = 5;
-				 g.fillPolygon(xpoints, ypoints, npoints);
-//				g.fillRect(vn.recupererX(), vn.recupererY(), 10, 10);
+				g.setColor(Color.green);
+				int x = vn.recupererX();
+				int y = vn.recupererY();
+				int xpoints[] = { x - 2, x + 5, x + 12, x + 12, x - 2 };
+				int ypoints[] = { y - 2, y - 7, y - 2, y + 12, y + 12 };
+				int npoints = 5;
+				g.fillPolygon(xpoints, ypoints, npoints);
 			}
-		}		
-		if (entrepot!=null){
-			g.setColor(Color.BLUE);
-			g.fillRect(entrepot.recupererX(), entrepot.recupererY(), 10, 10);
 		}
-		
+		if (entrepot != null) {
+			g.setColor(Color.BLUE);
+			g.fillRect(entrepot.recupererX() - 2, entrepot.recupererY() - 2, 12, 12);
+		}
+
 	}
 
 	public void chargerLivraisons(List<VueNoeud> listeLivraisons) {
@@ -127,12 +124,13 @@ public class VueZone extends JPanel {
 	}
 
 	public void chargerNoeuds(List<VueNoeud> listeVueNoeud) {
-		this.entrepot = null;
+		viderVueZone();
 		this.listeVueNoeud = listeVueNoeud;
 		this.repaint();
 	}
 
 	public void chargerNoeuds(VueNoeud vueNoeud) {
+		viderVueZone();
 		this.listeVueNoeud.add(vueNoeud);
 		this.repaint();
 	}
@@ -170,27 +168,40 @@ public class VueZone extends JPanel {
 		// g.drawLine(xMoyen, yMoyen, xMoyen, yMoyen + (-signY)*15);
 		// g.drawLine(xMoyen, yMoyen, xMoyen + (-signX)*15, yMoyen);
 	}
-	private void dessinerTronconChemin(Graphics g, int xInit, int yInit, int xFin,
-			int yFin) {
+
+	private void dessinerTronconChemin(Graphics g, int xInit, int yInit,
+			int xFin, int yFin) {
 		int deltaX, deltaY, xMoyen, yMoyen, signX, signY;
+		double arco =Math.acos((xFin - xInit)*(xFin - xInit)+(yFin - yInit)*(yFin - yInit));
+		
 		deltaX = (xFin - xInit) / 2;
 		deltaY = (yFin - yInit) / 2;
 		xMoyen = xInit + deltaX;
 		yMoyen = yInit + deltaY;
 		signX = (int) Math.signum(deltaX);
 		signY = (int) Math.signum(deltaY);
-		g.drawLine(xInit, yInit, xFin, yFin);
+		double tailleFleche=50;
 		Graphics2D g2 = (Graphics2D)g;
-		Stroke s =  g2.getStroke();
 		g2.setStroke(new BasicStroke(5));
-		// g.drawLine(xMoyen, yMoyen, xMoyen, yMoyen + (-signY)*15);
-		// g.drawLine(xMoyen, yMoyen, xMoyen + (-signX)*15, yMoyen);
+		g.drawLine(xInit, yInit, xFin, yFin);
+		g2.setStroke(new BasicStroke(2));
+//		g.drawLine(xFin, yFin,xFin+ (int)(tailleFleche*Math.cos(30 +arco)),yFin+(int)( tailleFleche*Math.sin(30 +arco)));
+//		g.drawLine(xFin, yFin,xFin+(int)(tailleFleche*Math.cos(30 -arco)), yFin+(int)(tailleFleche*Math.sin(30 -arco)));
 	}
 
 	public void chargerTronconsChemin(List<VueTroncon> listeVueTronconsChemin) {
 		this.listeVueTronconsChemin = listeVueTronconsChemin;
 		this.repaint();
-
+	}
+	
+	public void viderVueZone(){
+		this.listeLivraisons.clear();
+		this.listeVueNoeud.clear();
+		this.listeVueTronconsChemin.clear();
+		this.listeVueTroncon.clear();
+		this.entrepot = null;
+		this.noeudSelectionne =null;
+		this.repaint();
 	}
 
 }

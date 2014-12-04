@@ -74,6 +74,8 @@ public class Controleur implements ActionListener, MouseListener {
 		noeudPrecedent = null;
 		
 		zone.addObserver(vueApplication);
+		commandesExecutees = new Stack<Commande>();
+		commandesAnnulees = new Stack<Commande>();
 	}
 	
 	/**
@@ -90,6 +92,7 @@ public class Controleur implements ActionListener, MouseListener {
 
 			String planXML = choisirXML();
 			if(planXML != null){
+				vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 				try {
 					chargerZone(planXML);
 				} catch (NumberFormatException | FileNotFoundException | SAXException e1) {
@@ -98,7 +101,7 @@ public class Controleur implements ActionListener, MouseListener {
 				}
 
 			}
-			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
+			
 			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
 			break;
 			
@@ -124,14 +127,19 @@ public class Controleur implements ActionListener, MouseListener {
 			break;
 			
 		case "Undo":
-			
+			undo();
+			vueApplication.chargerLivraisons(zone);
+			vueApplication.dessinerTournee(zone);
 			break;
 			
 		case "Redo":
-
+			redo();
+			vueApplication.chargerLivraisons(zone);
+			vueApplication.dessinerTournee(zone);
 			break;
 			
 		case "Impression":
+			imprimerFeuilleDeRoute();
 
 
 			break;
@@ -145,13 +153,17 @@ public class Controleur implements ActionListener, MouseListener {
 		case "Ajouter Livraison":
 			vueApplication.getVueInfo().ajouter.setEnabled(false);
 			actionBoutonAjouter();
-			
 			break;
 			
 		case "Supprimer Livraison":
+			actionBoutonSupprimer();
 			vueApplication.getVueInfo().supprimer.setEnabled(false);
 			break;
-		case "valider Livraison":
+			
+		case "Valider Livraison":
+			actionBoutonValider();
+			vueApplication.dessinerTournee(zone);
+			vueApplication.chargerLivraisons(zone);
 			vueApplication.getVueInfo().valider.setEnabled(false);
 			break;
 
@@ -199,7 +211,9 @@ public class Controleur implements ActionListener, MouseListener {
 	 * @author hgerard thelmer
 	 */
 	public void selectionnerNoeud(){
+		
 		verifierSiZoneSansLivraison();
+		
 		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
 			
@@ -220,6 +234,7 @@ public class Controleur implements ActionListener, MouseListener {
 				vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
+					vueApplication.getVueInfo().valider.setEnabled(true);
 				} else {
 					this.noeudSelectionne = noeudClique;
 					if (noeudSelectionne.getLivraison() == null) {
@@ -269,19 +284,19 @@ public class Controleur implements ActionListener, MouseListener {
 	public void imprimerFeuilleDeRoute() {
 
 	     try {
-             File file= new File("Resources/feuille_de_route_zone.txt");
+             File file= new File("feuille_de_route_zone.txt");
              // 1) Creation de la feuille de route
              BufferedWriter out = new BufferedWriter(new FileWriter(file));
              try {
                
                   // 2) �criture de la feuille de route
-                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure()));
+                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure())+" heure ");
                   for(Chemin chemin:zone.getTournee().getChemins())  {
                 	  for(Troncon troncon:chemin.getTroncons()) {
-                		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
+                		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur())+" ");
                 	  }
                 	  if(chemin.getArrivee().getLivraisonID()!=0)
-                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apr�s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure()));
+                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apres "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure())+ " heure ");
                 	  else
                 		  out.write("Vous etes de retour a l'entrepot");
                   }
@@ -314,7 +329,6 @@ public class Controleur implements ActionListener, MouseListener {
 	 */
 	public void actionBoutonAjouter(){
 		if (noeudSelectionne != null) {
-			//DesactiverBoutonAjouter
 			ajoutEnCours = true;
 		}
 	}

@@ -30,16 +30,26 @@ public class VueTroncon {
 	 *            coordonnée x du noeud d'entrée
 	 * @param nom
 	 *            nom du tronçon
-	 * @param c 
+	 * @param couleur
 	 * @author gabrielcae
+	 * 
 	 */
-	public VueTroncon(int xInit, int yInit, int xFin, int yFin, String nom, Color c) {
+	public VueTroncon(int xInit, int yInit, int xFin, int yFin, String nom,
+			Color couleur) {
 		this.xInit = xInit;
 		this.yInit = yInit;
 		this.xFin = xFin;
 		this.yFin = yFin;
 		this.nom = nom;
-		this.couleur = c;
+		this.couleur = couleur;
+	}
+
+	public Color getCouleur() {
+		return couleur;
+	}
+
+	public void setCouleur(Color couleur) {
+		this.couleur = couleur;
 	}
 
 	/**
