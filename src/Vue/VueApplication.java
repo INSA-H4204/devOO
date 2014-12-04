@@ -13,6 +13,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import Controleur.Controleur;
+import Modele.Chemin;
 import Modele.Noeud;
 import Modele.Troncon;
 import Modele.Zone;
@@ -257,6 +258,24 @@ public class VueApplication extends JFrame implements Observer {
 			return 0;
 
 		}
+	}
+
+	public void dessinerTournee(Zone zone) {
+		List<VueTroncon> listeVueTronconsChemin = new ArrayList<VueTroncon>();
+		for(Chemin chemin:zone.getTournee().getChemins())  {
+	      	  for(Troncon troncon:chemin.getTroncons()) {
+	      		int xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
+				int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
+				int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
+				int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
+				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
+						troncon.getNomRue());
+				listeVueTronconsChemin.add(vt);
+	      	  }
+			
+			}
+		// TODO Auto-generated method stub
+		vueZone.chargerTronconsChemin(listeVueTronconsChemin);
 	}
 
 }

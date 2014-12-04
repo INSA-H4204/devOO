@@ -136,6 +136,7 @@ public class Controleur implements ActionListener, MouseListener {
 		case "Calculer Tournee" :
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
 			calculerTournee();
+			vueApplication.dessinerTournee(zone);
 			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(true);
 			break;
 
@@ -221,7 +222,7 @@ public class Controleur implements ActionListener, MouseListener {
 					this.noeudPrecedent = noeudClique;
 				} else {
 					this.noeudSelectionne = noeudClique;
-				if (noeudSelectionne.getLivraison() == null) {
+					if (noeudSelectionne.getLivraison() == null) {
 						vueApplication.getVueInfo().ajouter.setEnabled(true);
 					} else {
 						vueApplication.getVueInfo().supprimer.setEnabled(true);
