@@ -86,11 +86,11 @@ public class VueZone extends JPanel {
 				g.setColor(vt.getCouleur());
 				int current = vt.getId();
 				if(!used.contains(current)) {
-					dessinerTroncon(g, vt.getXInit() + 4, vt.getYInit() + 4,
+					dessinerTronconChemin(g, vt.getXInit() + 4, vt.getYInit() + 4,
 							vt.getXFin() + 4, vt.getYFin() + 4);
 					} else {
-						dessinerTronconChemin(g, vt.getXInit() + 8, vt.getYInit() + 8,
-								vt.getXFin() + 8, vt.getYFin() + 8);
+						dessinerTronconChemin(g, vt.getXInit() + 12, vt.getYInit() + 12,
+								vt.getXFin() + 12, vt.getYFin() + 12);
 					}
 					used.add(current);
 			}
