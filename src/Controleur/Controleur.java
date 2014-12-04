@@ -159,6 +159,8 @@ public class Controleur implements ActionListener, MouseListener {
 			
 		case "Supprimer Livraison":
 			actionBoutonSupprimer();
+			vueApplication.dessinerTournee(zone);
+			vueApplication.chargerLivraisons(zone);
 			vueApplication.getVueInfo().supprimer.setEnabled(false);
 			break;
 			
@@ -248,7 +250,7 @@ public class Controleur implements ActionListener, MouseListener {
 					if(noeudPrecedent.getLivraison() != null)
 						vueApplication.getVueInfo().valider.setEnabled(true);
 					else{
-						//message erreur "vous n'avez pas selectionne une livraison"
+						vueApplication.afficherErreur("vous n'avez pas selectionne une livraison");
 					}
 				} else {
 					this.noeudSelectionne = noeudClique;
@@ -355,17 +357,23 @@ public class Controleur implements ActionListener, MouseListener {
 	 */
 	public void actionBoutonValider(){
 		int idClient =getIdClientVue(this.vueApplication.getVueInfo().idClient);
-		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
+		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) && (idClient != -1)){
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);
 			ajout.execute();
+			this.vueApplication.getVueInfo().idClient.setText("");
 		}
 		ajoutEnCours = false;
 	}
 		
 	
 	public int getIdClientVue(JTextField idClient){
-		return  Integer.parseInt(idClient.getText());
+		String strIdClient=idClient.getText();
+		if(strIdClient.length()==0){
+			this.vueApplication.afficherErreur("Id Client manquant");
+			return -1;
+		}
+		return  Integer.parseInt(strIdClient);
 	}
 	/**
 	 * Appelée par le bouton Supprimer
@@ -376,6 +384,8 @@ public class Controleur implements ActionListener, MouseListener {
 		Livraison livraisonSelectionnee = noeudSelectionne.getLivraison();
 		if (noeudSelectionne.getLivraison() != null) {
 			CdeSupprimerLivraison suppr = new CdeSupprimerLivraison(zone, livraisonSelectionnee);
+			commandesExecutees.push(suppr);
+			suppr.execute();
 		}
 	}
 
