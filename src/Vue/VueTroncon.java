@@ -42,6 +42,14 @@ public class VueTroncon {
 		this.couleur = c;
 	}
 
+	public Color getCouleur() {
+		return couleur;
+	}
+
+	public void setCouleur(Color couleur) {
+		this.couleur = couleur;
+	}
+
 	/**
 	 * 
 	 * @return
