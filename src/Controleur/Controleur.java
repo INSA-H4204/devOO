@@ -191,7 +191,7 @@ public class Controleur implements ActionListener, MouseListener {
 	 */
 	public void selectionnerNoeud(){
 		verifierSiZoneSansLivraison();
-		if (selectionActive && isZoneSansLivraison) {
+		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
 			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
 			if (noeudClique != null) {
@@ -249,7 +249,6 @@ public class Controleur implements ActionListener, MouseListener {
              
              // 1) Creation de la feuille de route
              BufferedWriter out = new BufferedWriter(new FileWriter(new File("Resources/feuille_de_route_zone.txt")));
-           
              try {
                
                   // 2) �criture de la feuille de route
@@ -291,7 +290,7 @@ public class Controleur implements ActionListener, MouseListener {
 	
 	/**
 	 * Appelée par le bouton Valider pendant l'insertion de point de livraison
-	 * s
+	 * 
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
@@ -401,6 +400,7 @@ public class Controleur implements ActionListener, MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 	}	
+	
+	
 }

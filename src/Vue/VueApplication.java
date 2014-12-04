@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 import Controleur.Controleur;
@@ -21,17 +21,16 @@ public class VueApplication extends JFrame implements Observer {
 
 	protected Controleur ctrl;
 	private VueInfo vueInfo = new VueInfo();
-	
 
 	private VuePlageHoraire vuePlageHoraire = new VuePlageHoraire();
-	
 
 	private VueZone vueZone = new VueZone();
 
 	private final int HAUTEUR_FENETRE = 700;
-	private final int LARGEUR_FENETRE = 1000;
-	private final float COEF_METRE_PX_X = (float) (5.9 / 8.0);
-	private final float COEF_METRE_PX_Y = (float) (6.3 / 8.0);
+
+	private final int LARGEUR_FENETRE = 1200;
+	public final float COEF_METRE_PX_X = (float) (5.9 / 8.0);
+	public final float COEF_METRE_PX_Y = (float) (6.3 / 8.0);
 
 	/**
 	 * 
@@ -42,12 +41,15 @@ public class VueApplication extends JFrame implements Observer {
 		this.ctrl = ctrl;
 		construireVue();
 	}
+
 	public VuePlageHoraire getVuePlageHoraire() {
 		return vuePlageHoraire;
 	}
+
 	public VueInfo getVueInfo() {
 		return vueInfo;
 	}
+
 	/**
 	 * @author frederic, gabrielcae
 	 */
@@ -66,13 +68,13 @@ public class VueApplication extends JFrame implements Observer {
 				chargerNoeudsDeZone(zone);
 				chargerTronconsDeZone(zone);
 				break;
-			case "Livraison":				
-//				chargerEntrepot(zone);
-//				chargerPlageHoraires(zone);
-//				chargerLivraisons(zone);				
+			case "Livraison":
+				// chargerEntrepot(zone);
+				// chargerPlageHoraires(zone);
+				// chargerLivraisons(zone);
 				break;
 			}
-		} 
+		}
 	}
 
 	/**
@@ -98,7 +100,7 @@ public class VueApplication extends JFrame implements Observer {
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		GridBagLayout layout = new GridBagLayout();
 		this.getContentPane().setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -112,6 +114,7 @@ public class VueApplication extends JFrame implements Observer {
 		gbc.gridy = 0;
 		gbc.ipadx = 600;
 		gbc.ipady = 600;
+		gbc.weighty = 10;
 		this.getContentPane().add(vueZone, gbc);
 
 		gbc.gridwidth = 2;
@@ -120,6 +123,7 @@ public class VueApplication extends JFrame implements Observer {
 		gbc.gridy = 0;
 		gbc.ipadx = 200;
 		gbc.ipady = 400;
+		gbc.weightx = 10;
 		this.getContentPane().add(vuePlageHoraire, gbc);
 
 		gbc.gridwidth = 2;
@@ -128,38 +132,52 @@ public class VueApplication extends JFrame implements Observer {
 		gbc.gridy = 2;
 		gbc.ipadx = 200;
 		gbc.ipady = 200;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 10;
 		this.getContentPane().add(vueInfo, gbc);
 
 		vuePlageHoraire.btnChargPlan.addActionListener(ctrl);
 		vuePlageHoraire.btnChargPlan.setActionCommand("Charger Plan");
 
-		
 		vuePlageHoraire.btnCalcTourn.addActionListener(ctrl);
 		vuePlageHoraire.btnCalcTourn.setActionCommand("Calculer Tournee");
-		
+
 		vuePlageHoraire.btnChargLiv.addActionListener(ctrl);
 		vuePlageHoraire.btnChargLiv.setActionCommand("Charger Livraisons");
-		
+
 		vueInfo.btnUndo.addActionListener(ctrl);
 		vueInfo.btnUndo.setActionCommand("Undo");
-		
+
 		vueInfo.btnRedo.addActionListener(ctrl);
 		vueInfo.btnRedo.setActionCommand("Redo");
-		
 
 		vuePlageHoraire.btnImpr.addActionListener(ctrl);
 		vuePlageHoraire.btnImpr.setActionCommand("Impression");
-		
+
 		vueInfo.ajouter.addActionListener(ctrl);
 		vueInfo.ajouter.setActionCommand("Ajouter Livraison");
-		
+
 		vueInfo.supprimer.addActionListener(ctrl);
 		vueInfo.supprimer.setActionCommand("Supprimer Livraison");
-		
+
 		vueInfo.valider.addActionListener(ctrl);
 		vueInfo.valider.setActionCommand("Valider Livraison");
 
 		vueZone.addMouseListener(ctrl);
+	}
+
+	public void selectionnerNoeud(int x, int y) {
+		x = convertiseurMetrePixel(x, 'x');
+		y = convertiseurMetrePixel(y, 'y');
+		VueNoeud noeudSelectionne = new VueNoeud(x, y);
+		vueZone.selectionnerNoeud(noeudSelectionne);
+	}
+
+	public void deselectionnerNoeud(int x, int y) {
+		x = convertiseurMetrePixel(x, 'x');
+		y = convertiseurMetrePixel(y, 'y');
+		VueNoeud noeudSelectionne = new VueNoeud(x, y);
+		vueZone.deselectionnerNoeud(noeudSelectionne);
 	}
 
 	/**
@@ -172,7 +190,7 @@ public class VueApplication extends JFrame implements Observer {
 	private void chargerNoeudsDeZone(Zone zone) {
 		List<VueNoeud> listeVueNoeud = new ArrayList<VueNoeud>();
 		Map<Integer, Noeud> mapNoeuds = zone.getNoeuds();
-		int i=0;
+		int i = 0;
 		for (Integer iter : mapNoeuds.keySet()) {
 			Noeud noeud = mapNoeuds.get(iter);
 			int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
@@ -198,7 +216,7 @@ public class VueApplication extends JFrame implements Observer {
 
 		vueZone.chargerNoeuds(vn);
 	}
-	
+
 	private void chargerTronconsDeZone(Zone zone) {
 		List<VueTroncon> listeVueTroncons = new ArrayList<VueTroncon>();
 		for (Troncon t : zone.getTroncons()) {
@@ -206,7 +224,8 @@ public class VueApplication extends JFrame implements Observer {
 			int yInit = convertiseurMetrePixel(t.getOrigine().getPosY(), 'y');
 			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
 			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
-			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, t.getNomRue());
+			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
+					t.getNomRue());
 			listeVueTroncons.add(vt);
 		}
 		vueZone.chargerTroncons(listeVueTroncons);
@@ -244,4 +263,5 @@ public class VueApplication extends JFrame implements Observer {
 
 		}
 	}
+
 }

@@ -37,6 +37,7 @@ public class Livraison extends Observable {
 		this.heurePrevue = new Time();
 		this.adresse = adresse;
 		isPonctuel = true;
+		adresse.setLivraison(this);
 	}
 
 
@@ -69,6 +70,9 @@ public class Livraison extends Observable {
 		this.plage = plage;
 	}
 
+	public static void resetLivraisonId() {
+		nombreLivraison = 0;
+	}
 	public boolean isPonctuel() {
 		return isPonctuel;
 	}

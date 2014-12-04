@@ -20,9 +20,9 @@ public class Time {
 	
 	public Time(String str) {
 		String[] parties = str.split(":");
-		this.heure = Integer.parseInt(parties[1]);
-		this.minute = Integer.parseInt(parties[2]);
-		this.seconde = Integer.parseInt(parties[3]);
+		this.heure = Integer.parseInt(parties[0]);
+		this.minute = Integer.parseInt(parties[1]);
+		this.seconde = Integer.parseInt(parties[2]);
 	}
 	
 	public void setTime(Time time, int duree) {
