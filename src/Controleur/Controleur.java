@@ -1,5 +1,6 @@
 package Controleur;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,6 +14,7 @@ import java.text.ParseException;
 import java.util.Stack;
 
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -66,7 +68,7 @@ public class Controleur implements ActionListener, MouseListener {
 		this.zone = zone;
 		vueApplication = new VueApplication(this);
 		isZoneSansLivraison = true;
-		ajoutEnCours = true;
+		ajoutEnCours = false;
 		selectionActive = true;
 		noeudSelectionne = null;
 		noeudPrecedent = null;
@@ -211,6 +213,9 @@ public class Controleur implements ActionListener, MouseListener {
 			
 			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
 			
+			vueApplication.getVueInfo().ajouter.setEnabled(false);
+			vueApplication.getVueInfo().supprimer.setEnabled(false);
+			
 			if (noeudClique != null) {
 				vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
 				if (ajoutEnCours){
@@ -264,9 +269,9 @@ public class Controleur implements ActionListener, MouseListener {
 	public void imprimerFeuilleDeRoute() {
 
 	     try {
-             
+             File file= new File("Resources/feuille_de_route_zone.txt");
              // 1) Creation de la feuille de route
-             BufferedWriter out = new BufferedWriter(new FileWriter(new File("Resources/feuille_de_route_zone.txt")));
+             BufferedWriter out = new BufferedWriter(new FileWriter(file));
              try {
                
                   // 2) �criture de la feuille de route
@@ -284,7 +289,15 @@ public class Controleur implements ActionListener, MouseListener {
                
                   // 3) Lib�ration de la ressource exploit�e par l'objet
                   out.close();
-               
+                  Desktop desktop = Desktop.getDesktop();
+                  desktop.open(file);
+                   if (Desktop.isDesktopSupported()) {
+                       try {
+                           File myFile = new File( "path/to/file");
+                           Desktop.getDesktop().open(myFile);
+                       } catch (IOException ex) {
+                       }
+                   } 
              }
         
            
@@ -312,15 +325,19 @@ public class Controleur implements ActionListener, MouseListener {
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
-		int idClient = 0; /*getIdClientVue() --> GABRIEL*/
+		int idClient =getIdClientVue(this.vueApplication.getVueInfo().idClient);
 		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);
 			ajout.execute();
 		}
-		
+		ajoutEnCours = false;
 	}
 		
+	
+	public int getIdClientVue(JTextField idClient){
+		return  Integer.parseInt(idClient.getText());
+	}
 	/**
 	 * Appelée par le bouton Supprimer
 	 * 
