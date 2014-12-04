@@ -102,6 +102,8 @@ public class Controleur implements ActionListener, MouseListener {
 			}
 			
 			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
+			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(false);
 			break;
 			
 		case "Charger Livraisons":
