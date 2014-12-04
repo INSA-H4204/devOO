@@ -144,13 +144,15 @@ public class Controleur implements ActionListener, MouseListener {
 		case "Ajouter Livraison":
 			vueApplication.getVueInfo().ajouter.setEnabled(false);
 			actionBoutonAjouter();
-			
 			break;
 			
 		case "Supprimer Livraison":
+			actionBoutonSupprimer();
 			vueApplication.getVueInfo().supprimer.setEnabled(false);
 			break;
-		case "valider Livraison":
+			
+		case "Valider Livraison":
+			actionBoutonValider();
 			vueApplication.getVueInfo().valider.setEnabled(false);
 			break;
 
@@ -219,6 +221,7 @@ public class Controleur implements ActionListener, MouseListener {
 				vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
+					vueApplication.getVueInfo().valider.setEnabled(true);
 				} else {
 					this.noeudSelectionne = noeudClique;
 					if (noeudSelectionne.getLivraison() == null) {
@@ -313,7 +316,6 @@ public class Controleur implements ActionListener, MouseListener {
 	 */
 	public void actionBoutonAjouter(){
 		if (noeudSelectionne != null) {
-			//DesactiverBoutonAjouter
 			ajoutEnCours = true;
 		}
 	}
