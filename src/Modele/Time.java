@@ -82,5 +82,4 @@ public class Time {
 	public void setSeconde(int seconde) {
 		this.seconde = seconde;
 	}
-	
 }
