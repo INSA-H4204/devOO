@@ -105,6 +105,7 @@ public class Controleur implements ActionListener, MouseListener {
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
 
 			String livraisonXML = choisirXML();
+
 			if(livraisonXML != null){				
 					try {
 						chargerLivraisons(livraisonXML);
@@ -113,6 +114,7 @@ public class Controleur implements ActionListener, MouseListener {
 						e1.printStackTrace();
 					}				
 			}
+
 			break;
 			
 		case "Undo":
@@ -129,6 +131,8 @@ public class Controleur implements ActionListener, MouseListener {
 			break;
 		case "Calculer Tournee" :
 			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
+			calculerTournee();
+			vueApplication.dessinerTournee(zone);
 			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(true);
 			break;
 
@@ -198,7 +202,7 @@ public class Controleur implements ActionListener, MouseListener {
 					this.noeudPrecedent = noeudClique;
 				} else {
 					this.noeudSelectionne = noeudClique;
-				if (noeudSelectionne.getLivraison() == null) {
+					if (noeudSelectionne.getLivraison() == null) {
 						vueApplication.getVueInfo().ajouter.setEnabled(true);
 					} else {
 						vueApplication.getVueInfo().supprimer.setEnabled(true);

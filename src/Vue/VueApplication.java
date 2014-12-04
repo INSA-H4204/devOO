@@ -14,7 +14,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 import Controleur.Controleur;
+
+import Modele.Chemin;
+
 import Modele.Livraison;
+
 import Modele.Noeud;
 import Modele.PlageHoraire;
 import Modele.Troncon;
@@ -238,7 +242,7 @@ public class VueApplication extends JFrame implements Observer {
 			int yInit = convertiseurMetrePixel(t.getOrigine().getPosY(), 'y');
 			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
 			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
-			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,t.getNomRue(), Color.BLACK);
+			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,t.getNomRue());
 			listeVueTroncons.add(vt);
 		}
 		vueZone.chargerTroncons(listeVueTroncons);
@@ -254,7 +258,7 @@ public class VueApplication extends JFrame implements Observer {
 		int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
 		int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 		int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
-		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome", Color.BLACK);
+		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome");
 
 		vueZone.chargerTroncons(vt);
 	}
@@ -313,6 +317,28 @@ private void chargerLivraisons(Zone zone){
 			return 0;
 
 		}
-	}	
-	
+
+	}
+
+	public void dessinerTournee(Zone zone) {
+		List<VueTroncon> listeVueTronconsChemin = new ArrayList<VueTroncon>();
+		for(Chemin chemin:zone.getTournee().getChemins())  {
+	      	  for(Troncon troncon:chemin.getTroncons()) {
+	      		int xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
+				int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
+				int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
+				int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
+				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
+						troncon.getNomRue());
+				listeVueTronconsChemin.add(vt);
+	      	  }
+			
+			}
+		// TODO Auto-generated method stub
+		vueZone.chargerTronconsChemin(listeVueTronconsChemin);
+	}
+
+
+		
+
 }

@@ -15,11 +15,17 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import Modele.Chemin;
+import Modele.Tournee;
+import Modele.Troncon;
+
 public class VueZone extends JPanel {
 
 	private List<VueTroncon> listeVueTroncon;
+	private List<VueTroncon> listeVueTronconsChemin;
 	private List<VueNoeud> listeVueNoeud;	
 	private List<VueNoeud> listeLivraisons;
+
 	private VueNoeud noeudSelectionne;
 	private VueNoeud entrepot;
 
@@ -30,6 +36,7 @@ public class VueZone extends JPanel {
 		listeVueNoeud = new ArrayList<VueNoeud>();
 		listeLivraisons = new ArrayList<VueNoeud>();
 		listeVueTroncon = new ArrayList<VueTroncon>();
+		listeVueTronconsChemin = new ArrayList<VueTroncon>();
 		noeudSelectionne = new VueNoeud();
 		entrepot = new VueNoeud();
 
@@ -69,6 +76,14 @@ public class VueZone extends JPanel {
 				VueTroncon vt = listeVueTroncon.get(i);
 				g.setColor(Color.BLACK);
 				dessinerTroncon(g, vt.getXInit() + 4, vt.getYInit() + 4, vt.getXFin() + 4, vt.getYFin() + 4);
+			}
+		}
+		if (listeVueTronconsChemin.size() > 0) {
+			for (int i = 0; i < listeVueTronconsChemin.size(); i++) {
+				VueTroncon vt = listeVueTronconsChemin.get(i);
+				g.setColor(Color.BLUE);
+				dessinerTroncon(g, vt.getXInit() + 4, vt.getYInit() + 4,
+						vt.getXFin() + 4, vt.getYFin() + 4);
 			}
 		}
 		if (noeudSelectionne != null) {
@@ -146,4 +161,11 @@ public class VueZone extends JPanel {
 		// g.drawLine(xMoyen, yMoyen, xMoyen, yMoyen + (-signY)*15);
 		// g.drawLine(xMoyen, yMoyen, xMoyen + (-signX)*15, yMoyen);
 	}
+
+	public void chargerTronconsChemin(List<VueTroncon> listeVueTronconsChemin) {
+		this.listeVueTronconsChemin = listeVueTronconsChemin;
+		this.repaint();
+		
+	}
+
 }
