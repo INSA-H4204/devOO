@@ -245,7 +245,7 @@ public class VueApplication extends JFrame implements Observer {
 			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
 			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
 			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
-					t.getNomRue(), Color.black);
+					t.getNomRue(), Color.black, t.getId());
 			listeVueTroncons.add(vt);
 		}
 		vueZone.chargerTroncons(listeVueTroncons);
@@ -262,7 +262,7 @@ public class VueApplication extends JFrame implements Observer {
 		int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 		int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
 		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome",
-				Color.black);
+				Color.black, troncon.getId());
 
 		vueZone.chargerTroncons(vt);
 	}
@@ -358,7 +358,7 @@ public class VueApplication extends JFrame implements Observer {
 					c = Color.PINK;
 
 				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
-						troncon.getNomRue(), c);
+						troncon.getNomRue(), c, troncon.getId());
 
 				listeVueTronconsChemin.add(vt);
 			}
