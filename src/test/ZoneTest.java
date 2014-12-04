@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ListIterator;
 import java.util.Map.Entry;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,7 +19,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import Modele.Chemin;
+import Modele.Livraison;
 import Modele.Noeud;
+import Modele.PlageHoraire;
 import Modele.Troncon;
 import Modele.Zone;
 
@@ -46,7 +50,8 @@ public class ZoneTest {
 	private static String LivraisonSansId = "Resources/LivraisonSansId.xml";
 	private static String LivraisonSansPlageHoraires = "Resources/LivraisonSansPlageHoraires.xml";
 	private static String PlageHoraireChevauchement = "Resources/PlageHoraireChevauchement.xml";
-
+	private static String ValeurNegativeStr = "Resources/ValeursNegatives.xml";
+	
 	private static String XsdFile = "Resources/plan.xsd";
 	private static String xsdFilePathLivraison = "Resources/demandeLivraison.xsd";
 	
@@ -85,26 +90,81 @@ public class ZoneTest {
 		 assertNotNull(zone);
 	    }
 	 
+	 @Test
+	 public void calculerTournee() throws Exception {
+		 zone = new Zone();
+		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+		 zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
+		 zone.calculerTournee();
+			ListIterator<Chemin>  iterChemin= zone.getTournee().getChemins().listIterator();
+			while (iterChemin.hasNext())
+			{
+				Chemin chemin = iterChemin.next();
+				System.out.println("------Heure Livraison----- "+chemin.getArrivee().getHeurePrevue().getHeure()+"h"+chemin.getArrivee().getHeurePrevue().getMinute()+"m"+chemin.getDepart().getHeurePrevue().getSeconde()+"s");
+			}
+		 
+		 
+			ListIterator<PlageHoraire>  iterPlage= zone.getPlageHoraire().listIterator();
+			while (iterPlage.hasNext())
+			{
+				PlageHoraire plage = iterPlage.next();
+				System.out.println("------Plage horraire Debut----- "+plage.getHeureDebut().getHeure()+"h"+plage.getHeureDebut().getMinute()+"m"+plage.getHeureDebut().getSeconde()+"s");
+				ListIterator<Livraison>  iterLivraison =  plage.getLivraisons().listIterator();
+				while (iterLivraison.hasNext())
+				{
+					Livraison livraison = iterLivraison.next();
+					System.out.println(livraison.getHeurePrevue().getHeure()+"h"+livraison.getHeurePrevue().getMinute()+"m"+livraison.getHeurePrevue().getSeconde()+"s");
+				}
+				System.out.println("------Plage horraire Fin----- "+plage.getHeureFin().getHeure()+"h"+plage.getHeureFin().getMinute()+"m"+plage.getHeureFin().getSeconde()+"s");
+			}
+		 
+		 assertNotNull(zone.getTournee());
+		 assertNotNull(zone.getTournee().getChemins());
+	 }
 	 
 	 @Test
 	 public void integriteNoeuds() throws Exception {
 		zone = new Zone();
-		  zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+		zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.getNoeuds().size());
-
 		assertNotNull("Echec - Aucun troncon n'a été chargé",zone.getTroncons().size());
-
 		for(Entry<Integer, Noeud> iter : zone.getNoeuds().entrySet()) {
-
 			assertNotNull("Echec - L'id n'est pas renseigné",iter.getValue().getNoeudID());
 			assertNotNull("Echec - X n'est pas renseigné",iter.getValue().getPosX());
 			assertNotNull("Echec - Y n'est pas renseigné",iter.getValue().getPosY());
+			assertTrue("Echec - X négatif",iter.getValue().getPosX()>0);
+			assertTrue("Echec - Y négatif",iter.getValue().getPosY()>0);
 		}
 		for (Troncon t : zone.getTroncons() ) {
 			assertNotNull("Echec - Troncon sans origine",t.getOrigine());
 			assertNotNull("Echec - Troncon sans fin",t.getFin());
+			assertTrue("Echec - vitesse négative non admise",t.getVitesse()>0);
+			assertTrue("Echec - Longueur négative non admise",t.getLongueur()>0);
 		}
 	 }
+	 
+	 @Test
+	 public void ValeursNegatives() throws Exception {
+		zone = new Zone();
+		zone.XMLtoDOMZone(ValeurNegativeStr,XsdFile);
+		assertEquals("Echec - Le nombre de noeuds chargés n'est pas corect",400,zone.getNoeuds().size());
+		assertNotNull("Echec - Aucun troncon n'a été chargé",zone.getTroncons().size());
+		for(Entry<Integer, Noeud> iter : zone.getNoeuds().entrySet()) {
+			assertNotNull("Echec - L'id n'est pas renseigné",iter.getValue().getNoeudID());
+			assertNotNull("Echec - X n'est pas renseigné",iter.getValue().getPosX());
+			assertNotNull("Echec - Y n'est pas renseigné",iter.getValue().getPosY());
+			assertTrue("Echec - X négatif",iter.getValue().getPosX()>0);
+			assertTrue("Echec - Y négatif",iter.getValue().getPosY()>0);
+		}
+		for (Troncon t : zone.getTroncons() ) {
+			assertNotNull("Echec - Troncon sans origine",t.getOrigine());
+			assertNotNull("Echec - Troncon sans fin",t.getFin());
+			assertTrue("Echec - vitesse négative non admise",t.getVitesse()>0);
+			assertTrue("Echec - Longueur négative non admise",t.getLongueur()>0);
+		}
+	 }
+	 
+	  
 	 
 	 @Test
 	 public void AbsenceNoeud()  {
@@ -297,7 +357,7 @@ public class ZoneTest {
 	 public void ChevauchementPlageHoraire() throws NumberFormatException, SAXException, ParseException, ParserConfigurationException, IOException {
 		 zone = new Zone();
 		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
-		  zone.XMLtoDOMLivraisons(LivraisonSansPlageHoraires,xsdFilePathLivraison);	
+		  zone.XMLtoDOMLivraisons(PlageHoraireChevauchement,xsdFilePathLivraison);	
 	 }
 	 
 	 
@@ -324,18 +384,11 @@ public class ZoneTest {
 	 public void verifierSiZoneSansLivraisonFail() throws Exception {
 		 zone = new Zone();
 		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
+		 zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
 		 assertFalse("Echec - zone sans livraison renvoie true alors qu il y a des livraisons",zone.verifierSiZoneSansLivraison());
 	 }
 	 
-	 @Test
-	 public void calculerTournee() throws Exception {
-		 zone = new Zone();
-		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
-		 zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
-		 zone.calculerTournee();
-		 assertNotNull(zone.getTournee());
-		 assertNotNull(zone.getTournee().getChemins());
-	 }
+
 
 
 	 

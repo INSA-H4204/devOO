@@ -57,7 +57,7 @@ public class Tournee extends Observable {
 		Livraison livraison = chemins.get(0).getArrivee();
 		PlageHoraire plage = livraison.getPlage();
 		livraison.setHeurePrevue(plage.getHeureDebut());
-		livraisonPrecedente.setHeurePrevue(livraison.getHeurePrevue(), chemins.get(0).getPoidsChemin());
+		//livraisonPrecedente.setHeurePrevue(livraison.getHeurePrevue(), chemins.get(0).getPoidsChemin());
 		
 		for (int i = 1; i < chemins.size()-1; i++) {
 			livraisonPrecedente = chemins.get(i).getDepart();
