@@ -67,7 +67,7 @@ public class Controleur implements ActionListener, MouseListener {
 		this.zone = zone;
 		vueApplication = new VueApplication(this);
 		isZoneSansLivraison = true;
-		ajoutEnCours = true;
+		ajoutEnCours = false;
 		selectionActive = true;
 		noeudSelectionne = null;
 		noeudPrecedent = null;
@@ -212,6 +212,9 @@ public class Controleur implements ActionListener, MouseListener {
 			
 			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
 			
+			vueApplication.getVueInfo().ajouter.setEnabled(false);
+			vueApplication.getVueInfo().supprimer.setEnabled(false);
+			
 			if (noeudClique != null) {
 				vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
 				if (ajoutEnCours){
@@ -327,7 +330,7 @@ public class Controleur implements ActionListener, MouseListener {
 			commandesExecutees.push(ajout);
 			ajout.execute();
 		}
-		
+		ajoutEnCours = false;
 	}
 		
 	/**

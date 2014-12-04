@@ -30,6 +30,7 @@ public class VueTroncon {
 	 *            coordonnée x du noeud d'entrée
 	 * @param nom
 	 *            nom du tronçon
+	 * @param c 
 	 * @author gabrielcae
 	 */
 	public VueTroncon(int xInit, int yInit, int xFin, int yFin, String nom, Color c) {
