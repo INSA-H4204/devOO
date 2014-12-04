@@ -420,6 +420,10 @@ public class Zone extends Observable {
 		tournee.setChemins(listerChemins(suivant, sources, livraisons));
 		tournee.setEtatTroncons();
 		tournee.verifierPonctualite();
+		
+		this.setChanged();
+		this.notifyObservers("Tournee");
+		this.clearChanged();
 	}
 
 	/**

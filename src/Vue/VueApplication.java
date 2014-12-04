@@ -79,7 +79,7 @@ public class VueApplication extends JFrame implements Observer {
 				chargerLivraisons(zone);
 				break;
 			case "Tournee":
-				// chargerTournee(zone);
+				dessinerTournee(zone);
 				break;
 			}
 		}
@@ -300,6 +300,7 @@ public class VueApplication extends JFrame implements Observer {
 
 	public void chargerLivraisons(Zone zone) {
 		List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
+		List<VueNoeud> listeLivraisonsEnRetard = new ArrayList<VueNoeud>();
 		List<PlageHoraire> lPH = zone.getPlageHoraire();
 		for (PlageHoraire pH : zone.getPlageHoraire()) {
 			for (Livraison livraison : pH.getLivraisons()) {
@@ -307,10 +308,15 @@ public class VueApplication extends JFrame implements Observer {
 				int x = convertiseurMetrePixel(noeud.getPosX(), 'x');
 				int y = convertiseurMetrePixel(noeud.getPosY(), 'y');
 				VueNoeud vn = new VueNoeud(x, y);
-				listeLivraisons.add(vn);
+				if(livraison.isPonctuel()){
+					listeLivraisons.add(vn);
+				} else {
+					listeLivraisonsEnRetard.add(vn);
+				}
+				
 			}
 		}
-		vueZone.chargerLivraisons(listeLivraisons);
+		vueZone.chargerLivraisons(listeLivraisons,listeLivraisonsEnRetard);
 	}
 
 	/**
@@ -371,9 +377,7 @@ public class VueApplication extends JFrame implements Observer {
 				else if (choixCoul == 3)
 					c = Color.ORANGE;
 				else if (choixCoul == 4)
-					c = Color.RED;
-				else if (choixCoul == 5)
-					c = Color.PINK;
+					c = Color.MAGENTA;
 
 				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
 						troncon.getNomRue(), c, troncon.getId());
@@ -382,7 +386,7 @@ public class VueApplication extends JFrame implements Observer {
 			}
 
 		}
-		// TODO Auto-generated method stub
+		chargerLivraisons(zone);
 		vueZone.chargerTronconsChemin(listeVueTronconsChemin);
 	}
 }
