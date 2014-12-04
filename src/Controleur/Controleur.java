@@ -113,7 +113,6 @@ public class Controleur implements ActionListener, MouseListener {
 						e1.printStackTrace();
 					}				
 			}
-
 			break;
 			
 		case "Undo":

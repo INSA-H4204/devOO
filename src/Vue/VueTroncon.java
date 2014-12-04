@@ -1,5 +1,7 @@
 package Vue;
 
+import java.awt.Color;
+
 import javax.swing.JFrame;
 
 /**
@@ -12,23 +14,32 @@ public class VueTroncon {
 	private int yInit;
 	private int xFin;
 	private int yFin;
-	String nom;
-	
+	private String nom;
+	private Color couleur;
+
 	/**
 	 * Constructeur de VueTronçon
-	 * @param xInit coordonnée x du noeud de sortie 
-	 * @param yInit coordonnée y du noeud de sortie 
-	 * @param xFin coordonnée x du noeud d'entrée
-	 * @param xFin coordonnée x du noeud d'entrée
-	 * @param nom nom du tronçon
-	 * @author gabrielcae  
+	 * 
+	 * @param xInit
+	 *            coordonnée x du noeud de sortie
+	 * @param yInit
+	 *            coordonnée y du noeud de sortie
+	 * @param xFin
+	 *            coordonnée x du noeud d'entrée
+	 * @param xFin
+	 *            coordonnée x du noeud d'entrée
+	 * @param nom
+	 *            nom du tronçon
+	 * @author gabrielcae
 	 */
-	public VueTroncon(int xInit, int yInit, int xFin, int yFin, String nom) {
+	public VueTroncon(int xInit, int yInit, int xFin, int yFin, String nom,
+			Color c) {
 		this.xInit = xInit;
 		this.yInit = yInit;
 		this.xFin = xFin;
 		this.yFin = yFin;
-		this.nom = nom;		
+		this.nom = nom;
+		this.couleur = c;
 	}
 
 	/**
@@ -36,34 +47,34 @@ public class VueTroncon {
 	 * @return
 	 * @author gabrielcae
 	 */
-	public int getXInit (){
+	public int getXInit() {
 		return xInit;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 * @author gabrielcae
 	 */
-	public int getXFin (){
+	public int getXFin() {
 		return xFin;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 * @author gabrielcae
 	 */
-	public int getYInit (){
+	public int getYInit() {
 		return yInit;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 * @author gabrielcae
 	 */
-	public int getYFin (){
+	public int getYFin() {
 		return yFin;
 	}
 
