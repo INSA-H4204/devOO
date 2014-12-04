@@ -70,4 +70,8 @@ public class Noeud extends Observable {
 	public String toString(){
 		return "Noeud";
 	}
+
+	public void setLivraison(Livraison livraison) {
+		this.livraison = livraison; 
+	}
 }

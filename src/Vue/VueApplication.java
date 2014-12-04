@@ -28,8 +28,8 @@ public class VueApplication extends JFrame implements Observer {
 
 	private final int HAUTEUR_FENETRE = 700;
 	private final int LARGEUR_FENETRE = 1200;
-	private final float COEF_METRE_PX_X = (float) (5.9 / 8.0);
-	private final float COEF_METRE_PX_Y = (float) (6.3 / 8.0);
+	public final float COEF_METRE_PX_X = (float) (5.9 / 8.0);
+	public final float COEF_METRE_PX_Y = (float) (6.3 / 8.0);
 
 	/**
 	 * 

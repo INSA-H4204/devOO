@@ -26,12 +26,11 @@ public class Time {
 	}
 	
 	public void setTime(Time time, int duree) {
-		int heureAjoutee = duree/3600;
-		int minuteAjoutee = (duree-heureAjoutee*3600)/60;
-		int secondeAjoutee = duree-heureAjoutee*3600-minuteAjoutee*60;
-		this.heure = time.getHeure()+heureAjoutee;
-		this.minute = time.getMinute()+minuteAjoutee;
-		this.seconde = time.getSeconde()+secondeAjoutee;
+		int secondeAjoutee = (duree%3600)%60+time.getSeconde();
+        this.seconde = secondeAjoutee%60;
+        int minuteAjoutee = secondeAjoutee/60+(duree%3600)/60+time.getMinute();
+        this.minute = minuteAjoutee%60;
+        this.heure = minuteAjoutee/60+duree/3600+time.getHeure();
 	}
 	
 	public void setTime(Time time) {

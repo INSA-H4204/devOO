@@ -2,6 +2,7 @@ package Modele;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Observable;
 
 /**
@@ -27,6 +28,11 @@ public class PlageHoraire extends Observable {
 		this.heureDebut =heureDebut;
 		this.heureFin =heureFin;
 		this.livraisons = listeLivraisonsPlage;
+		ListIterator<Livraison> iterLivraison =listeLivraisonsPlage.listIterator();
+		while (iterLivraison.hasNext())
+		{
+			iterLivraison.next().setPlage(this);
+		}
 	}
 	
 

@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import Modele.Chemin;
 import Modele.Livraison;
 import Modele.Noeud;
 import Modele.PlageHoraire;
@@ -95,6 +96,13 @@ public class ZoneTest {
 		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		 zone.XMLtoDOMLivraisons(LivraisonCorrecteStr,xsdFilePathLivraison);
 		 zone.calculerTournee();
+			ListIterator<Chemin>  iterChemin= zone.getTournee().getChemins().listIterator();
+			while (iterChemin.hasNext())
+			{
+				Chemin chemin = iterChemin.next();
+				System.out.println("------Heure Livraison----- "+chemin.getArrivee().getHeurePrevue().getHeure()+"h"+chemin.getArrivee().getHeurePrevue().getMinute()+"m"+chemin.getDepart().getHeurePrevue().getSeconde()+"s");
+			}
+		 
 		 
 			ListIterator<PlageHoraire>  iterPlage= zone.getPlageHoraire().listIterator();
 			while (iterPlage.hasNext())
