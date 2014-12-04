@@ -49,7 +49,7 @@ public class VueZone extends JPanel {
 				loweredbevel);
 
 		this.setBorder(border);
-		this.setBackground(Color.ORANGE);
+		this.setBackground(new Color(154, 189, 183));
 
 		entrepot = null;
 		noeudSelectionne = null;
