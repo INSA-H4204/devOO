@@ -23,6 +23,7 @@ public class Troncon extends Observable {
 	private Noeud fin;
 	private Noeud origine;
 	private List<Observer> observers;
+	private int id;
 	
 	public String getNomRue() {
 		return nomRue;
@@ -39,6 +40,7 @@ public class Troncon extends Observable {
 		fin = new Noeud();
 		origine = new Noeud();
 		observers = new ArrayList<Observer>();
+		id = 0;
 	}
 	
 	public Troncon(Noeud origine, Noeud fin, int vitesse, int longueur, String nomRue) {
@@ -49,6 +51,29 @@ public class Troncon extends Observable {
 		this.longueur= longueur;
 		this.nomRue = nomRue;
 		this.observers = new ArrayList<Observer>();
+		id = origine.getNoeudID() * fin.getNoeudID();
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Troncon t;
+		try {
+			t = (Troncon) obj;
+		} catch (Exception e) {
+			return false;
+		}
+		if(t.getOrigine().getNoeudID() == this.getOrigine().getNoeudID() && 
+				t.getFin().getNoeudID() == this.getFin().getNoeudID() ||
+				t.getOrigine().getNoeudID() == this.getFin().getNoeudID() && 
+				t.getFin().getNoeudID() == this.getOrigine().getNoeudID()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public Noeud getOrigine() {
