@@ -32,6 +32,8 @@ public class VueZone extends JPanel {
 	private VueNoeud noeudSelectionne;
 	private VueNoeud entrepot;
 
+	
+
 	/**
 	 * 
 	 */
@@ -64,7 +66,9 @@ public class VueZone extends JPanel {
 		entrepot = null;
 		noeudSelectionne = null;
 	}
-
+	public VueNoeud getEntrepot() {
+		return entrepot;
+	}
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (listeVueNoeud.size() > 0) {
@@ -84,7 +88,7 @@ public class VueZone extends JPanel {
 		if (listeVueTronconsChemin.size() > 0) {
 			for (int i = 0; i < listeVueTronconsChemin.size(); i++) {
 				VueTroncon vt = listeVueTronconsChemin.get(i);
-				g.setColor(Color.BLUE);
+				g.setColor(vt.getCouleur());
 				dessinerTronconChemin(g, vt.getXInit() + 4, vt.getYInit() + 4,
 						vt.getXFin() + 4, vt.getYFin() + 4);
 			}
@@ -173,18 +177,21 @@ public class VueZone extends JPanel {
 	private void dessinerTronconChemin(Graphics g, int xInit, int yInit, int xFin,
 			int yFin) {
 		int deltaX, deltaY, xMoyen, yMoyen, signX, signY;
+		double arco =Math.acos((xFin - xInit)*(xFin - xInit)+(yFin - yInit)*(yFin - yInit));
+		
 		deltaX = (xFin - xInit) / 2;
 		deltaY = (yFin - yInit) / 2;
 		xMoyen = xInit + deltaX;
 		yMoyen = yInit + deltaY;
 		signX = (int) Math.signum(deltaX);
 		signY = (int) Math.signum(deltaY);
-		g.drawLine(xInit, yInit, xFin, yFin);
+		double tailleFleche=50;
 		Graphics2D g2 = (Graphics2D)g;
-		Stroke s =  g2.getStroke();
 		g2.setStroke(new BasicStroke(5));
-		// g.drawLine(xMoyen, yMoyen, xMoyen, yMoyen + (-signY)*15);
-		// g.drawLine(xMoyen, yMoyen, xMoyen + (-signX)*15, yMoyen);
+		g.drawLine(xInit, yInit, xFin, yFin);
+		g2.setStroke(new BasicStroke(2));
+		//g.drawLine(xFin, yFin,xFin+ (int)(tailleFleche*Math.cos(30 +arco)),yFin+(int)( tailleFleche*Math.sin(30 +arco)));
+		//g.drawLine(xFin, yFin,xFin+(int)(tailleFleche*Math.cos(30 -arco)), yFin+(int)(tailleFleche*Math.sin(30 -arco)));
 	}
 
 	public void chargerTronconsChemin(List<VueTroncon> listeVueTronconsChemin) {

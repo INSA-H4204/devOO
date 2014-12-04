@@ -316,16 +316,38 @@ private void chargerLivraisons(Zone zone){
 	}
 
 	public void dessinerTournee(Zone zone) {
+		int choixCoul=0;
 		Color c=Color.BLUE;
+		PlageHoraire tampon = new PlageHoraire();
+		int xInit=convertiseurMetrePixel(zone.getEntrepot().getAdresse().getPosX(),'x');
+		int yInit=convertiseurMetrePixel(zone.getEntrepot().getAdresse().getPosY(),'y');
 		List<VueTroncon> listeVueTronconsChemin = new ArrayList<VueTroncon>();
 		for(Chemin chemin:zone.getTournee().getChemins())  {
 	      	  for(Troncon troncon:chemin.getTroncons()) {
-	      		int xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
-				int yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
+	      		if(choixCoul!=0){
+	      			xInit = convertiseurMetrePixel(troncon.getOrigine().getPosX(), 'x');
+	      			yInit = convertiseurMetrePixel(troncon.getOrigine().getPosY(), 'y');
+	      		}
 				int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 				int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
+				if(tampon != chemin.getArrivee().getPlage()){
+					tampon = chemin.getArrivee().getPlage();
+					choixCoul++;
+				}
+
+				if(choixCoul==1)
+					c=Color.CYAN;
+				else if(choixCoul==2)
+					c=Color.YELLOW;
+				else if(choixCoul==3)
+					c=Color.ORANGE;
+				else if(choixCoul==4)
+					c=Color.RED;
+				else if(choixCoul==5)
+					c=Color.PINK;
+				
 				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
-						troncon.getNomRue(), Color.BLUE);
+						troncon.getNomRue(), c);
 
 				listeVueTronconsChemin.add(vt);
 	      	  }

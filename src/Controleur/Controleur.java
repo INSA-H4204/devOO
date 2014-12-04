@@ -131,7 +131,7 @@ public class Controleur implements ActionListener, MouseListener {
 			break;
 			
 		case "Impression":
-
+			imprimerFeuilleDeRoute();
 
 			break;
 		case "Calculer Tournee" :
@@ -268,19 +268,19 @@ public class Controleur implements ActionListener, MouseListener {
 	public void imprimerFeuilleDeRoute() {
 
 	     try {
-             File file= new File("Resources/feuille_de_route_zone.txt");
+             File file= new File("feuille_de_route_zone.txt");
              // 1) Creation de la feuille de route
              BufferedWriter out = new BufferedWriter(new FileWriter(file));
              try {
                
                   // 2) �criture de la feuille de route
-                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure()));
+                  out.write("Partez de l'entrepot situe "+String.valueOf(zone.getEntrepot().getAdresse().getNoeudID())+" a "+String.valueOf(zone.getEntrepot().getHeurePrevue().getHeure())+" heure ");
                   for(Chemin chemin:zone.getTournee().getChemins())  {
                 	  for(Troncon troncon:chemin.getTroncons()) {
-                		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur()));
+                		  out.write(" Suivez "+troncon.getNomRue()+" sur "+String.valueOf(troncon.getLongueur())+" ");
                 	  }
                 	  if(chemin.getArrivee().getLivraisonID()!=0)
-                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apr�s "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure()));
+                		  out.write("Livrez la commande numero "+String.valueOf(chemin.getArrivee().getLivraisonID())+"du client numero "+String.valueOf(chemin.getArrivee().getClientID())+" a l'adresse "+String.valueOf(chemin.getArrivee().getAdresse().getNoeudID())+" apres "+String.valueOf(chemin.getArrivee().getPlage().getHeureDebut().getHeure())+ " heure ");
                 	  else
                 		  out.write("Vous etes de retour a l'entrepot");
                   }
