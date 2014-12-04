@@ -397,8 +397,6 @@ public class Zone extends Observable {
 		
 
 		for (Livraison livraison : plages.get(plages.size()-1).getLivraisons()) {
-
-
 			resDijkstra = dijkstra(livraison.getAdresse().getNoeudID());
 			sources.put(livraison.getLivraisonID(), resDijkstra);
 			depart = livraison.getLivraisonID();
@@ -419,7 +417,6 @@ public class Zone extends Observable {
 		TSP tsp = new TSP(grapheChoco);
 		tsp.solve(10000, 10000);
 		int[] suivant = tsp.getNext();
-		
 		tournee.setChemins(listerChemins(suivant, sources, livraisons));
 		tournee.setEtatTroncons();
 		tournee.verifierPonctualite();

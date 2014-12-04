@@ -24,7 +24,6 @@ public class Livraison extends Observable {
 	 */
 	public Livraison() {
 		clientID = 0;
-		livraisonID = ++nombreLivraison;
 		livraisonID = 0;
 		heurePrevue = new Time();
 		adresse = null;

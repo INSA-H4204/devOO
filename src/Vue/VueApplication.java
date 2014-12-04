@@ -10,15 +10,12 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import Controleur.Controleur;
-
 import Modele.Chemin;
-
 import Modele.Livraison;
-
 import Modele.Noeud;
 import Modele.PlageHoraire;
 import Modele.Troncon;
@@ -176,6 +173,10 @@ public class VueApplication extends JFrame implements Observer {
 		vueZone.addMouseListener(ctrl);
 	}
 
+	public void afficherErreur(String err) {
+	     JOptionPane.showMessageDialog(null, err, "Erreur", JOptionPane.ERROR_MESSAGE);
+	}
+	
 	/**
 	 * 
 	 * @param x
@@ -244,7 +245,7 @@ public class VueApplication extends JFrame implements Observer {
 			int xFin = convertiseurMetrePixel(t.getFin().getPosX(), 'x');
 			int yFin = convertiseurMetrePixel(t.getFin().getPosY(), 'y');
 			VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
-					t.getNomRue(), Color.black);
+					t.getNomRue(), Color.black, t.getId());
 			listeVueTroncons.add(vt);
 		}
 		vueZone.chargerTroncons(listeVueTroncons);
@@ -261,12 +262,14 @@ public class VueApplication extends JFrame implements Observer {
 		int xFin = convertiseurMetrePixel(troncon.getFin().getPosX(), 'x');
 		int yFin = convertiseurMetrePixel(troncon.getFin().getPosY(), 'y');
 		VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin, "sem nome",
-				Color.black);
+				Color.black, troncon.getId());
 
 		vueZone.chargerTroncons(vt);
 	}
 
-	private void chargerEntrepot(Zone zone) {
+
+	public void chargerEntrepot(Zone zone) {
+
 		Noeud adresseEntrepot = zone.getEntrepot().getAdresse();
 		int x = adresseEntrepot.getPosX();
 		int y = adresseEntrepot.getPosY();
@@ -274,6 +277,7 @@ public class VueApplication extends JFrame implements Observer {
 		y = convertiseurMetrePixel(y, 'y');
 		VueNoeud entrepot = new VueNoeud(x, y);
 		vueZone.chargerEntrepot(entrepot);
+
 	}
 
 	public void chargerLivraisons(Zone zone) {
@@ -354,7 +358,7 @@ public class VueApplication extends JFrame implements Observer {
 					c = Color.PINK;
 
 				VueTroncon vt = new VueTroncon(xInit, yInit, xFin, yFin,
-						troncon.getNomRue(), c);
+						troncon.getNomRue(), c, troncon.getId());
 
 				listeVueTronconsChemin.add(vt);
 			}
