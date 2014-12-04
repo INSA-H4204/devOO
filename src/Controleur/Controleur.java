@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.util.Stack;
 
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -344,7 +345,7 @@ public class Controleur implements ActionListener, MouseListener {
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
-		int idClient = 0; /*getIdClientVue() --> GABRIEL*/
+		int idClient =getIdClientVue(this.vueApplication.getVueInfo().idClient);
 		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);
@@ -353,6 +354,10 @@ public class Controleur implements ActionListener, MouseListener {
 		ajoutEnCours = false;
 	}
 		
+	
+	public int getIdClientVue(JTextField idClient){
+		return  Integer.parseInt(idClient.getText());
+	}
 	/**
 	 * Appelée par le bouton Supprimer
 	 * 
