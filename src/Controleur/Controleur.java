@@ -108,14 +108,14 @@ public class Controleur implements ActionListener, MouseListener {
 			String livraisonXML = choisirXML();
 			if(livraisonXML != null){
 				vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(true);
-					try {
-						chargerLivraisons(livraisonXML);
-					} catch (ParseException | ParserConfigurationException| SAXException | IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}				
+				try {
+					chargerLivraisons(livraisonXML);
+				} catch (ParseException | ParserConfigurationException| SAXException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
 			}
-			else{
+			else {
 				vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 			}
 
@@ -198,7 +198,7 @@ public class Controleur implements ActionListener, MouseListener {
 	public void selectionnerNoeud(){
 		
 		verifierSiZoneSansLivraison();
-		if (selectionActive/* && isZoneSansLivraison*/) {
+		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
 			
 			if (noeudPrecedent != null) {
