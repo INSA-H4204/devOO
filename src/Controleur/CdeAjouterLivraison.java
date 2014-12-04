@@ -57,6 +57,7 @@ public class CdeAjouterLivraison extends Commande {
 	public void execute() {
 
 		Livraison livraisonAjout = new Livraison(idClient,noeudSelectionne);
+		noeudSelectionne.setLivraison(livraisonAjout);
 		int posCheminSupprimer=-2;
 		List<Chemin> chemins = zone.getTournee().getChemins();
 		for(Chemin chemin : chemins){
