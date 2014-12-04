@@ -37,8 +37,8 @@ public class Controleur implements ActionListener, MouseListener {
 	private Zone zone;
 	private boolean isZoneSansLivraison;
 	
-	private int xSouris;
-	private int ySouris;
+	private float xSouris;
+	private float ySouris;
 	
 	// Contient les commandes qui ont été éxécutées et annulées pour pouvoir les annuler ou les rééxecuter
 	private Stack<Commande> commandesExecutees;
@@ -200,8 +200,19 @@ public class Controleur implements ActionListener, MouseListener {
 		verifierSiZoneSansLivraison();
 		if (selectionActive && !isZoneSansLivraison) {
 			selectionActive = false;
+			
+			if (noeudPrecedent != null) {
+				vueApplication.deselectionnerNoeud(noeudPrecedent.getPosX(), noeudPrecedent.getPosY());
+			}
+			
+			if (noeudSelectionne != null) {
+				vueApplication.deselectionnerNoeud(noeudSelectionne.getPosX(), noeudSelectionne.getPosY());
+			}
+			
 			Noeud noeudClique = zone.rechercherNoeudParPosition(xSouris,ySouris);
+			
 			if (noeudClique != null) {
+				vueApplication.selectionnerNoeud(noeudClique.getPosX(), noeudClique.getPosY());
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
 				} else {
@@ -380,9 +391,8 @@ public class Controleur implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		xSouris = e.getX();
-		ySouris = e.getY();
-		System.out.println(xSouris+" : "+ySouris);
+		xSouris = (e.getX() / vueApplication.COEF_METRE_PX_X) -20;
+		ySouris = (e.getY() / vueApplication.COEF_METRE_PX_Y) -20;
 		selectionnerNoeud();
 	}
 

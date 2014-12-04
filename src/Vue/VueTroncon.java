@@ -32,8 +32,7 @@ public class VueTroncon {
 	 *            nom du tronçon
 	 * @author gabrielcae
 	 */
-	public VueTroncon(int xInit, int yInit, int xFin, int yFin, String nom,
-			Color c) {
+	public VueTroncon(int xInit, int yInit, int xFin, int yFin, String nom, Color c) {
 		this.xInit = xInit;
 		this.yInit = yInit;
 		this.xFin = xFin;
