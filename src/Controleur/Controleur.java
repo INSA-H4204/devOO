@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.util.Stack;
 
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -73,6 +74,8 @@ public class Controleur implements ActionListener, MouseListener {
 		noeudPrecedent = null;
 		
 		zone.addObserver(vueApplication);
+		commandesExecutees = new Stack<Commande>();
+		commandesAnnulees = new Stack<Commande>();
 	}
 	
 	/**
@@ -89,16 +92,28 @@ public class Controleur implements ActionListener, MouseListener {
 
 			String planXML = choisirXML();
 			if(planXML != null){
+				vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
 				try {
 					chargerZone(planXML);
 				} catch (NumberFormatException | FileNotFoundException | SAXException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParserConfigurationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 
 			}
-			vueApplication.getVuePlageHoraire().btnChargLiv.setEnabled(true);
+			
 			vueApplication.getVuePlageHoraire().btnChargPlan.setEnabled(true);
+			vueApplication.getVuePlageHoraire().btnCalcTourn.setEnabled(false);
+			vueApplication.getVuePlageHoraire().btnImpr.setEnabled(false);
 			break;
 			
 		case "Charger Livraisons":
@@ -123,11 +138,15 @@ public class Controleur implements ActionListener, MouseListener {
 			break;
 			
 		case "Undo":
-			
+			undo();
+			vueApplication.chargerLivraisons(zone);
+			vueApplication.dessinerTournee(zone);
 			break;
 			
 		case "Redo":
-
+			redo();
+			vueApplication.chargerLivraisons(zone);
+			vueApplication.dessinerTournee(zone);
 			break;
 			
 		case "Impression":
@@ -156,6 +175,8 @@ public class Controleur implements ActionListener, MouseListener {
 			
 		case "Valider Livraison":
 			actionBoutonValider();
+			vueApplication.dessinerTournee(zone);
+			vueApplication.chargerLivraisons(zone);
 			vueApplication.getVueInfo().valider.setEnabled(false);
 			break;
 
@@ -235,7 +256,11 @@ public class Controleur implements ActionListener, MouseListener {
 				}
 				if (ajoutEnCours){
 					this.noeudPrecedent = noeudClique;
-					vueApplication.getVueInfo().valider.setEnabled(true);
+					if(noeudPrecedent.getLivraison() != null)
+						vueApplication.getVueInfo().valider.setEnabled(true);
+					else{
+						vueApplication.afficherErreur("vous n'avez pas selectionne une livraison");
+					}
 				} else {
 					this.noeudSelectionne = noeudClique;
 					if (noeudSelectionne.getLivraison() == null) {
@@ -263,10 +288,12 @@ public class Controleur implements ActionListener, MouseListener {
 	/**
 	 * @param File XMLFilePath	Le fichier XML qui contient les infos sur la zone
 	 * @throws SAXException 
-	 * @throws FileNotFoundException 
 	 * @throws NumberFormatException 	 * 
+	 * @throws IOException 
+	 * @throws ParserConfigurationException 
+	 * @throws ParseException 
 	 */
-	public void chargerZone(String XMLFilePath) throws NumberFormatException, FileNotFoundException, SAXException {
+	public void chargerZone(String XMLFilePath) throws NumberFormatException, SAXException, ParseException, ParserConfigurationException, IOException {
 		zone.XMLtoDOMZone(XMLFilePath, "Resources/plan.xsd");
 	}
 	
@@ -340,8 +367,8 @@ public class Controleur implements ActionListener, MouseListener {
 	 * @author hgerard
 	 */
 	public void actionBoutonValider(){
-		int idClient = 0; /*getIdClientVue() --> GABRIEL*/
-		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) /*&& (idClient != "")*/){
+		int idClient =getIdClientVue(this.vueApplication.getVueInfo().idClient);
+		if ((noeudPrecedent != null) && (noeudPrecedent.getLivraison() != null) && (idClient != -1)){
 			CdeAjouterLivraison ajout = new CdeAjouterLivraison(zone, noeudPrecedent, noeudSelectionne, idClient);
 			commandesExecutees.push(ajout);
 			ajout.execute();
@@ -350,6 +377,15 @@ public class Controleur implements ActionListener, MouseListener {
 		}
 	}
 		
+	
+	public int getIdClientVue(JTextField idClient){
+		String strIdClient=idClient.getText();
+		if(strIdClient.length()==0){
+			this.vueApplication.afficherErreur("Id Client manquant");
+			return -1;
+		}
+		return  Integer.parseInt(strIdClient);
+	}
 	/**
 	 * Appelée par le bouton Supprimer
 	 * 

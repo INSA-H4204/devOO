@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import org.w3c.dom.Element;
+
+
 /**
  * Un noeud peut être une Livraison ou une intersection, un carrefour.
  * 
@@ -38,7 +41,18 @@ public class Noeud extends Observable {
 		this.livraison = null;
 		this.tronconsSortants= new ArrayList <Troncon> ();
 	}
-
+	/**
+	 * Constructeur de Noeud par Element Xml
+	 */
+	public Noeud(Element noeudElement){
+	
+			this.noeudID = Integer.parseInt((String) noeudElement.getAttribute("id"));
+			this.posX = Integer.parseInt((String) noeudElement.getAttribute("x"));
+			this.posY = Integer.parseInt((String)noeudElement.getAttribute("y"));
+			this.livraison = null;
+			this.tronconsSortants = new ArrayList <Troncon>();
+		
+	}
 	public int getPosX() {
 		return posX;
 	}

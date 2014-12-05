@@ -2,6 +2,7 @@ package Modele;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
@@ -54,6 +55,24 @@ public class Troncon extends Observable {
 		id = origine.getNoeudID() * fin.getNoeudID();
 	}
 	
+	/**
+	 * Construire un Troncon à partir Element Xml
+	 */
+	public Troncon construireTronconXML(Element tronconElement,Noeud origine,Noeud fin){
+
+			this.origine =origine;
+			this.fin = fin;
+			this.nomRue = tronconElement.getAttribute("nomRue");
+			this.vitesse = (int) Double.parseDouble(tronconElement.getAttribute("vitesse").replaceAll(",", "."));
+			this.longueur = (int) Double.parseDouble(tronconElement.getAttribute("longueur").replaceAll(",", "."));
+			if (fin != null) {
+				List<Troncon> listTronconsNoeud = origine.getTronconsSortants();
+				listTronconsNoeud.add(this);
+				origine.setTronconsSortants(listTronconsNoeud);
+				return this;
+			} 
+			return null;
+	}
 	public int getId() {
 		return id;
 	}

@@ -3,7 +3,11 @@ package Modele;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Observable;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * Une plage horaire est une portion de temps (par ex : 8h-12h) dans laquelle 
@@ -35,6 +39,20 @@ public class PlageHoraire extends Observable {
 		}
 	}
 	
+	public void construirePlageHoraireXML(Element plageHoraireElement,Map<Integer, Noeud> noeuds,List<Livraison> listeTousLivraisons){
+
+			this.heureDebut = new Time(plageHoraireElement.getAttribute("heureDebut"));
+			this.heureFin = new Time(plageHoraireElement.getAttribute("heureFin"));
+			List<Livraison> listeLivraisonsPlage = new ArrayList<Livraison>();
+			NodeList listeLivraisonsXML = plageHoraireElement.getElementsByTagName("Livraison");
+			for (int j = 0; j < listeLivraisonsXML.getLength(); j++) {
+				Element livraisonElement = (Element) listeLivraisonsXML.item(j);
+				Livraison livraison = new Livraison();			
+				if (livraison.construireLivraisonXML(livraisonElement,noeuds, listeTousLivraisons ))
+					listeLivraisonsPlage.add(livraison);
+			}
+			
+	}
 
 	/**
 	 * Retourne le Set des livraisons de la plage horaire

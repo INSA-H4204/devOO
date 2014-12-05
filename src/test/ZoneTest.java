@@ -84,7 +84,7 @@ public class ZoneTest {
 	 
 
 	 @Test
-	 public void XMLConstructor() throws NumberFormatException, FileNotFoundException, SAXException  {
+	 public void XMLConstructor() throws NumberFormatException, SAXException, ParseException, ParserConfigurationException, IOException  {
 		 zone = new Zone();
 		  zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		 assertNotNull(zone);
@@ -144,7 +144,7 @@ public class ZoneTest {
 	 }
 	 
 	 @Test
-	 public void ValeursNegatives() {
+	 public void ValeursNegatives() throws ParseException, ParserConfigurationException, IOException {
 		try {
 			zone = new Zone();
 			zone.XMLtoDOMZone(ValeurNegativeStr,XsdFile);
@@ -155,7 +155,7 @@ public class ZoneTest {
 	  
 	 
 	 @Test
-	 public void AbsenceNoeud()  {
+	 public void AbsenceNoeud() throws ParseException, ParserConfigurationException, IOException  {
 	       try {
 			zone = new Zone();
 			zone.XMLtoDOMZone(AbsenceNoeudStr,XsdFile);
@@ -165,7 +165,7 @@ public class ZoneTest {
 	 }
 	 
 	 @Test
-	 public void noeudSansTroncon() {
+	 public void noeudSansTroncon() throws ParseException, ParserConfigurationException, IOException {
 		try {
 			zone = new Zone();
      		zone.XMLtoDOMZone(NoeudSansTronconStr,XsdFile);			
@@ -176,7 +176,7 @@ public class ZoneTest {
 	 }
 	 
 	 @Test
-	 public void tronconSansNoeud() {
+	 public void tronconSansNoeud() throws ParseException, ParserConfigurationException, IOException {
 		  try {
 			  zone = new Zone();
 	     		zone.XMLtoDOMZone(TronconSansNoeudStr,XsdFile);	
@@ -369,7 +369,7 @@ public class ZoneTest {
 	 
 	 
 	 @Test
-	 public void verifierSiZoneSansLivraisonSuccess() throws NumberFormatException, FileNotFoundException, SAXException  {
+	 public void verifierSiZoneSansLivraisonSuccess() throws NumberFormatException, SAXException, ParseException, ParserConfigurationException, IOException  {
 		 zone = new Zone();
 		 zone.XMLtoDOMZone(ZoneCorrecteStr,XsdFile);
 		 assertTrue("Echec - zone sans livraison renvoie false alors qu il n y a pas de livraisons",zone.verifierSiZoneSansLivraison());

@@ -1,6 +1,10 @@
 package Modele;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Observable;
+
+import org.w3c.dom.Element;
 
 /**
  * Une livraison est un lieu de livraison associé à une plage horaire 
@@ -39,7 +43,20 @@ public class Livraison extends Observable {
 		isPonctuel = true;
 		adresse.setLivraison(this);
 	}
+	
+	public boolean construireLivraisonXML(Element livraisonElement,Map<Integer, Noeud> noeuds,List<Livraison> listeTousLivraisons ){
 
+			this.clientID = Integer.parseInt(livraisonElement.getAttribute("client"));
+			this.adresse = new Noeud();
+			adresse= noeuds.get(Integer.parseInt(livraisonElement.getAttribute("adresse")));
+			for (Livraison l : listeTousLivraisons) {
+				if (l.getAdresse() == adresse) {
+					return false;
+				}
+			}
+			listeTousLivraisons.add(this);
+			return true;
+	}
 
 	public int getLivraisonID() {
 		return livraisonID;
