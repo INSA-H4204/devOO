@@ -5,17 +5,43 @@ import java.awt.Color;
 import javax.swing.JFrame;
 
 /**
- * Classe qui gère les modifications sur les tronçons
+ * Classe qui gere les modifications sur les tronçons
  */
 public class VueTroncon {
 
+	/**
+	 * id
+	 */
 	private int id;
-	private JFrame frame = null;
+
+	/**
+	 * coordonnee x du noeud de depart
+	 */
 	private int xInit;
+
+	/**
+	 * coordonnee y du noeud de depart
+	 */
 	private int yInit;
+
+	/**
+	 * coordonnee x du noeud de d'arrive
+	 */
 	private int xFin;
+
+	/**
+	 * coordonnee y du noeud de d'arrive
+	 */
 	private int yFin;
+
+	/**
+	 * nom du troncon
+	 */
 	private String nom;
+
+	/**
+	 * couleur du troncon
+	 */
 	private Color couleur;
 
 	/**
@@ -45,50 +71,65 @@ public class VueTroncon {
 		this.couleur = couleur;
 		this.id = id;
 	}
-	
+
+	/**
+	 * Getter de l'id
+	 * 
+	 * @return
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Getter de la couleur
+	 * 
+	 * @return
+	 */
 	public Color getCouleur() {
 		return couleur;
 	}
 
+	/**
+	 * Setter de la couleur
+	 * 
+	 * @param couleur
+	 */
 	public void setCouleur(Color couleur) {
 		this.couleur = couleur;
 	}
 
 	/**
+	 * Getter de xInit
 	 * 
 	 * @return
-	 * @author gabrielcae
 	 */
 	public int getXInit() {
 		return xInit;
 	}
 
 	/**
+	 * Getter de xFin
 	 * 
 	 * @return
-	 * @author gabrielcae
 	 */
 	public int getXFin() {
 		return xFin;
 	}
 
 	/**
+	 * Getter de xInit
 	 * 
 	 * @return
-	 * @author gabrielcae
 	 */
 	public int getYInit() {
 		return yInit;
 	}
 
 	/**
+	 * Getter de YFin
 	 * 
 	 * @return
-	 * @author gabrielcae
 	 */
 	public int getYFin() {
 		return yFin;

@@ -22,22 +22,60 @@ import Modele.Time;
 import Modele.Troncon;
 import Modele.Zone;
 
+/**
+ * Classe qui porte la fenetre principale de l'application. Elle observe l'objet
+ * Zone et change l'affichage des noueds et troncons par raport aux changements
+ * du Model
+ * 
+ * @author gabrielcae
+ * 
+ */
 public class VueApplication extends JFrame implements Observer {
 
+	/**
+	 * Instance de controleur
+	 */
 	protected Controleur ctrl;
+
+	/**
+	 * Insatance de VueInfo
+	 */
 	private VueInfo vueInfo = new VueInfo();
 
+	/**
+	 * Instance de VuePlageHoraire
+	 */
 	private VuePlageHoraire vuePlageHoraire = new VuePlageHoraire();
 
+	/**
+	 * Instance de VueZone
+	 */
 	private VueZone vueZone = new VueZone();
 
+	/**
+	 * Variable qui determine l'hauteur de la JFrame
+	 */
 	private final int HAUTEUR_FENETRE = 700;
 
+	/**
+	 * Variable qui determine la largeur de la JFrame
+	 */
 	private final int LARGEUR_FENETRE = 1200;
+
+	/**
+	 * Variable qui détermine le taux de conversion de metre a pixels pour les
+	 * composantes x
+	 */
 	public final float COEF_METRE_PX_X = (float) (5.9 / 8.0);
+
+	/**
+	 * Variable qui détermine le taux de conversion de metre a pixels pour les
+	 * composantes y
+	 */
 	public final float COEF_METRE_PX_Y = (float) (6.3 / 8.0);
 
 	/**
+	 * Constructeur de la classe
 	 * 
 	 * @param ctrl
 	 * @author gabrielcae
@@ -47,16 +85,8 @@ public class VueApplication extends JFrame implements Observer {
 		construireVue();
 	}
 
-	public VuePlageHoraire getVuePlageHoraire() {
-		return vuePlageHoraire;
-	}
-
-	public VueInfo getVueInfo() {
-		return vueInfo;
-	}
-
 	/**
-	 * @author frederic, gabrielcae
+	 * Surcharge de la methode update de l'interface Observer
 	 */
 	@Override
 	public void update(Observable obs, Object obj) {
@@ -86,6 +116,8 @@ public class VueApplication extends JFrame implements Observer {
 	}
 
 	/**
+	 * Methode qui affiche la JFrame principale
+	 * 
 	 * @author gabrielcae
 	 */
 	public void afficher() {
@@ -93,13 +125,8 @@ public class VueApplication extends JFrame implements Observer {
 	}
 
 	/**
-	 * @author gabrielcae
-	 */
-	public void fermer() {
-		this.setVisible(false);
-	}
-
-	/**
+	 * Methode qui construi la fenetre principale de l'application
+	 * 
 	 * @author gabrielcae
 	 */
 	public void construireVue() {
@@ -174,11 +201,19 @@ public class VueApplication extends JFrame implements Observer {
 		vueZone.addMouseListener(ctrl);
 	}
 
-	public void afficherErreur(String err) {
-	     JOptionPane.showMessageDialog(null, err, "Erreur", JOptionPane.ERROR_MESSAGE);
-	}
-	
 	/**
+	 * Methode qui affiche le pop-up d'erreur
+	 * 
+	 * @param err
+	 */
+	public void afficherErreur(String err) {
+		JOptionPane.showMessageDialog(null, err, "Erreur",
+				JOptionPane.ERROR_MESSAGE);
+	}
+
+	/**
+	 * Methode qui recoit des coodonnees en metre, les convertissent en pixel et
+	 * creee une VueNoeud et envoie a VueZone pour afficher le noeud selectionne
 	 * 
 	 * @param x
 	 * @param y
@@ -190,25 +225,11 @@ public class VueApplication extends JFrame implements Observer {
 		VueNoeud noeudSelectionne = new VueNoeud(x, y);
 		vueZone.selectionnerNoeud(noeudSelectionne);
 	}
-	
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param client
-	 * @heurePrevue 
-	 * @author kevin
-	 */
-	public void selectionnerNoeudAvecLivraison(int x, int y,int client, int heure,int minute) {
-		x = convertiseurMetrePixel(x, 'x');
-		y = convertiseurMetrePixel(y, 'y');
-		VueNoeud noeudSelectionne = new VueNoeud(x, y,client,heure,minute);
-		vueZone.selectionnerNoeud(noeudSelectionne);
-	}
-	
-
 
 	/**
+	 * Methode qui recoit des coodonnees en metre, les convertissent en pixel et
+	 * creee une VueNoeud et envoie a VueZone pour afficher le noeud a etre
+	 * deselectionne
 	 * 
 	 * @param x
 	 * @param y
@@ -222,8 +243,28 @@ public class VueApplication extends JFrame implements Observer {
 	}
 
 	/**
-	 * Methode qui recupere les coordonnées des noeuds d'une zone et les passe à
-	 * chargerNoeuds(listX,listY) *
+	 * Methode qui recoit des coodonnees en metre, les convertissent en pixel et
+	 * creee une VueNoeud et envoie a VueZone pour afficher la livraison
+	 * selectionne
+	 * 
+	 * @param x
+	 * @param y
+	 * @param client
+	 * @param heure
+	 * @param minute
+	 * @author kevin
+	 */
+	public void selectionnerNoeudAvecLivraison(int x, int y, int client,
+			int heure, int minute) {
+		x = convertiseurMetrePixel(x, 'x');
+		y = convertiseurMetrePixel(y, 'y');
+		VueNoeud noeudSelectionne = new VueNoeud(x, y, client, heure, minute);
+		vueZone.selectionnerNoeud(noeudSelectionne);
+	}
+
+	/**
+	 * Methode qui recupere les coordonnées des noeuds d'une zone et les
+	 * convertissent et les passent a vuezone pour l'afficher
 	 * 
 	 * @param zone
 	 * @author gabrielcae
@@ -243,7 +284,7 @@ public class VueApplication extends JFrame implements Observer {
 
 	/**
 	 * Méthode qui converti les coordonnées d'un noeud, crée une nouvelle
-	 * VueNoeud et l'envoye pour l'affichage
+	 * VueNoeud et l'envoye pour l'affichage pour l'afficher
 	 * 
 	 * @param noeud
 	 */
@@ -255,6 +296,12 @@ public class VueApplication extends JFrame implements Observer {
 		vueZone.chargerNoeuds(vn);
 	}
 
+	/**
+	 * Méthode qui converti les coordonnées des noeuds des troncons, crée une
+	 * nouvelle VueTroncon et l'envoye pour l'affichage pour l'afficher
+	 * 
+	 * @param zone
+	 */
 	private void chargerTronconsDeZone(Zone zone) {
 		List<VueTroncon> listeVueTroncons = new ArrayList<VueTroncon>();
 		for (Troncon t : zone.getTroncons()) {
@@ -270,6 +317,8 @@ public class VueApplication extends JFrame implements Observer {
 	}
 
 	/**
+	 * Méthode qui converti les coordonnées des noeuds d'un troncon, crée une
+	 * nouvelle VueTroncon et l'envoye pour l'affichage pour l'afficher
 	 * 
 	 * @param troncon
 	 * @author gabrielcae
@@ -285,7 +334,13 @@ public class VueApplication extends JFrame implements Observer {
 		vueZone.chargerTroncons(vt);
 	}
 
-
+	/**
+	 * Méthode qui converti les coordonnées de l'entrepot, crée une nouvelle
+	 * VueNoeud et l'envoye pour l'affichage pour l'afficher
+	 * 
+	 * @param zone
+	 * @author gabrielcae
+	 */
 	public void chargerEntrepot(Zone zone) {
 
 		Noeud adresseEntrepot = zone.getEntrepot().getAdresse();
@@ -298,6 +353,13 @@ public class VueApplication extends JFrame implements Observer {
 
 	}
 
+	/**
+	 * Méthode qui converti les coordonnées des livraisons, crée une nouvelle
+	 * VueNoeud et l'envoye pour l'affichage pour l'afficher
+	 * 
+	 * @param zone
+	 * @author gabrielcae
+	 */
 	public void chargerLivraisons(Zone zone) {
 		List<VueNoeud> listeLivraisons = new ArrayList<VueNoeud>();
 		List<PlageHoraire> lPH = zone.getPlageHoraire();
@@ -337,6 +399,13 @@ public class VueApplication extends JFrame implements Observer {
 
 	}
 
+	/**
+	 * Methode qui recupere les chemins d'une Tournee et envoie a VueZone pour
+	 * les afficher
+	 * 
+	 * @param zone
+	 * @author thomas
+	 */
 	public void dessinerTournee(Zone zone) {
 
 		int choixCoul = 0;
@@ -384,5 +453,25 @@ public class VueApplication extends JFrame implements Observer {
 		}
 		// TODO Auto-generated method stub
 		vueZone.chargerTronconsChemin(listeVueTronconsChemin);
+	}
+
+	/**
+	 * Getter de VuePlageHoraire
+	 * 
+	 * @return l'instance de VuePlageHoraire
+	 * @author thomas
+	 */
+	public VuePlageHoraire getVuePlageHoraire() {
+		return vuePlageHoraire;
+	}
+
+	/**
+	 * Getter de VueInfo
+	 * 
+	 * @return l'instance de VueInfo
+	 * @author thomas
+	 */
+	public VueInfo getVueInfo() {
+		return vueInfo;
 	}
 }
