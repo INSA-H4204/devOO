@@ -11,11 +11,23 @@ import tsp.Graph;
  *
  */
 public class NotreGraphe implements Graph {
-	// Attributs
+
+	/**
+	 * Entier contenant le nombre de sommets
+	 */
 	private int nombreSommets;
-	private int[][] poids; 
+	
+	/**
+	 * Tableau des poids de chaque noeud
+	 */
+	private int[][] poids;
 	private ArrayList<ArrayList<Integer>> listeSommetsSuivants;
 
+	/**
+	 * Construteur de NotreGraphe
+	 * @param troncons
+	 * @param nombreSommets
+	 */
 	public NotreGraphe(Set<Troncon> troncons, int nombreSommets) {
 		this.nombreSommets = nombreSommets;
 		poids = new int[nombreSommets][nombreSommets];
@@ -30,6 +42,11 @@ public class NotreGraphe implements Graph {
 		}
 	}
 
+	/**
+	 * Construteur de NotreGraphe
+	 * @param troncons
+	 * @param nombreSommets
+	 */
 	public NotreGraphe(int nombreLivraisons) {
 		this.nombreSommets = nombreLivraisons;
 		poids = new int[nombreSommets][nombreSommets];
@@ -40,12 +57,18 @@ public class NotreGraphe implements Graph {
 	}
 
 	@Override
+	/**
+	 * Permet de construire un morceau du graphe
+	 */
 	public void ajouterDansGraphe(int depart, int arrivee, int cost) {
 		poids[depart][arrivee] = cost;
 		listeSommetsSuivants.get(depart).add(arrivee);
 	}
 	
 	@Override
+	/**
+	 * @return sucesseur le successuer du noeud
+	 */
 	public int[] getSucc(int index) throws ArrayIndexOutOfBoundsException {
 		int[] returnValue = new int[listeSommetsSuivants.get(index).size()];
 		for (int i=0; i<listeSommetsSuivants.get(index).size(); i++) {

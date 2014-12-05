@@ -28,28 +28,35 @@ import Modele.Zone;
 import Vue.VueApplication;
 
 /**
- * Le contrôleur fait le lien entre la vue et le modèle. Lorsqu'un utilisateur agit sur
- * la vue, le contrôleur interprète les actions de l'utiisateur pour modifier le modèle
+ * Le controleur fait le lien entre la vue et le modele. Lorsqu'un utilisateur agit sur
+ * la vue, le controleur interprete les actions de l'utilisateur pour modifier le modele
  * 
  * @author hgerard
  */
 public class Controleur implements ActionListener, MouseListener {
 	
+	/**
+	 * 
+	 */
 	public VueApplication vueApplication;
+	
+	/**
+	 * 
+	 */
 	private Zone zone;
 	private boolean isZoneSansLivraison;
 	
 	private float xSouris;
 	private float ySouris;
 	
-	// Contient les commandes qui ont été éxécutées et annulées pour pouvoir les annuler ou les rééxecuter
+	// Contient les commandes qui ont ete executees et annulees pour pouvoir les annuler ou les reexecuter
 	private Stack<Commande> commandesExecutees;
 	private Stack<Commande> commandesAnnulees;
 	
-	// Noeud sélectionné à l'ajout
+	// Noeud selectionne à l'ajout
 	private Noeud noeudSelectionne;
 	
-	// Noeud sélectionné après l'appui du bouton Ajouter
+	// Noeud selectionne apres l'appui du bouton Ajouter
 	private Noeud noeudPrecedent;
 	
 	// Quand ce booléen est faux, l'utilisateur ne peut pas cliquer sur le plan

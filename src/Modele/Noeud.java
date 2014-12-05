@@ -14,10 +14,29 @@ import org.w3c.dom.Element;
  */
 public class Noeud extends Observable {
 	
+	/**
+	 * ID du noeud
+	 */
 	private int noeudID;
+	
+	/**
+	 * Position X du noeud
+	 */
 	private int posX;
+	
+	/**
+	 * Position Y du noeud
+	 */
 	private int posY;
+	
+	/**
+	 * Livraison associée au noeud
+	 */
 	private Livraison livraison;
+	
+	/**
+	 * Liste de troncons sortant du noeud
+	 */
 	private List<Troncon> tronconsSortants;
 	
 	/**
@@ -53,26 +72,51 @@ public class Noeud extends Observable {
 			this.tronconsSortants = new ArrayList <Troncon>();
 		
 	}
+	
+	/**
+	 * Getter de PosX
+	 * @return posX
+	 */
 	public int getPosX() {
 		return posX;
 	}
 	
+	/**
+	 * Getter de posY
+	 * @return posY
+	 */
 	public int getPosY() {
 		return posY;
 	}
 	
+	/**
+	 * Getter de NoeudID
+	 * @return noeudID
+	 */
 	public int getNoeudID() {
 		return noeudID;
 	}
 
+	/**
+	 * Getter de livraison
+	 * @return livraison
+	 */
 	public Livraison getLivraison() {
 		return livraison;
 	}
 
+	/**
+	 * Setter de tronconsSortants
+	 * @param tronconsSortants
+	 */
 	public void setTronconsSortants(List<Troncon> tronconsSortants) {
 		this.tronconsSortants=tronconsSortants;
 	}
 
+	/**
+	 * Getter de tronconsSortants
+	 * @return tronconsSortants
+	 */
 	public List<Troncon> getTronconsSortants() {
 		return tronconsSortants;
 	}
@@ -85,6 +129,9 @@ public class Noeud extends Observable {
 		return "Noeud";
 	}
 
+	/**
+	 * Setter de livraison
+	 */
 	public void setLivraison(Livraison livraison) {
 		this.livraison = livraison; 
 	}
