@@ -56,12 +56,6 @@ public class Chemin extends Observable {
 		return arrivee;
 	}
 
-	/**
-	 * Cette méthode doit assigner une heure prevue aux livraisons et assigner le booléen isPonctuel dans Livraison
-	 */
-	private void calculerHeureProchaineLivraison() {
-		// TODO implement here
-	}	
 	
 	/**
 	 * Getter de depart
@@ -72,6 +66,10 @@ public class Chemin extends Observable {
 		return depart;
 	}
 	
+	/**
+	 * Calcule et retourne le poids d'un chemin
+	 * @return poids
+	 */
 	public int getPoidsChemin() {
 		int poids = 0;
 		for (Troncon troncon : troncons) {
